@@ -15,13 +15,16 @@ function NavBar() {
             <a href="/" className="nav-link">หน้าหลัก</a>
         </div>
         <div className="nav-link-container">
-            <a href="#" className="nav-link">บันทึกการกินอาหาร</a>
+            <a href="/foodintake" className="nav-link">บันทึกการกินอาหาร</a>
         </div>
         <div className="nav-link-container">
             <a href="#" className="nav-link">แนะนำการกินอาหาร</a>
         </div>
         <div className="nav-link-container">
             <a href="#" className="nav-link">จัดตารางออกกำลังกาย</a>
+        </div>
+        <div className="nav-link-container">
+            <a href="#" className="nav-link">บันทึกการออกกำลังกาย</a>
         </div>
       </div>
 
