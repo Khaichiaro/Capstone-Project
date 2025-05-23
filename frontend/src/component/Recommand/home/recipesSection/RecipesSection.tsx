@@ -12,7 +12,43 @@ const RecipesSection: React.FC = () => {
       image: food1,
       title: "สลัดผัก",
       calories: 200,
-      likes: 399, // ✅ เปลี่ยนจาก '39.9k'
+      likes: 399,
+    },
+    {
+      image: food2,
+      title: "สปาเก็ตตี้",
+      calories: 350,
+      likes: 1090,
+    },
+    {
+      image: food3,
+      title: "สเต็กปลาแซลมอน",
+      calories: 300,
+      likes: 25200,
+    },
+    {
+      image: food1,
+      title: "สลัดผัก",
+      calories: 200,
+      likes: 399,
+    },
+    {
+      image: food2,
+      title: "สปาเก็ตตี้",
+      calories: 350,
+      likes: 1090,
+    },
+    {
+      image: food3,
+      title: "สเต็กปลาแซลมอน",
+      calories: 300,
+      likes: 25200,
+    },
+    {
+      image: food1,
+      title: "สลัดผัก",
+      calories: 200,
+      likes: 399,
     },
     {
       image: food2,
