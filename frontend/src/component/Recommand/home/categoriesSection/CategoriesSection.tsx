@@ -1,15 +1,20 @@
 import { useNavigate } from "react-router-dom";
 import CategoryCard from "../categoryCard/CategoryCard";
 
+import healthy from "../../../../assets/categories/healthy.svg";
+import onedish from "../../../../assets/categories/oneDish.svg";
+import dessert from "../../../../assets/categories/desert.svg";
+import drink from "../../../../assets/categories/drink.svg";
+
 // Categories Section Component
 const CategoriesSection: React.FC = () => {
   const navigate = useNavigate();
 
   const categories = [
-    { icon: '🥗', title: 'เมนูสุขภาพ', bgColor: 'bg-orange-100' },
-    { icon: '🍪', title: 'ข้าวจานเดียว', bgColor: 'bg-yellow-100' },
-    { icon: '🍰', title: 'ขนมหวาน', bgColor: 'bg-pink-100' },
-    { icon: '☕', title: 'เครื่องดื่ม', bgColor: 'bg-blue-100' },
+    { image: healthy, title: 'เมนูสุขภาพ', bgColor: 'bg-[#FCF2DD]' },
+    { image: onedish, title: 'อาหารจานเดียว', bgColor: 'bg-[#FCF2DD]' },
+    { image: dessert, title: 'ขนมหวาน', bgColor: 'bg-[#FCF2DD]' },
+    { image: drink, title: 'เครื่องดื่ม', bgColor: 'bg-[#FCF2DD]' },
   ];
 
   return (
@@ -20,7 +25,7 @@ const CategoriesSection: React.FC = () => {
           {categories.map((category, index) => (
             <CategoryCard
               key={index}
-              icon={category.icon}
+              image={category.image}
               title={category.title}
               bgColor={category.bgColor}
               onClick={() => navigate(`/category/${encodeURIComponent(category.title)}`)}
