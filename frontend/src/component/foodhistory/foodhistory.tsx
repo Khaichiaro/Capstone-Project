@@ -16,7 +16,7 @@ const FoodHistory: React.FC<FoodHistoryProps> = ({ onFoodEntryClick }) => {
       breakfast: {
         name: 'ข้าวไข่เจียว',
         calories: 153,
-        image: '/public/kaokaijiew.jpg'
+        image: '/public/kaokaijiaw.jpg'
       },
       lunch: {
         name: 'ก๋วยเตี๋ยว',
@@ -66,7 +66,7 @@ const FoodHistory: React.FC<FoodHistoryProps> = ({ onFoodEntryClick }) => {
       breakfast: {
         name: 'ข้าวไข่เจียว',
         calories: 153,
-        image: '/public/kaokaijiew.jpg'
+        image: '/public/kaokaijiaw.jpg'
       },
       lunch: {
         name: 'ก๋วยเตี๋ยว',
