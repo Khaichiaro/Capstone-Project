@@ -7,6 +7,7 @@ import FoodHistory from './page/FoodRecordForm/home'
 import EditFood from './page/FoodRecordForm/edit/editfoodform.tsx'
 
 import CreateRecommand from './page/MenuRecommand/create'
+import FoodDetailPage from './page/MenuRecommand/detail'
 
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
           <Route path="/foodhistory" element={<FoodHistory />} />
           <Route path="/editfood" element={<EditFood />} />
           <Route path="/create/recommand" element={<CreateRecommand />} />
-
+          <Route path="/recipe/:title" element={<FoodDetailPage />} />
         </Routes>
     </Router>
     

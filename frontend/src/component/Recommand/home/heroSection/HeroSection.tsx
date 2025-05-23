@@ -1,10 +1,10 @@
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import Slider from "react-slick";
 import SladKai from "../../../../assets/food/saladKai1.svg";
 import SaladPak from "../../../../assets/food/saladPak1.svg";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const slides = [
   { rank: 1, img: SladKai },
@@ -91,7 +91,7 @@ const HeroSection: React.FC = () => {
         </Slider>
         <button 
         onClick={() => navigate("/create/recommand")}
-        className="bg-[#D1E898] cursor-pointer hover:bg-[#b9d26b] hover:shadow-lg text-gray-800 font-semibold px-6 py-3 rounded-full transition duration-300 absolute bottom-4 left-1/8 transform -translate-x-1/2">
+        className="bg-[#c5dd78] cursor-pointer hover:bg-[#b9d26b] hover:shadow-lg text-gray-800 font-semibold px-6 py-3 rounded-full transition duration-300 absolute bottom-4 left-1/8 transform -translate-x-1/2">
           เริ่มต้นเลย
         </button>
       </div>
