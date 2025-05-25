@@ -15,7 +15,7 @@ function NavBar() {
             <a href="/" className="nav-link">หน้าหลัก</a>
         </div>
         <div className="nav-link-container">
-            <a href="/foodintake" className="nav-link">บันทึกการกินอาหาร</a>
+            <a href="/foodhistory" className="nav-link">บันทึกอาหาร</a>
         </div>
         <div className="nav-link-container">
             <a href="#" className="nav-link">แนะนำการกินอาหาร</a>
