@@ -8,7 +8,7 @@ const FoodDetails = ({ food }: { food: IFoodRecommend }) => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <div className="mb-6">
-            <h3 className="text-xl font-bold text-gray-800 mb-3">ชื่อรายการอาหาร</h3>
+            <h3 className="text-xl font-bold text-gray-800 mb-3">ชื่ออาหาร</h3>
             <p className="text-gray-700 mb-4">{food.name}</p>
           </div>
 
