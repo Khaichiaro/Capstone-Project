@@ -13,4 +13,8 @@ type Users struct {
 	GenderID uint `json:"gender_id"`
 	Gender *Genders `gorm:"foriegnkey:gender_id" json:"gender"`
 	LastLogin time.Time
+
+	EatingHistory []EatingHistory `gorm:"foreignKey:UserID" `
+	Meals []Meals `gorm:"foreignKey:UserID"`
+
 }

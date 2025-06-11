@@ -28,12 +28,32 @@ func SetupDatabase() {
 	db.AutoMigrate(
 		&entity.Users{},
 		&entity.Genders{},
+		&entity.Meals{},
+		&entity.MealsType{},
+		&entity.Foods{},
+		&entity.FoodType{},
+		&entity.EatingHistory{},
+
 	)
 
 	GenderMale := entity.Genders{Gender: "Male"}
 	GenderFemale := entity.Genders{Gender: "Female"}
 	db.FirstOrCreate(&GenderMale, &entity.Genders{Gender: "Female"})
 	db.FirstOrCreate(&GenderFemale, &entity.Genders{Gender: "Male"})
+
+	MealsType1 := entity.MealsType{MealType: "มือเช้า"}
+	MealsType2 := entity.MealsType{MealType: ",มือกลางวัน"}
+	MealsType3 := entity.MealsType{MealType: "มือเย็น"}
+	db.FirstOrCreate(&MealsType1, &entity.MealsType{MealType: "มือเช้า"})
+	db.FirstOrCreate(&MealsType2, &entity.MealsType{MealType: "มือกลางวัน"})	
+	db.FirstOrCreate(&MealsType3, &entity.MealsType{MealType: "มือเย็น"})
+
+	FoodType1 := entity.FoodType{FoodType: "ข้าว"}
+	FoodType2 := entity.FoodType{FoodType: "เนื้อสัตว์"}
+	FoodType3 := entity.FoodType{FoodType: "ผัก"}
+	db.FirstOrCreate(&FoodType1, &entity.FoodType{FoodType: "ข้าว"})
+	db.FirstOrCreate(&FoodType2, &entity.FoodType{FoodType: "เนื้อสัตว์"})
+	db.FirstOrCreate(&FoodType3, &entity.FoodType{FoodType: "ผัก"})
 
 	hashedPassword, _ := HashPassword("admin")
 	
