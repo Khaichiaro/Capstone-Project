@@ -15,6 +15,7 @@ type EatingHistory struct {
 	Protein float64 `json:"protein"`
 	Carbs float64 `json:"carbs"`
 	Sodium float64 `json:"sodium"` 
+	Fat float64 `json:"fat"`
 
 	UserID uint
 	Users  Users `gorm:"foreignKey:UserID"`
