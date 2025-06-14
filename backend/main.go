@@ -7,6 +7,7 @@ import (
 
 	"github.com/Khaichiaro/Capstone-Project/backend/controller/users"
 	"github.com/Khaichiaro/Capstone-Project/backend/controller/genders"
+	"github.com/Khaichiaro/Capstone-Project/backend/controller/eatingHistory"
 
 	"github.com/Khaichiaro/Capstone-Project/backend/middlewares"
 	"github.com/gin-gonic/gin"
@@ -44,7 +45,20 @@ func main() {
 
 	// Gender Route
 	r.GET("/genders", genders.GetAll)
+
+	//Eating History Route
+    r.GET("/eatingHistory", eatingHistory.GetEatingHistory)
+    r.GET("/eatingHistory/:id", eatingHistory.GetEatingHistoryById)
+    r.POST("/eatingHistory", eatingHistory.CreateEatingHistory)
+    r.PATCH("/eatingHistory/:id", eatingHistory.UpdateEatingHistory)
+    r.DELETE("/eatingHistory/:id", eatingHistory.DeleteEatingHistory)
 	
+	// // Meals Route
+	// r.GET("/eatingHistory/meals", eatingHistory.GetMeals)
+	
+	// // Meal Types Route
+	// r.GET("/eatingHistory/mealTypes", eatingHistory.GetMealTypes)
+
 	r.GET("/", func(c *gin.Context) {
 		c.String(http.StatusOK,"API RUNNING... PORT: %s", POST)
 	})
