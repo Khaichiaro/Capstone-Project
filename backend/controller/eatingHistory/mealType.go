@@ -9,10 +9,9 @@ import (
 )
 
 // GET /eatingHistory/mealTypes
-func GetMealTypes(c *gin.Context) {
-	var mealTypes []entity.MealsType
-
+func GetMealTypes(c *gin.Context){
 	db := config.DB()
+	var mealTypes []entity.MealsType
 	db.Find(&mealTypes)
-	c.JSON(http.StatusOK, &mealTypes)
+	c.JSON(http.StatusOK, mealTypes)
 }
