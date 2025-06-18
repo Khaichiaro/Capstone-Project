@@ -52,12 +52,12 @@ func main() {
     r.POST("/eatingHistory", eatingHistory.CreateEatingHistory)
     r.PATCH("/eatingHistory/:id", eatingHistory.UpdateEatingHistory)
     r.DELETE("/eatingHistory/:id", eatingHistory.DeleteEatingHistory)
-	
+
 	// // Meals Route
 	// r.GET("/eatingHistory/meals", eatingHistory.GetMeals)
 	
-	// // Meal Types Route
-	// r.GET("/eatingHistory/mealTypes", eatingHistory.GetMealTypes)
+	// Meal Types Route
+	r.GET("/eatingHistory/mealTypes", eatingHistory.GetMealTypes)
 
 	r.GET("/", func(c *gin.Context) {
 		c.String(http.StatusOK,"API RUNNING... PORT: %s", POST)
