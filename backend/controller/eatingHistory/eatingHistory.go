@@ -66,11 +66,11 @@ func CreateEatingHistory(c *gin.Context) {
 	newEatingHistory := entity.EatingHistory{
 		EatingHistoryDate: time.Now(),
 		TotalMeals:        history.TotalMeals,
-		Calories:         history.Calories,
-		Protein:         history.Protein,
-		Carbs:           history.Carbs,
-		Sodium:         history.Sodium,
-		Fat:            history.Fat,
+		TotalCalories:         history.TotalCalories,
+		TotalProtein:         history.TotalProtein,
+		TotalCarbs:           history.TotalCarbs,
+		TotalSodium:         history.TotalSodium,
+		TotalFat:            history.TotalFat,
 		UserID:        history.UserID,
 	}
 
@@ -104,11 +104,11 @@ func UpdateEatingHistory(c *gin.Context) {
 	}
 
 	existingEatingHistory.TotalMeals = eatingHistory.TotalMeals
-	existingEatingHistory.Calories = eatingHistory.Calories
-	existingEatingHistory.Protein = eatingHistory.Protein
-	existingEatingHistory.Carbs = eatingHistory.Carbs
-	existingEatingHistory.Sodium = eatingHistory.Sodium
-	existingEatingHistory.Fat = eatingHistory.Fat
+	existingEatingHistory.TotalCalories = eatingHistory.TotalCalories
+	existingEatingHistory.TotalProtein = eatingHistory.TotalProtein
+	existingEatingHistory.TotalCarbs = eatingHistory.TotalCarbs
+	existingEatingHistory.TotalSodium = eatingHistory.TotalSodium
+	existingEatingHistory.TotalFat = eatingHistory.TotalFat
 
 	if err := db.Save(&existingEatingHistory).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

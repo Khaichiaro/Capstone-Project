@@ -17,7 +17,7 @@ const FoodEntry: React.FC<FoodEntryProps> = ({ entry, onClick }) => {
 
   const handleDetailButtonClick = (e: React.MouseEvent) => {
     e.stopPropagation(); // ป้องกันไม่ให้ trigger การคลิกการ์ด
-    navigate('/editfood'); // ไปที่หน้า editfood
+    navigate('/eatingdetail'); // ไปที่หน้า รายละเอียดการกินอาหาร
   };
 
   return (
