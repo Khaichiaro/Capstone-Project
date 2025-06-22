@@ -1,8 +1,9 @@
 
 import React from 'react';
 
-import NavBar from '../../../component/navbar/NavBar';
+import NavBar from '../../component/navbar/NavBar';
 import { ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface FoodItem {
   name: string;
@@ -22,6 +23,7 @@ interface FoodDetailData {
 }
 
 const FoodDetailView: React.FC = () => {
+  const navigate = useNavigate();
   const foodData: FoodDetailData = {
     date: "10 ก.พ 2025",
     breakfast: {
@@ -118,6 +120,10 @@ const FoodDetailView: React.FC = () => {
     );
   };
 
+  const handleToeditfood = () => {
+    navigate('/editfoodform', );
+  };
+
   return (
     <div>
       <NavBar />
@@ -126,7 +132,8 @@ const FoodDetailView: React.FC = () => {
 
 
         <div className="flex gap-4 justify-end mb-6">
-          <button className="bg-gray-800 text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-gray-700 transition-colors">
+          <button className="bg-gray-800 text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-gray-700 transition-colors"
+            onClick={handleToeditfood}>
             แก้ไขข้อมูล +
           </button>
 

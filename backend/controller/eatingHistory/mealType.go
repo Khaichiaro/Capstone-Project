@@ -8,7 +8,7 @@ import (
 	"github.com/Khaichiaro/Capstone-Project/backend/entity"
 )
 
-// GET /eatingHistory/mealTypes
+// GET /meals/mealTypes
 func GetMealTypes(c *gin.Context){
 	db := config.DB()
 	var mealTypes []entity.MealsType

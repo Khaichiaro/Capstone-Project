@@ -53,11 +53,15 @@ func main() {
     r.PATCH("/eatingHistory/:id", eatingHistory.UpdateEatingHistory)
     r.DELETE("/eatingHistory/:id", eatingHistory.DeleteEatingHistory)
 
-	// // Meals Route
-	// r.GET("/eatingHistory/meals", eatingHistory.GetMeals)
-	
+	// Meals Route
+	r.GET("/meals", eatingHistory.GetMeals)
+	r.GET("/meals/:id", eatingHistory.GetMealsById)
+	r.POST("/meals", eatingHistory.CreateMeals)
+	r.PATCH("/meals/:id", eatingHistory.UpdateMeals)
+	r.DELETE("/meals/:id", eatingHistory.DeleteMeals)
+
 	// Meal Types Route
-	r.GET("/eatingHistory/mealTypes", eatingHistory.GetMealTypes)
+	r.GET("/meals/mealTypes", eatingHistory.GetMealTypes)
 
 	r.GET("/", func(c *gin.Context) {
 		c.String(http.StatusOK,"API RUNNING... PORT: %s", POST)

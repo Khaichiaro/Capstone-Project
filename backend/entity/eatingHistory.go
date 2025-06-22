@@ -11,11 +11,11 @@ type EatingHistory struct {
 
 	EatingHistoryDate time.Time `json:"eatingHistory_date"`
 	TotalMeals int `json:"total_meals"`
-	Calories float64 `json:"calories"`
-	Protein float64 `json:"protein"`
-	Carbs float64 `json:"carbs"`
-	Sodium float64 `json:"sodium"` 
-	Fat float64 `json:"fat"`
+	TotalCalories float64 `json:"total_calories"`
+	TotalProtein float64 `json:"total_protein"`
+	TotalCarbs float64 `json:"total_carbs"`
+	TotalSodium float64 `json:"total_sodium"`
+	TotalFat float64 `json:"total_fat"`
 
 	UserID uint
 	Users  Users `gorm:"foreignKey:UserID"`
