@@ -11,7 +11,7 @@ import (
 // GET /meals/mealTypes
 func GetMealTypes(c *gin.Context){
 	db := config.DB()
-	var mealTypes []entity.MealsType
+	var mealTypes []entity.MealType
 	db.Find(&mealTypes)
 	c.JSON(http.StatusOK, mealTypes)
 }
