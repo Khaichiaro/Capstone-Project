@@ -2,19 +2,41 @@ package entity
 
 import (
 	"time"
+
 	"gorm.io/gorm"
 )
 
 type Users struct {
 	gorm.Model
-	Username string `gorm:"unique" json:"username"`
-	Email string `gorm:"unique" json:"email"`
-	Password string `json:"password"`
-	GenderID uint `json:"gender_id"`
-	Gender *Genders `gorm:"foriegnkey:gender_id" json:"gender"`
-	LastLogin time.Time
+	Username  string    `gorm:"unique"`
+	Email     string    `gorm:"unique"`
+	Password  string    
+	LastLogin time.Time 
 
-	EatingHistory []EatingHistory `gorm:"foreignKey:UserID" `
-	Meals []Meals `gorm:"foreignKey:UserID"`
+	UserGroupID uint       
+	UserGroup   *UserGroup `gorm:"foreignKey:UserGroupID"`
 
+	UserProfileID uint          
+	UserProfile   *UserProfiles `gorm:"foreignKey:UserProfileID"`
+
+	ExerciseID uint      
+	Exercise   *Exercises `gorm:"foreignKey:ExerciseID"`
+
+	LevelID uint    
+	Level   *Levels `gorm:"foreignKey:LevelID"`
+
+	NutritionGoalsID uint            
+	NutritionGoals   *NutritionGoals `gorm:"foreignKey:NutritionGoalsID"`
+
+	GenderID uint    
+	Gender   *Genders `gorm:"foreignKey:GenderID"`
+
+	ActivityFactorsID uint            
+	ActivityFactors   *ActivityFactors `gorm:"foreignKey:ActivityFactorsID"`
+
+	Like             []Like             `gorm:"foreignKey:UserID"`
+	FoodRecommend    []FoodRecommend    `gorm:"foreignKey:UserID"`
+	EatingHistory    []EatingHistory    `gorm:"foreignKey:UserID" `
+	Meals            []Meals            `gorm:"foreignKey:UserID"`
+	ExerciseActivity []ExerciseActivity `gorm:"foreignKey:UserID"`
 }

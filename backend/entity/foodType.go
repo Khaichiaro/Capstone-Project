@@ -2,14 +2,11 @@ package entity
 
 import (
 	"gorm.io/gorm"
-
 )
 
 type FoodType struct {
 	gorm.Model
-	FoodType string `json:"food_type"`
+	FoodType string 
 
-
-	Foods []Foods `gorm:"foreignKey:FoodTypeID "`
-
+	Foods []Foods `gorm:"foreignKey:FoodTypeID"`
 }
