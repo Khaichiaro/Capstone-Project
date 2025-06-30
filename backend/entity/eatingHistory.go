@@ -8,17 +8,17 @@ import (
 
 type EatingHistory struct {
 	gorm.Model
+	Name              string
+	EatingHistoryDate time.Time 
+	TotalMeals        int       
+	TotalCalories     float64   
+	TotalProtein      float64   
+	TotalCarbs        float64   
+	TotalSodium       float64   
+	TotalFat          float64   
 
-	EatingHistoryDate time.Time `json:"eatingHistory_date"`
-	TotalMeals int `json:"total_meals"`
-	TotalCalories float64 `json:"total_calories"`
-	TotalProtein float64 `json:"total_protein"`
-	TotalCarbs float64 `json:"total_carbs"`
-	TotalSodium float64 `json:"total_sodium"`
-	TotalFat float64 `json:"total_fat"`
-
-	UserID uint
-	Users  Users `gorm:"foreignKey:UserID"`
+	UserID uint   
+	User   *Users `gorm:"foreignKey:UserID"`
 
 	// Users []Users `gorm:"foreignKey:SummaryID"`
 
