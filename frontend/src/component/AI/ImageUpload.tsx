@@ -102,13 +102,15 @@ const ImageUploadPopup: React.FC<ImageUploadPopupProps> = ({ isOpen, onClose, on
     
             {/* Upload Area */}
             {isUploaded ? (
-                <div className="meal-nutrients">
-                    
+                <div className="p-8 text-center">
+                    <p className="text-green-600 text-lg font-semibold">
+                        ✅ อัปโหลดรูปภาพสำเร็จ!
+                    </p>
                 </div>
             ) : (
                 <div className="p-8">
                 <div
-                className={`border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200 cursor-pointer ${
+                className={`border-2 border-dashed rounded-xl p-6 text-center transition-all duration-200 cursor-pointer ${
                     isDragOver
                     ? 'border-blue-400 bg-blue-50'
                     : 'border-gray-300 hover:border-gray-400'
@@ -137,7 +139,7 @@ const ImageUploadPopup: React.FC<ImageUploadPopupProps> = ({ isOpen, onClose, on
                     />
                     
                 )}
-    
+
                 </div>
 
                 </div>
@@ -145,8 +147,9 @@ const ImageUploadPopup: React.FC<ImageUploadPopupProps> = ({ isOpen, onClose, on
             
     
                 {/* Selected File Display */}
-                {selectedFile && (
-                <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                {selectedFile && !isUploaded && (
+                <div className="p-8">
+                <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
                     <p className="text-sm text-green-800">
                     <span className="font-medium">ไฟล์ที่เลือก:</span> {selectedFile.name}
                     </p>
@@ -154,10 +157,11 @@ const ImageUploadPopup: React.FC<ImageUploadPopupProps> = ({ isOpen, onClose, on
                     ขนาด: {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
                     </p>
                 </div>
+                </div>
                 )}
 
                 {/* Action Buttons */}
-            <div className="flex justify-end gap-4 p-6 pt-0">
+            <div className="flex justify-end gap-4 p-6 pt-5">
                 <button
                 onClick={handleClose}
                 className="flex-1 px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors max-w-fit"
@@ -177,7 +181,6 @@ const ImageUploadPopup: React.FC<ImageUploadPopupProps> = ({ isOpen, onClose, on
             </button>
             </div>
     
-            
             </div>
         </div>
     </>
