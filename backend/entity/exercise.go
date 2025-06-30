@@ -4,7 +4,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type Exercises struct {
+type Exercise struct {
 	gorm.Model
 	Name                  string  
 	CaloriesBurnPerMinute float32 
