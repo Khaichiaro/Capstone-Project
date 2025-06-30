@@ -1,16 +1,19 @@
 package entity
 
 import (
+
+	"time"
+
 	"gorm.io/gorm"
 )
 
 type ExerciseActivity struct {
 	gorm.Model
-	Duration int 
-
-	ExerciseID uint       
-	Exercise   *Exercises `gorm:"foreignKey:ExerciseID"`
-
-	UserID uint   
-	User   *Users `gorm:"foreignKey:UserID"`
-}
+	Duration    	int 
+	Date        	time.Time
+	CaloriesBurned 	float32
+	ExerciseID  	uint       
+	Exercise    	*Exercise `gorm:"foreignKey:ExerciseID"`
+	UserID      	uint   
+	User        	*Users `gorm:"foreignKey:UserID"`
+}	

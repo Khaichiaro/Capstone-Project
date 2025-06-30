@@ -8,7 +8,7 @@ type ExercisePlan struct {
 	gorm.Model
 
 	ExerciseID uint       
-	Exercise   *Exercises `gorm:"foreignKey:ExerciseID"`
+	Exercise   *Exercise `gorm:"foreignKey:ExerciseID"`
 
 	UserGroupID uint       
 	UserGroup   *UserGroup `gorm:"foreignKey:UserGroupID"`
