@@ -1,8 +1,8 @@
 import React from 'react'
 import NavBar from '../../../component/navbar/NavBar'
-import HeroSection from '../../../component/Recommand/home/heroSection/HeroSection'
-import CategoriesSection from '../../../component/Recommand/home/categoriesSection/CategoriesSection'
-import RecipesSection from '../../../component/Recommand/home/recipesSection/RecipesSection' 
+import HeroSection from '../../../component/recommend/home/heroSection/HeroSection'
+import CategoriesSection from '../../../component/recommend/home/categoriesSection/CategoriesSection'
+import RecipesSection from '../../../component/recommend/home/recipesSection/RecipesSection' 
 
 function MenuRecHome() {
   return (

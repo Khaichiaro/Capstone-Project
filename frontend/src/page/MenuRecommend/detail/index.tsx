@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import NavBar from "../../../component/navbar/NavBar";
-import FoodDetails from "../../../component/Recommand/detail/foodDetails/Fooddetail";
-import MainFoodCard from "../../../component/Recommand/detail/mainFood/MainFood";
-import RecipesSection from "../../../component/Recommand/home/recipesSection/RecipesSection";
+import FoodDetails from "../../../component/recommend/detail/foodDetails/Fooddetail";
+import MainFoodCard from "../../../component/recommend/detail/mainFood/MainFood";
+import RecipesSection from "../../../component/recommend/home/recipesSection/RecipesSection";
 import food1 from "../../../assets/food/saladPak1.svg";
 import food2 from "../../../assets/food/sapageties.svg";
 import food3 from "../../../assets/food/stakesalmon.svg";

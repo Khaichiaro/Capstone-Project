@@ -5,11 +5,12 @@ import (
 
 	"github.com/Khaichiaro/Capstone-Project/backend/config"
 
-	"github.com/Khaichiaro/Capstone-Project/backend/controller/users"
-	"github.com/Khaichiaro/Capstone-Project/backend/controller/genders"
+	"github.com/Khaichiaro/Capstone-Project/backend/controller/recommendSystems"
 	"github.com/Khaichiaro/Capstone-Project/backend/controller/eatingHistory"
 	"github.com/Khaichiaro/Capstone-Project/backend/controller/exercise"
 	"github.com/Khaichiaro/Capstone-Project/backend/controller/exerciseActivity"
+	"github.com/Khaichiaro/Capstone-Project/backend/controller/genders"
+	"github.com/Khaichiaro/Capstone-Project/backend/controller/users"
 
 	"github.com/Khaichiaro/Capstone-Project/backend/middlewares"
 	"github.com/gin-gonic/gin"
@@ -48,6 +49,9 @@ func main() {
 
 	// Gender Route
 	r.GET("/genders", genders.GetAll)
+
+	// Food Recommend Route
+	r.GET("/foodRecommend", recommendsystems.GetAllFoodRecommend)
 
 	//Eating History Route
     r.GET("/eatingHistory", eatingHistory.GetEatingHistory)

@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "../../../component/navbar/NavBar";
-import CategoryDropdown from "../../../component/Recommand/create/categoryDropdown/CategoryDropdown";
-import SearchBar from "../../../component/Recommand/create/searchBar/SearchBar";
-import FoodCard from "../../../component/Recommand/create/foodCard/FoodCard";
-import SummaryPanel from "../../../component/Recommand/create/sumaryPanel/SummaryPanel";
+import CategoryDropdown from "../../../component/recommend/create/categoryDropdown/CategoryDropdown";
+import SearchBar from "../../../component/recommend/create/searchBar/SearchBar";
+import FoodCard from "../../../component/recommend/create/foodCard/FoodCard";
+import SummaryPanel from "../../../component/recommend/create/sumaryPanel/SummaryPanel";
 
 import food1 from "../../../assets/food/saladPak1.svg";
 import food2 from "../../../assets/food/sapageties.svg";
 import food3 from "../../../assets/food/stakesalmon.svg";
 
 import type { IFood } from "../../../interfaces/IFood";
-import type { IFoodRecommendSelected } from "../../..//interfaces/IFoodRecommendSelected";
-import ModalCreateMenu from "../../../component/Recommand/create/modalCreateMenu/ModalCreateMenu";
+import type { IFoodRecommendSelected } from "../../../interfaces/IFoodRecommendSelected";
+import ModalCreateMenu from "../../../component/recommend/create/modalCreateMenu/ModalCreateMenu";
 import { useNavigate } from "react-router-dom";
 import type { IFoodRecommend } from "../../../interfaces/IFoodRecommend";
 
