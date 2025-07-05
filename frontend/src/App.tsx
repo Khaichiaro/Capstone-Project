@@ -11,21 +11,22 @@ import FoodDetailPage from './page/MenuRecommend/detail'
 
 
 function App() {
+  localStorage.setItem("user_id", "2")
+  console.log("user_id: ", localStorage.getItem("user_id"));
 
   return (
    <Router>
         <Routes>
           <Route path="/" element={<MenuRecHome />} />
-
+      
           <Route path="/foodintake" element={<FoodRecordForm />} />
           <Route path="/foodhistory" element={<FoodHistory />} />
           {/* <Route path="/editfood" element={<EditFood />} /> */}
           <Route path="/create/recommand" element={<CreateRecommand />} />
-          <Route path="/recipe/:title" element={<FoodDetailPage />} />
+          <Route path="/recipe/:recipeName" element={<FoodDetailPage />} />
           {/* <Route path='/editfoodform' element={<EditEatingform />} /> */}
         </Routes>
     </Router>
-    
   )
 }
 

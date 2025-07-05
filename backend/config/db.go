@@ -826,14 +826,14 @@ func importFoodData() {
 		// FoodRecommend
 		if result.RowsAffected > 0 {
 			recommend := entity.FoodRecommend{
-				Name:         "แนะนำ: " + name,
+				Name:         name + " อร่อยมาก",
 				DesCription:  fmt.Sprintf("เมนูแนะนำที่มีพลังงาน %.0f แคลอรี่", calories),
 				Instruction:  "เสิร์ฟแบบเย็น หรือรับประทานเดี่ยว ๆ ก่อนนอน",
 				Benefits:     "ช่วยเสริมสร้างกล้ามเนื้อ\nลดความรู้สึกหิว\nดีต่อระบบย่อยอาหาร",
 				Disadvantages: "หากรับประทานมากเกินไปอาจทำให้ได้รับไขมันหรือโซเดียมเกิน",
 				UserID:       1,
 				FoodID:       food.ID,
-				LikeCount:    0,
+				LikeCount:    2,
 			}
 
 			// top 5 = มี ranking

@@ -52,6 +52,9 @@ func main() {
 
 	// Food Recommend Route
 	r.GET("/foodRecommend", recommendsystems.GetAllFoodRecommend)
+	r.GET("/foodRanking", recommendsystems.GetAllFoodRecommendWithRanking)
+	r.POST("/toggleLike", recommendsystems.ToggleLike)
+	r.GET("/checkLikeStatus/:user_id/:food_recommend_id", recommendsystems.CheckLikeStatus)
 
 	//Eating History Route
     r.GET("/eatingHistory", eatingHistory.GetEatingHistory)
