@@ -8,6 +8,8 @@ import (
 	"github.com/Khaichiaro/Capstone-Project/backend/controller/users"
 	"github.com/Khaichiaro/Capstone-Project/backend/controller/genders"
 	"github.com/Khaichiaro/Capstone-Project/backend/controller/eatingHistory"
+	"github.com/Khaichiaro/Capstone-Project/backend/controller/exercise"
+	"github.com/Khaichiaro/Capstone-Project/backend/controller/exerciseActivity"
 
 	"github.com/Khaichiaro/Capstone-Project/backend/middlewares"
 	"github.com/gin-gonic/gin"
@@ -63,6 +65,16 @@ func main() {
 
 	// Meal Types Route
 	r.GET("/meals/mealTypes", eatingHistory.GetMealTypes)
+
+	   // Exercise Records Route
+   	r.GET("/exercises", exercises.ListExercises)
+	// Exercise Activity Route
+   	r.GET("/exercise_activity/:id", exercise_activities.GetExerciseActivitiesbyID)                 // GetExerciseActivitiesbyID
+   	r.GET("/exercise_activities/user/:user_id", exercise_activities.GetExerciseActivitiesbyUserID) // GetExerciseActivitiesbyUserID
+   	r.POST("/exercise_activity", exercise_activities.CreateExerciseActivity)                       // CreateExerciseActivity
+   	r.PUT("/exercise_activity/:id", exercise_activities.UpdateExerciseActivitybyID)
+   	r.PATCH("/exercise_activity/:id", exercise_activities.PatchExerciseActivitybyID)                // UpdateExerciseActivitybyID
+   	r.DELETE("/exercise_activity/:id", exercise_activities.DeleteExerciseActivitybyID) 
 
 	r.GET("/", func(c *gin.Context) {
 		c.String(http.StatusOK,"API RUNNING... PORT: %s", POST)

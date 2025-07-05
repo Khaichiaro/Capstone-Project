@@ -9,6 +9,7 @@ import (
 type Meals struct {
 	gorm.Model
 
+
 	FoodPicture string `gorm:"type:varchar(255)" valid:"required~food_picture is required"`
 	MealsDate time.Time `json:"meals_date"`
 	MealsTime time.Time `json:"meals_time"`
@@ -20,14 +21,27 @@ type Meals struct {
 	Sodium float64 `json:"sodium"`
 	Fat float64 `json:"fat"`
 	Notes string `json:"notes"`
+  
+	/*FoodPicture string 
+	MealsDate time.Time 
+	MealsTime string 
+	FoodName string 
+	Quantity float64 
+	Calories float64 
+	Protein float64 
+	Carbs float64 
+	Sodium float64 
+	Fat float64 
+	Notes string 
+*/
 
 	
-	UserID uint
-	Users Users `gorm:"foreignKey:UserID"`
+	UserID uint 
+	User *Users `gorm:"foreignKey:UserID"`
 	
-	MealsTypeID uint
-	MealsType  MealsType `gorm:"foreignKey:MealsTypeID"`
+	MealTypeID uint 
+	MealType  *MealType `gorm:"foreignKey:MealTypeID"`
 
-	Foods []Foods `gorm:"many2many:meals_food;" json:"foods"`
+	MealFoods []MealFoods `gorm:"foreignKey:MealID"`
 
 } 

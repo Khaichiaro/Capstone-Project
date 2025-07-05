@@ -2,13 +2,11 @@ package entity
 
 import (
 	"gorm.io/gorm"
-
 )
 
-type MealsType struct {
+type MealType struct {
 	gorm.Model
-	MealType string `json:"mealType"`
+	MealType string 
 
-	Meals []Meals `gorm:"foreignKey:MealsTypeID "`
-
+	Meals []Meals `gorm:"foreignKey:MealTypeID"`
 }
