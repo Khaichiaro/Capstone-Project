@@ -230,12 +230,12 @@
 
 
 import React, { useEffect, useState } from 'react';
-import NavBar from '../../../../component/navbar/NavBar';
+import NavBar from '../../component/navbar/NavBar';
 import { useNavigate } from 'react-router-dom';
-import type { UserProfileInterface } from '../../../../interfaces/IUserProfile';
-import type { NutritionGoalInterface } from '../../../../interfaces/INutritionGoal';
-import type { UserInterface } from '../../../../interfaces/IUser';
-import { GetLevelByUserProfileID, GetNutritionGoalByID, GetUserByID, GetUserProfileByID } from '../../../../service/https';
+import type { UserProfileInterface } from '../../interfaces/IUserProfile';
+import type { NutritionGoalInterface } from '../../interfaces/INutritionGoal';
+import type { UserInterface } from '../../interfaces/IUser';
+import { GetLevelByUserProfileID, GetNutritionGoalByID, GetUserByID, GetUserProfileByID } from '../../service/https';
 // import type { GenderInterface } from '../../../../interfaces/IGender';
 
 // const formatDateThai = (isoDate?: string): string => {

@@ -785,7 +785,7 @@ import img2 from '../../assets/food/food2.jpg'
 import img3 from '../../assets/food/food3.jpg'
 import { useNavigate } from 'react-router-dom';
 import type { IUser } from '../../interfaces/IUser';
-import { GetUserById } from '../../services/https';
+import { GetUserById } from '../index.tsx';
 import type { IMeals } from '../../interfaces/IMeals';
 
 

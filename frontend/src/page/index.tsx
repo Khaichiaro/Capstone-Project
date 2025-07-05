@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { IMeals } from "../../interfaces/IMeals";
+import type { IMeals } from "../interfaces/IMeals";
 
 const apiUrl = "http://localhost:8000";
 const Authorization = localStorage.getItem("token");

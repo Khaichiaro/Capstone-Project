@@ -661,11 +661,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts';
-import NavBar from '../../../../component/navbar/NavBar';
-import type { NutritionGoalInterface } from '../../../../interfaces/INutritionGoal';
-import type { DailyNutrientSumInterface } from '../../../../interfaces/IDailyNutrientSum';
+import NavBar from '../../component/navbar/NavBar';
+import type { NutritionGoalInterface } from '../../interfaces/INutritionGoal';
+import type { DailyNutrientSumInterface } from '../../interfaces/IDailyNutrientSum';
 // import type { UserInterface } from '../../../../interfaces/IUser';
-import { GetDailyNutrientSumByUserID, GetNutritionGoalByUserID, /*GetUserByID*/ } from '../../../../service/https';
+import { GetDailyNutrientSumByUserID, GetNutritionGoalByUserID, /*GetUserByID*/ } from '../../service/https';
 
 const NutritionDashboard: React.FC = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<'Day' | 'Week' | 'Month'>('Week');

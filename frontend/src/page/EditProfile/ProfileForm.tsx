@@ -592,10 +592,10 @@
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { UserInterface } from '../../../../interfaces/IUser';
-import type { UserProfileInterface } from '../../../../interfaces/IUserProfile';
-import { GetUserByID, GetUserProfileByID, ListGenders, UpdateUserProfile } from '../../../../service/https';
-import type { GenderInterface } from '../../../../interfaces/IGender';
+import type { UserInterface } from '../../interfaces/IUser';
+import type { UserProfileInterface } from '../../interfaces/IUserProfile';
+import { GetUserByID, GetUserProfileByID, ListGenders, UpdateUserProfile } from '../../service/https';
+import type { GenderInterface } from '../../interfaces/IGender';
 
 interface ProfileImageProps {
   onImageChange?: (imageUrl: string | null) => void;

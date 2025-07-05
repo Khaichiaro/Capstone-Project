@@ -1,7 +1,7 @@
 import React from 'react';
 import ProfileSidebar from './ProfileSidebar';
 import ProfileForm from './ProfileForm';
-import NavBar from '../../../../component/navbar/NavBar';
+import NavBar from '../../component/navbar/NavBar';
 
 const ProfilePage: React.FC = () => {
   const handleEdit = () => {
