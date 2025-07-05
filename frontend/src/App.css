@@ -1,14 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Source+Serif+Pro:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
+
 body {
-  margin: 0;
-  font-family: 'Source Serif Pro', serif;
-  background-color: #ffffff;
-}
-
-h1, h2, h3, h4, h5, h6, .nav-link {
-  font-family: 'Oswald', sans-serif;
-}
-
-.nav-link {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Prompt', sans-serif;
 }

@@ -1,91 +1,130 @@
 package main
 
 import (
-	"backend/config"
-	"backend/controller"
 	"net/http"
 
+	"github.com/Khaichiaro/Capstone-Project/backend/config"
+
+	"github.com/Khaichiaro/Capstone-Project/backend/controller/users"
+	"github.com/Khaichiaro/Capstone-Project/backend/controller/genders"
+	"github.com/Khaichiaro/Capstone-Project/backend/controller/eatingHistory"
+	"github.com/Khaichiaro/Capstone-Project/backend/controller/exercise"
+	"github.com/Khaichiaro/Capstone-Project/backend/controller/exerciseActivity"
+
+	"github.com/Khaichiaro/Capstone-Project/backend/middlewares"
 	"github.com/gin-gonic/gin"
 )
 
-const PORT = "8000"
+const POST = "8000"
 
 func main() {
 
-	// open connection database
 	config.ConnectionDB()
-
-	//Generate databases
 	config.SetupDatabase()
 
 	r := gin.Default()
 
 	r.Use(CORSMiddleware())
 
-	router := r.Group("")
+	// Auth Route
+	r.POST("/signup", users.SignUp)
+	r.POST("/signin", users.SignIn)
+
+	router := r.Group("/")
 	{
-		//User Route
-		router.GET("/users", controller.ListUsers)
-		router.GET("/user/:id", controller.GetUserByID)
-		router.POST("/user", controller.CreateUser)
-		router.PATCH("/user/:id", controller.UpdateUser)
+		router.Use(middlewares.Authorization())
+		// // User Route
+		// router.GET("/users", users.GetAll)
 
-		//UserProfile
-		router.GET("/profiles", controller.ListProfiles)
-		router.GET("/profile/:id", controller.GetUserProfileByID)
-		// router.GET("/users/:id/profile", controller.GetUserProfileByUserID)
-		router.POST("/profile", controller.CreateUserProfile)
-		router.PATCH("/profile/:id", controller.UpdateUserProfile)
-
-		//ActivityLevel
-		router.GET("/activity-levels", controller.ListActivityLevels)
-
-		//ActivityType
-		router.GET("/activity-types", controller.ListActivityTyeps)
-		router.GET("/activity-type/:id", controller.GetActivityTypeByID)
-
-		//Gender
-		router.GET("/genders", controller.ListGenders)
-
-		//Level
-		router.GET("/levels", controller.ListLevels)
-		router.GET("/level/:id", controller.GetLevelByUserProfileID)
-
-		//NutritionGoal
-		router.GET("/nutrition-goals", controller.ListNutritionGoals)
-		router.GET("/nutrition-goal/:id", controller.GetNutritionGoalByID)
-		router.GET("/user/:id/nutrition-goal", controller.GetNutritionGoalByUserID)
-		router.POST("/nutrition-goal", controller.CreateNutritionGoal)
-		router.PATCH("/nutrition-goal/:id", controller.UpdateNutritionGoal)
-
-		//UserActivity
-		router.GET("/user-activities", controller.ListUserActivities)
-		router.GET("/user-activity/:id", controller.GetUserActivityByID)
-		router.POST("/user-activity", controller.CreateUserActivity)
-
-		//DailyNutrientSum
-		router.GET("/daily-nutrients", controller.ListDailyNutrientSums)
-		router.GET("/daily-nutrients/:id", controller.GetDailyNutrientSumByID)
-		router.GET("/user/:id/daily-nutrient", controller.GetDailyNutrientSumByUserID)
-		router.POST("/daily-nutrient", controller.CreateDailyNutrientSum)
+		// // Gender Route
+		// router.GET("/genders", genders.GetAll)
 	}
 
-	r.GET("/", func(c *gin.Context){
-		c.String(http.StatusOK, "API RUNNING... PORT: %s", PORT)
+	// เราจะเอาออกมา test ข้างนอก Auth ก่อน เพื่อที่จะได้ไม่ต้องแปะ Header ตลอด เวลา test postman
+	// เขียน service ตัวเองต่อลงไปได้เลย ตอน ทำ login เดียวเรามาแก้เอง
+	// User Route
+	r.GET("/users", users.GetAll)
+	r.GET("/users/:id", users.GetUserById)
+
+	// Gender Route
+	r.GET("/genders", genders.GetAll)
+      
+  //User Route
+// 	r.GET("/users", controller.ListUsers)
+// 	r.GET("/user/:id", controller.GetUserByID)
+	r.POST("/user", controller.CreateUser)
+	r.PATCH("/user/:id", controller.UpdateUser)
+
+	//UserProfile
+	r.GET("/profiles", controller.ListProfiles)
+	r.GET("/profile/:id", controller.GetUserProfileByID)
+	// r.GET("/users/:id/profile", controller.GetUserProfileByUserID)
+	r.POST("/profile", controller.CreateUserProfile)
+	r.PATCH("/profile/:id", controller.UpdateUserProfile)
+
+	//Gender
+// 	r.GET("/genders", controller.ListGenders)
+
+	//Level
+	r.GET("/levels", controller.ListLevels)
+	r.GET("/level/:id", controller.GetLevelByUserProfileID)
+
+	//NutritionGoal
+	r.GET("/nutrition-goals", controller.ListNutritionGoals)
+	r.GET("/nutrition-goal/:id", controller.GetNutritionGoalByID)
+	r.GET("/user/:id/nutrition-goal", controller.GetNutritionGoalByUserID)
+	r.POST("/nutrition-goal", controller.CreateNutritionGoal)
+	r.PATCH("/nutrition-goal/:id", controller.UpdateNutritionGoal)
+
+	//Eating History Route
+    r.GET("/eatingHistory", eatingHistory.GetEatingHistory)
+    r.GET("/eatingHistory/:id", eatingHistory.GetEatingHistoryById)
+    r.POST("/eatingHistory", eatingHistory.CreateEatingHistory)
+    r.PATCH("/eatingHistory/:id", eatingHistory.UpdateEatingHistory)
+    r.DELETE("/eatingHistory/:id", eatingHistory.DeleteEatingHistory)
+
+	// Meals Route
+	r.GET("/meals", eatingHistory.GetMeals)
+	r.GET("/meals/:id", eatingHistory.GetMealsById)
+	r.POST("/meals", eatingHistory.CreateMeals)
+	r.PATCH("/meals/:id", eatingHistory.UpdateMeals)
+	r.DELETE("/meals/:id", eatingHistory.DeleteMeals)
+
+	// Meal Types Route
+	r.GET("/meals/mealTypes", eatingHistory.GetMealTypes)
+
+	   // Exercise Records Route
+   	r.GET("/exercises", exercises.ListExercises)
+	// Exercise Activity Route
+   	r.GET("/exercise_activity/:id", exercise_activities.GetExerciseActivitiesbyID)                 // GetExerciseActivitiesbyID
+   	r.GET("/exercise_activities/user/:user_id", exercise_activities.GetExerciseActivitiesbyUserID) // GetExerciseActivitiesbyUserID
+   	r.POST("/exercise_activity", exercise_activities.CreateExerciseActivity)                       // CreateExerciseActivity
+   	r.PUT("/exercise_activity/:id", exercise_activities.UpdateExerciseActivitybyID)
+   	r.PATCH("/exercise_activity/:id", exercise_activities.PatchExerciseActivitybyID)                // UpdateExerciseActivitybyID
+   	r.DELETE("/exercise_activity/:id", exercise_activities.DeleteExerciseActivitybyID) 
+
+	r.GET("/", func(c *gin.Context) {
+		c.String(http.StatusOK,"API RUNNING... PORT: %s", POST)
 	})
 
-	//Run the server
-	r.Run("localhost:" + PORT)
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "pong",
+		})
+	})
+
+	// Run the server
+	r.Run("localhost:" + POST)
 }
 
 func CORSMiddleware() gin.HandlerFunc{
-	return func(c *gin.Context){
+	return func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE, PATCH")
-
-		if c.Request.Method == "OPTIONS"{
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
+		
+		if c.Request.Method == "OPTIONS" {
 			c.AbortWithStatus(204)
 			return
 		}

@@ -8,4 +8,5 @@ export interface UserInterface {
     ActivityLevelID?: number;
     LevelID?: number;
     Gender?: GenderInterface;
+    LastLogin: string;
 }
