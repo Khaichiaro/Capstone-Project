@@ -243,31 +243,28 @@ func SetupDatabase() {
 			})
 	}
 
-	// Level
-	level := []entity.Levels{
-		{
-			Level:    "1",
-			MinPoint: 0,
-			MaxPoint: 99,
-		},
-		{
-			Level:    "2",
-			MinPoint: 100,
-			MaxPoint: 499,
-		},
-		{
-			Level:    "3",
-			MinPoint: 500,
-			MaxPoint: 999,
-		},
+	// Create Level
+	var levels []entity.Level
+	base := 100
+	levelCount := 100
+
+	min := 0
+	for i := 1; i <= levelCount; i++{
+		required := base * i
+		level := entity.Level{
+			Name: "Level " + strconv.Itoa(i),
+			MinPoint: min,
+			MaxPoint: min + required - 1,
+		}
+		min = level.MaxPoint + 1
+		levels = append(levels, level)
 	}
-	for _, level := range level {
-		db.FirstOrCreate(
-			&level,
-			&entity.Levels{
-				Level: level.Level,
-			})
+
+	for _, level := range levels{
+		db.FirstOrCreate(&level, entity.Level{Name: level.Name})
 	}
+
+	fmt.Println("Level saved:", levels)
 
 	// NutritionGoals
 	nutritionGoals := []entity.NutritionGoals{

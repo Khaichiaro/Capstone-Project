@@ -48,6 +48,33 @@ func main() {
 
 	// Gender Route
 	r.GET("/genders", genders.GetAll)
+      
+  //User Route
+// 	r.GET("/users", controller.ListUsers)
+// 	r.GET("/user/:id", controller.GetUserByID)
+	r.POST("/user", controller.CreateUser)
+	r.PATCH("/user/:id", controller.UpdateUser)
+
+	//UserProfile
+	r.GET("/profiles", controller.ListProfiles)
+	r.GET("/profile/:id", controller.GetUserProfileByID)
+	// r.GET("/users/:id/profile", controller.GetUserProfileByUserID)
+	r.POST("/profile", controller.CreateUserProfile)
+	r.PATCH("/profile/:id", controller.UpdateUserProfile)
+
+	//Gender
+// 	r.GET("/genders", controller.ListGenders)
+
+	//Level
+	r.GET("/levels", controller.ListLevels)
+	r.GET("/level/:id", controller.GetLevelByUserProfileID)
+
+	//NutritionGoal
+	r.GET("/nutrition-goals", controller.ListNutritionGoals)
+	r.GET("/nutrition-goal/:id", controller.GetNutritionGoalByID)
+	r.GET("/user/:id/nutrition-goal", controller.GetNutritionGoalByUserID)
+	r.POST("/nutrition-goal", controller.CreateNutritionGoal)
+	r.PATCH("/nutrition-goal/:id", controller.UpdateNutritionGoal)
 
 	//Eating History Route
     r.GET("/eatingHistory", eatingHistory.GetEatingHistory)
