@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { EatingHistoryInterface } from "../../interfaces/IEatingHistory";
+import type { IMeals } from "../../interfaces/IMeals";
 
 const apiUrl = "http://localhost:8000";
 const Authorization = localStorage.getItem("token");
@@ -17,11 +17,19 @@ const requestOptions = {
   
   };
 
-  async function CreatedEatingHistory(data: EatingHistoryInterface) {
+  //User
+  async function GetUserById(userId: number) {
+    return await axios
+      .get(`${apiUrl}/users/${userId}`, requestOptions)
+      .then((res) => res)
+      .catch((e) => e.response);
+  }
+
+  async function CreatedMeals(data: IMeals) {
 
     return await axios
 
-      .post(`${apiUrl}/eating-history`, data, requestOptions)
+      .post(`${apiUrl}/meals`, data, requestOptions)
 
       .then((res) => res)
   
@@ -30,5 +38,10 @@ const requestOptions = {
   }
 
   export {
-    CreatedEatingHistory
+    
+    //User
+    GetUserById,
+
+    //EatingHistory
+    CreatedMeals
   }

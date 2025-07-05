@@ -1,11 +1,16 @@
 package eatingHistory
 
 import (
+	"fmt"
 	"net/http"
+	"path/filepath"
+	"strconv"
+	"strings"
+	"time"
 
-	"github.com/gin-gonic/gin"
 	"github.com/Khaichiaro/Capstone-Project/backend/config"
 	"github.com/Khaichiaro/Capstone-Project/backend/entity"
+	"github.com/gin-gonic/gin"
 )
 
 // GET /meals
@@ -38,25 +43,81 @@ func GetMealsById(c *gin.Context) {
 	c.JSON(http.StatusOK, meals)
 }
 
+// 
+
 // POST /meals
 func CreateMeals(c *gin.Context) {
 	var meals entity.Meals
 
-	// Bind the request data to the Meals struct
-	if err := c.ShouldBindJSON(&meals); err != nil {
-	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	return
+	// Handle file upload
+	file, err := c.FormFile("food_picture")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Food picture is required"})
+		return
 	}
+
+	// ตั้งชื่อไฟล์
+	filename := fmt.Sprintf("%s%s", strings.ReplaceAll(meals.FoodName, " ", "_"), filepath.Ext(file.Filename))
+	savePath := filepath.Join("uploads_pic_food", filename)
+
+	// บันทึกไฟล์
+	if err := c.SaveUploadedFile(file, savePath); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	meals.FoodPicture = savePath
+
+	mealsDateStr := c.PostForm("meals_date")
+	MealsDate, err := time.Parse("2006-01-02", mealsDateStr)
+	if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Meals Date"})
+        return
+    }
+	meals.MealsDate = MealsDate.In(time.UTC)
+
+
+	meals.MealsTime, _ = time.Parse("15:04:05", c.PostForm("meals_time"))
+
+	meals.FoodName = c.PostForm("food_name")
+	meals.Quantity = c.PostForm("quantity")
+
+	if val := c.PostForm("calories"); val != "" {
+		meals.Calories, _ = strconv.ParseFloat(val, 64)
+	}
+	if val := c.PostForm("protein"); val != "" {
+		meals.Protein, _ = strconv.ParseFloat(val, 64)
+	}
+	if val := c.PostForm("carbs"); val != "" {
+		meals.Carbs, _ = strconv.ParseFloat(val, 64)
+	}
+	if val := c.PostForm("fat"); val != "" {
+		meals.Fat, _ = strconv.ParseFloat(val, 64)
+	}
+	if val := c.PostForm("sodium"); val != "" {
+		meals.Sodium, _ = strconv.ParseFloat(val, 64)
+	}
+
+	meals.Notes = c.PostForm("notes")
+	userIDStr := c.PostForm("UserID")
+	userID, err := strconv.Atoi(userIDStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid UserID"})
+		return
+	}
+	meals.UserID = uint(userID)
+	meals.MealsTypeID = 1
 
 	db := config.DB()
-	result := db.Create(&meals)
-	if result.Error != nil {
-	c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
-	return
+	if result := db.Create(&meals); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+		return
 	}
 
+	
 	c.JSON(http.StatusCreated, meals)
 }
+
+
 
 // PATCH /meals/:id
 func UpdateMeals(c *gin.Context) {
