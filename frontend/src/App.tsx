@@ -4,16 +4,17 @@ import MenuRecHome from './page/MenuRecommand/home/index'
 
 import FoodRecordForm from './page/FoodRecordForm/foodrecordform'
 import FoodHistory from './page/FoodRecordForm/home'
-import EditFood from './page/FoodRecordForm/edit/editfoodform.tsx'
+import EditFood from './page/FoodRecordForm/eatingdetail'
 
 import CreateRecommand from './page/MenuRecommand/create'
 import FoodDetailPage from './page/MenuRecommand/detail'
 
 
+
 function App() {
 
   return (
-   <Router>
+  <Router>
         <Routes>
           <Route path="/" element={<MenuRecHome />} />
 
@@ -28,4 +29,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

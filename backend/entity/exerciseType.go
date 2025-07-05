@@ -8,5 +8,5 @@ type ExerciseType struct {
 	gorm.Model
 	Name string 
 
-	Exercises []Exercises `gorm:"foreignKey:ExerciseTypeID"`
+	Exercises []Exercise `gorm:"foreignKey:ExerciseTypeID"`
 }

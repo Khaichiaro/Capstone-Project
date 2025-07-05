@@ -37,7 +37,7 @@ func SetupDatabase() {
 		&entity.Levels{},          // No FK
 		&entity.NutritionGoals{},  // No FK
 		&entity.ExerciseType{},    // No FK
-		&entity.Exercises{},       // FK to ExerciseType
+		&entity.Exercise{},       // FK to ExerciseType
 		&entity.ActivityFactors{}, // No FK
 
 		&entity.Users{}, // FK to Gender, UserGroup, UserProfile, Level, NutritionGoals, Exercise
@@ -533,6 +533,245 @@ func SetupDatabase() {
 				FoodRecommendID: like.FoodRecommendID,
 			})
 	}
+
+	ExerciseType0 := entity.ExerciseType{Name: "Cardio"}
+	ExerciseType1 := entity.ExerciseType{Name: "Flex"}
+	ExerciseType2 := entity.ExerciseType{Name: "Strength"}
+
+	db.FirstOrCreate(&ExerciseType0, &entity.ExerciseType{Name: "Cardio"})
+	db.FirstOrCreate(&ExerciseType1, &entity.ExerciseType{Name: "Flex"})
+	db.FirstOrCreate(&ExerciseType2, &entity.ExerciseType{Name: "Strength"})
+
+	// กิจกรรมประเภท Cardio (ExerciseTypeId = 1)
+
+	exercise1 := &entity.Exercise{
+	    Name:           "Running",
+	    ExerciseTypeID:         1,
+	    CaloriesBurnPerMinute: 10,
+	}
+	db.FirstOrCreate(exercise1, &entity.Exercise{Name: "Running"})
+
+	exercise2 := &entity.Exercise{
+	    Name:           "Jumping rope",
+	    ExerciseTypeID:         1,
+	    CaloriesBurnPerMinute: 12,
+	}
+	db.FirstOrCreate(exercise2, &entity.Exercise{Name: "Jumping rope"})
+
+	exercise3 := &entity.Exercise{
+	    Name:           "Cycling (moderate speed)",
+	    ExerciseTypeID:         1,
+	    CaloriesBurnPerMinute: 8,
+	}
+	db.FirstOrCreate(exercise3, &entity.Exercise{Name: "Cycling (moderate speed)"})
+
+	exercise4 := &entity.Exercise{
+	    Name:           "Swimming",
+	    ExerciseTypeID:         1,
+	    CaloriesBurnPerMinute: 9,
+	}
+	db.FirstOrCreate(exercise4, &entity.Exercise{Name: "Swimming"})
+
+	exercise5 := &entity.Exercise{
+	    Name:           "Zumba",
+	    ExerciseTypeID:         1,
+	    CaloriesBurnPerMinute: 7,
+	}
+	db.FirstOrCreate(exercise5, &entity.Exercise{Name: "Zumba"})
+
+	exercise6 := &entity.Exercise{
+	    Name:           "Rowing machine",
+	    ExerciseTypeID:         1,
+	    CaloriesBurnPerMinute: 9,
+	}
+	db.FirstOrCreate(exercise6, &entity.Exercise{Name: "Rowing machine"})
+
+	exercise7 := &entity.Exercise{
+	    Name:           "Stair climbing",
+	    ExerciseTypeID:         1,
+	    CaloriesBurnPerMinute: 8,
+	}
+	db.FirstOrCreate(exercise7, &entity.Exercise{Name: "Stair climbing"})
+
+	exercise8 := &entity.Exercise{
+		Name: "High knees", 
+		ExerciseTypeID: 1, 
+		CaloriesBurnPerMinute: 10,
+	}
+	db.FirstOrCreate(exercise8, &entity.Exercise{Name: "High knees"})
+
+	exercise9 := &entity.Exercise{
+		Name: "Burpees", 
+		ExerciseTypeID: 1, 
+		CaloriesBurnPerMinute: 12,
+	}
+	db.FirstOrCreate(exercise9, &entity.Exercise{Name: "Burpees"})
+
+	exercise10 := &entity.Exercise{
+		Name: "Elliptical trainer", 
+		ExerciseTypeID: 1, 
+		CaloriesBurnPerMinute: 8,
+	}
+	db.FirstOrCreate(exercise10, &entity.Exercise{Name: "Elliptical trainer"})
+
+	// กิจกรรมประเภท Flex (ExerciseTypeID = 2)
+	exercise11 := &entity.Exercise{
+		Name: "Yoga", 
+		ExerciseTypeID: 2, 
+		CaloriesBurnPerMinute: 3,
+	}
+	db.FirstOrCreate(exercise11, &entity.Exercise{Name: "Yoga"})
+
+	exercise12 := &entity.Exercise{
+		Name: "Stretching", 
+		ExerciseTypeID: 2, 
+		CaloriesBurnPerMinute: 2,
+	}
+	db.FirstOrCreate(exercise12, &entity.Exercise{Name: "Stretching"})
+
+	exercise13 := &entity.Exercise{
+		Name: "Tai Chi", 
+		ExerciseTypeID: 2, 
+		CaloriesBurnPerMinute: 4,
+	}
+	db.FirstOrCreate(exercise13, &entity.Exercise{Name: "Tai Chi"})
+
+	exercise14 := &entity.Exercise{
+		Name: "Dynamic stretching", 
+		ExerciseTypeID: 2, 
+		CaloriesBurnPerMinute: 3,
+	}
+	db.FirstOrCreate(exercise14, &entity.Exercise{Name: "Dynamic stretching"})
+
+	exercise15 := &entity.Exercise{
+		Name: "Foam rolling", 
+		ExerciseTypeID: 2, 
+		CaloriesBurnPerMinute: 2,
+	}
+	db.FirstOrCreate(exercise15, &entity.Exercise{Name: "Foam rolling"})
+
+	exercise16 := &entity.Exercise{
+		Name: "Pilates (light)", 
+		ExerciseTypeID: 2, 
+		CaloriesBurnPerMinute: 4,
+	}
+	db.FirstOrCreate(exercise16, &entity.Exercise{Name: "Pilates (light)"})
+
+	exercise17 := &entity.Exercise{
+		Name: "Neck rotations", 
+		ExerciseTypeID: 2, 
+		CaloriesBurnPerMinute: 1,
+	}
+	db.FirstOrCreate(exercise17, &entity.Exercise{Name: "Neck rotations"})
+
+	exercise18 := &entity.Exercise{
+		Name: "Hamstring stretch", 
+		ExerciseTypeID: 2, 
+		CaloriesBurnPerMinute: 2,
+	}
+	db.FirstOrCreate(exercise18, &entity.Exercise{Name: "Hamstring stretch"})
+
+	exercise19 := &entity.Exercise{
+		Name: "Calf stretch", 
+		ExerciseTypeID: 2, 
+		CaloriesBurnPerMinute: 2,
+	}
+	db.FirstOrCreate(exercise19, &entity.Exercise{Name: "Calf stretch"})
+
+	exercise20 := &entity.Exercise{
+		Name: "Shoulder rolls", 
+		ExerciseTypeID: 2, 
+		CaloriesBurnPerMinute: 2,
+	}
+	db.FirstOrCreate(exercise20, &entity.Exercise{Name: "Shoulder rolls"})
+
+	// กิจกรรมประเภท Strength (ExerciseTypeID = 3)
+	exercise21 := &entity.Exercise{
+		Name: "Push-ups", 
+		ExerciseTypeID: 3, 
+		CaloriesBurnPerMinute: 7,
+	}
+	db.FirstOrCreate(exercise21, &entity.Exercise{Name: "Push-ups"})
+
+	exercise22 := &entity.Exercise{
+		Name: "Squats", 
+		ExerciseTypeID: 3, 
+		CaloriesBurnPerMinute: 8,
+	}
+	db.FirstOrCreate(exercise22, &entity.Exercise{Name: "Squats"})
+
+	exercise23 := &entity.Exercise{
+		Name: "Lunges", 
+		ExerciseTypeID: 3, 
+		CaloriesBurnPerMinute: 6,
+	}
+	db.FirstOrCreate(exercise23, &entity.Exercise{Name: "Lunges"})
+
+	exercise24 := &entity.Exercise{
+		Name: "Deadlifts", 
+		ExerciseTypeID: 3, 
+		CaloriesBurnPerMinute: 9,
+	}
+	db.FirstOrCreate(exercise24, &entity.Exercise{Name: "Deadlifts"})
+
+	exercise25 := &entity.Exercise{
+		Name: "Bench press", 
+		ExerciseTypeID: 3, 
+		CaloriesBurnPerMinute: 8,
+	}
+	db.FirstOrCreate(exercise25, &entity.Exercise{Name: "Bench press"})
+
+	exercise26 := &entity.Exercise{
+		Name: "Bicep curls", 
+		ExerciseTypeID: 3, 
+		CaloriesBurnPerMinute: 5,
+	}
+	db.FirstOrCreate(exercise26, &entity.Exercise{Name: "Bicep curls"})
+
+	exercise27 := &entity.Exercise{
+		Name: "Tricep dips", 
+		ExerciseTypeID: 3, 
+		CaloriesBurnPerMinute: 6,
+	}
+	db.FirstOrCreate(exercise27, &entity.Exercise{Name: "Tricep dips"})
+
+	exercise28 := &entity.Exercise{
+		Name: "Plank (isometric hold)", 
+		ExerciseTypeID: 3, 
+		CaloriesBurnPerMinute: 5,
+	}
+	db.FirstOrCreate(exercise28, &entity.Exercise{Name: "Plank (isometric hold)"})
+
+	exercise29 := &entity.Exercise{
+		Name: "Leg press", 
+		ExerciseTypeID: 3, 
+		CaloriesBurnPerMinute: 7,
+	}
+	db.FirstOrCreate(exercise29, &entity.Exercise{Name: "Leg press"})
+
+	exercise30 := &entity.Exercise{
+		Name: "Kettlebell swings", 
+		ExerciseTypeID: 3, 
+		CaloriesBurnPerMinute: 10,
+	}
+	db.FirstOrCreate(exercise30, &entity.Exercise{Name: "Kettlebell swings"})
+
+
+	// เพิ่มกิจกรรม ExerciseActivity
+	activityDate, _ := time.Parse("2006-01-02", "2025-05-20")
+	exerciseActivity := &entity.ExerciseActivity{
+	    UserID:        1,
+	    ExerciseID:    1,
+	    Date:          activityDate,
+	    Duration:      30,
+	    CaloriesBurned: 10 * 30, // คำนวณจากค่าของ ExerciseID = 1
+	}
+	db.FirstOrCreate(exerciseActivity, &entity.ExerciseActivity{
+	    UserID:       1,
+	    Date:         activityDate,
+	})
+
+
 }
 
 // Import food data from CSV

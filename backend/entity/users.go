@@ -20,7 +20,7 @@ type Users struct {
 	UserProfile   *UserProfiles `gorm:"foreignKey:UserProfileID"`
 
 	ExerciseID uint      
-	Exercise   *Exercises `gorm:"foreignKey:ExerciseID"`
+	Exercise   *Exercise `gorm:"foreignKey:ExerciseID"`
 
 	LevelID uint    
 	Level   *Levels `gorm:"foreignKey:LevelID"`

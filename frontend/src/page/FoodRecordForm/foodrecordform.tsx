@@ -316,6 +316,7 @@ import NavBar from '../../component/navbar/NavBar';
 import { DatePicker, Space, TimePicker } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import AI from '../../component/AI/ImageUpload';
 
 dayjs.extend(customParseFormat);
 
@@ -342,6 +343,9 @@ export default function FoodDiaryPage() {
   const [autoPlayInterval] = useState(3000); // 3 seconds interval
   const [isHover, setIsHover] = useState(false);
   const fileInputRef = useRef(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+
 
 
   const dateFormat = 'YYYY/MM/DD';
@@ -454,7 +458,7 @@ export default function FoodDiaryPage() {
                     <Upload size={28} />
                     <p className="text-sm mt-4 text-center">คลิกหรือลากภาพไฟล์มาที่นี่เพื่ออัพโหลด</p>
                     <p className="text-xs mt-6 text-center">รูปแบบที่รองรับคือ JPG และ PNG</p>
-                    <input 
+                    <input
                       type="file" 
                       ref={fileInputRef}
                       onChange={handleFileUpload}
@@ -539,6 +543,7 @@ export default function FoodDiaryPage() {
                     onMouseEnter={() => setIsHover(true)}
                     onMouseLeave={() => setIsHover(false)}
                     className="w-full mt-4 py-3 text-center text-gray-600 rounded-md"
+                    onClick={() => setIsPopupOpen(true)}
                     style={{ 
                         backgroundColor: isHover ? '#ff8a71' : '#FFFFFF', 
                         border: '1px solid #E0E0E0',
@@ -548,6 +553,19 @@ export default function FoodDiaryPage() {
                         fontSize: '20px',}}>
                   คลิกเพื่อตรวจสอบค่าโภชนาการอาหาร
                 </button>
+                <AI
+                    isOpen={isPopupOpen}
+                    onClose={() => setIsPopupOpen(false)}
+                    onFileSelect={(file: File) => {
+                      setUploadedFile(file);
+                      console.log('ไฟล์ที่อัปโหลด:', file);
+                    }}
+                  />
+                  {uploadedFile && (
+                    <div className="mt-4 text-sm text-green-700">
+                      ไฟล์ที่อัปโหลด: {uploadedFile.name}
+                    </div>
+                  )}
               </div>
             </div>
 
