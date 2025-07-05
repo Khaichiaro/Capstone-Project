@@ -20,3 +20,18 @@ func GetAll(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, users)
 }
+
+// GetUserById
+func GetUserById(c *gin.Context) {
+ id := c.Param("id")
+
+ var user entity.Users
+
+ db := config.DB()
+ result := db.Preload("Gender").First(&user, id)
+ if result.Error != nil {
+	 c.JSON(http.StatusNotFound, gin.H{"error": result.Error.Error()})
+	 return
+ }
+ c.JSON(http.StatusOK, user)	
+ }

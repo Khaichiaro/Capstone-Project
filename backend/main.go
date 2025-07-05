@@ -42,6 +42,7 @@ func main() {
 	// เขียน service ตัวเองต่อลงไปได้เลย ตอน ทำ login เดียวเรามาแก้เอง
 	// User Route
 	r.GET("/users", users.GetAll)
+	r.GET("/users/:id", users.GetUserById)
 
 	// Gender Route
 	r.GET("/genders", genders.GetAll)

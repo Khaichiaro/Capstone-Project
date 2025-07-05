@@ -9,11 +9,11 @@ import (
 type Meals struct {
 	gorm.Model
 
-	FoodPicture string `json:"food_picture"`
+	FoodPicture string `gorm:"type:varchar(255)" valid:"required~food_picture is required"`
 	MealsDate time.Time `json:"meals_date"`
-	MealsTime string `json:"meals_time"`
+	MealsTime time.Time `json:"meals_time"`
 	FoodName string `json:"food_name"`
-	Quantity float64 `json:"quantity"`
+	Quantity string `json:"quantity"`
 	Calories float64 `json:"calories"`
 	Protein float64 `json:"protein"`
 	Carbs float64 `json:"carbs"`
