@@ -776,6 +776,7 @@ import NavBar from '../../component/navbar/NavBar';
 import { DatePicker, message, Space, TimePicker } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import ImageUploadPopup from '../../component/AI/ImageUpload.tsx';
 
 dayjs.extend(customParseFormat);
 
@@ -786,6 +787,7 @@ import { useNavigate } from 'react-router-dom';
 import type { IUser } from '../../interfaces/IUser';
 import { GetUserById } from '../../services/https';
 import type { IMeals } from '../../interfaces/IMeals';
+
 
 interface Data {
   FoodPicture: File | null;
@@ -801,6 +803,7 @@ interface Data {
   meal_date: string;
   meal_time: string;
 }
+
 
 export default function FoodDiaryPage() {
   const navigate = useNavigate();
@@ -830,6 +833,8 @@ export default function FoodDiaryPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dateFormat = 'YYYY/MM/DD';
   const [messageApi] = message.useMessage();
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
   const GetUserByID = async () => {
     try {
@@ -955,7 +960,10 @@ export default function FoodDiaryPage() {
 
 
 
+
+
     setIsLoading(true);
+
 
     try {
       // สร้าง FormData สำหรับส่งข้อมูล
@@ -1166,6 +1174,7 @@ export default function FoodDiaryPage() {
                   </div>
                 </div>
                 <button
+                  onClick={() => setIsPopupOpen(true)}
                   onMouseEnter={() => setIsHover(true)}
                   onMouseLeave={() => setIsHover(false)}
                   className="w-full mt-4 py-3 text-center text-gray-600 rounded-md"
@@ -1179,6 +1188,14 @@ export default function FoodDiaryPage() {
                   }}>
                   คลิกเพื่อตรวจสอบค่าโภชนาการอาหาร
                 </button>
+                <ImageUploadPopup
+                  isOpen={isPopupOpen}
+                  onClose={() => setIsPopupOpen(false)}
+                  onFileSelect={(file: File) => {
+                    setUploadedFile(file);
+                    console.log('ไฟล์ที่อัปโหลด:', file);
+                  }}
+                />
               </div>
             </div>
 
