@@ -8,6 +8,9 @@ type FoodRecommend struct {
 	gorm.Model
 	Name        string 
 	DesCription string 
+	Instruction string
+	Benefits    string
+	Disadvantages string
 	LikeCount   int    
 
 	UserID uint   

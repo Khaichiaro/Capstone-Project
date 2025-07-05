@@ -823,28 +823,24 @@ func importFoodData() {
 		// Food
 		result := db.FirstOrCreate(&food, entity.Foods{FoodName: name})
 
-		// FoodRecommend ranking 1-5
-		if i <= 5 && result.RowsAffected > 0 {
-			recommend := entity.FoodRecommend{
-				Name:        "แนะนำ: " + name,
-				DesCription: "แนะนำอาหาร " + name,
-				UserID:      1,
-				FoodID:      food.ID,
-				RankingID:   uint(i), 
-				LikeCount:   0,
-			}
-			db.Create(&recommend)
-		}
 		// FoodRecommend
-		if i > 5 && result.RowsAffected > 0 {
+		if result.RowsAffected > 0 {
 			recommend := entity.FoodRecommend{
-				Name:        "แนะนำ: " + name,
-				DesCription: "แนะนำอาหาร " + name,
-				UserID:      1, 
-				FoodID:      food.ID,
-				RankingID:   0, 
-				LikeCount:   0,
+				Name:         name + " อร่อยมาก",
+				DesCription:  fmt.Sprintf("เมนูแนะนำที่มีพลังงาน %.0f แคลอรี่", calories),
+				Instruction:  "เสิร์ฟแบบเย็น หรือรับประทานเดี่ยว ๆ ก่อนนอน",
+				Benefits:     "ช่วยเสริมสร้างกล้ามเนื้อ\nลดความรู้สึกหิว\nดีต่อระบบย่อยอาหาร",
+				Disadvantages: "หากรับประทานมากเกินไปอาจทำให้ได้รับไขมันหรือโซเดียมเกิน",
+				UserID:       1,
+				FoodID:       food.ID,
+				LikeCount:    2,
 			}
+
+			// top 5 = มี ranking
+			if i <= 5 {
+				recommend.RankingID = uint(i) // 1-5
+			}
+
 			db.Create(&recommend)
 		}
 	}
