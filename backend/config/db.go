@@ -824,7 +824,7 @@ func importFoodData() {
 		result := db.FirstOrCreate(&food, entity.Foods{FoodName: name})
 
 		// FoodRecommend
-		if result.RowsAffected > 0 && i >= 10 {
+		if result.RowsAffected > 0 && i <= 10 {
 			recommend := entity.FoodRecommend{
 				Name:         name + " อร่อยมาก",
 				DesCription:  fmt.Sprintf("เมนูแนะนำที่มีพลังงาน %.0f แคลอรี่", calories),
