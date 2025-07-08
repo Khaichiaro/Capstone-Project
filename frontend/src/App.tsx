@@ -4,10 +4,13 @@ import MenuRecHome from './page/MenuRecommend/home/index'
 
 // import FoodRecordForm from './page/FoodRecordForm/eatingrecordform.tsx'
 import FoodHistory from './page/FoodRecordForm/home'
-// import EditFood from './page/FoodRecordForm/edit/editfoodform.tsx'
+import EditFood from './page/FoodRecordForm/eatingdetail'
+import EatingDetail from './page/FoodRecordForm/eatingdetail.tsx'
+import EditEatingform from './page/FoodRecordForm/edit/editeatingform.tsx'
 
 import CreateRecommand from './page/MenuRecommend/create'
 import FoodDetailPage from './page/MenuRecommend/detail'
+
 
 
 function App() {
@@ -15,7 +18,7 @@ function App() {
   console.log("user_id: ", localStorage.getItem("user_id"));
 
   return (
-   <Router>
+  <Router>
         <Routes>
           <Route path="/" element={<MenuRecHome />} />
       
@@ -30,4 +33,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
