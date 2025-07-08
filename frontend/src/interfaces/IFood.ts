@@ -1,16 +1,16 @@
-import type { IFoodRecommend } from "./IFoodRecommend";
+import type { IFoodType } from "./IFoodType";
 
 export interface IFood {
-  id: number;
-  name: string;
-  image: string;
-  category: string;
-  badge?: string;
+  ImageUrl: string;
+  ID: number;
+  FoodName: string;
+  Calories: number;
+  Protein: number;
+  Carbs: number;
+  Sodium: number;
+  Fat: number;
+  Sugar: number;
 
-  calories: number;
-  protein?: number;   // g
-  carb?: number;      // g
-  sodium?: number;    // mg or %
-
-  FoodRecommend?: IFoodRecommend;
+  FoodTypeID: number;
+  FoodType?: IFoodType;
 }

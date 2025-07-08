@@ -105,7 +105,7 @@ func CreateMeals(c *gin.Context) {
 		return
 	}
 	meals.UserID = uint(userID)
-	meals.MealsTypeID = 1
+	meals.MealTypeID = 1
 
 	db := config.DB()
 	if result := db.Create(&meals); result.Error != nil {
