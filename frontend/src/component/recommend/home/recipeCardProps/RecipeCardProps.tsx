@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Heart } from "lucide-react";
+import { checkLikeStatus, toggleLike } from "../../../../services/https";
 
 interface RecipeCardProps {
   image: string;
   title: string;
   calories: number;
   likes: number;
-  isVegetarian?: boolean;
+  foodRecommendId: number;
   onClick?: () => void;
 }
 
@@ -21,15 +22,40 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
   title,
   calories,
   likes,
-  isVegetarian = false,
-  onClick
+  foodRecommendId,
+  onClick,
 }) => {
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(likes);
+  const userId = localStorage.getItem("user_id");
 
-  const toggleLike = () => {
-    setLiked((prev) => !prev);
-    setLikeCount((prev) => prev + (liked ? -1 : 1));
+  useEffect(() => {
+    const fetchLikeStatus = async () => {
+      if (!userId) return;
+      try {
+        const result = await checkLikeStatus(parseInt(userId), foodRecommendId);
+        setLiked(result.liked);
+      } catch (err) {
+        console.error("Failed to fetch like status:", err);
+      }
+    };
+
+    fetchLikeStatus();
+  }, [userId, foodRecommendId]);
+
+  const handleToggleLike = async () => {
+    try {
+      if (!userId) return;
+      const response = await toggleLike({
+        user_id: parseInt(userId),
+        food_recommend_id: foodRecommendId,
+      });
+
+      setLiked(response.liked);
+      setLikeCount((prev) => prev + (response.liked ? 1 : -1));
+    } catch (err) {
+      console.error("Like toggle failed:", err);
+    }
   };
 
   return (
@@ -46,13 +72,13 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
 
           <div
             className="flex items-center space-x-1 cursor-pointer"
-            onClick={toggleLike}
+            onClick={handleToggleLike}
           >
             <span className="text-sm text-gray-600">
               {formatLikes(likeCount)}
             </span>
             <Heart
-              size={16}
+              size={20}
               className={`transition-colors duration-200 ${
                 liked ? "fill-red-500 text-red-500" : "text-red-500"
               }`}
