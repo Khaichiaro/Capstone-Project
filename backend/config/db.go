@@ -776,7 +776,7 @@ func SetupDatabase() {
 
 // Import food data from CSV
 func importFoodData() {
-	file, err := os.Open("food.csv")
+	file, err := os.Open("thai_food_menu.csv")
 	if err != nil {
 		panic("CSV not found: " + err.Error())
 	}
