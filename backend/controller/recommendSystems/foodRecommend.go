@@ -136,3 +136,37 @@ func CheckLikeStatus(c *gin.Context) {
 
 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Database error"})
 }
+
+func CreateRecommend(c *gin.Context) {
+	var input entity.FoodRecommend
+
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON input"})
+		return
+	}
+
+	db := config.DB()
+
+	if err := db.Create(&input).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create recommendation"})
+		return
+	}
+
+	c.JSON(http.StatusCreated, input)
+}
+
+func GetAllFood(c *gin.Context) {
+	var foods []entity.Foods
+
+	db := config.DB()
+	result := db.Preload("FoodType").
+		Where("id NOT IN (?)", db.Model(&entity.FoodRecommend{}).Select("food_id").Where("deleted_at IS NULL")).
+		Find(&foods).Error
+
+	if result != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": result.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, foods)
+}

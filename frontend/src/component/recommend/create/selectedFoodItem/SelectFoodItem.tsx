@@ -1,6 +1,7 @@
 import { Trash2 } from "lucide-react";
 
 import type { IFoodRecommendSelected } from '../../../../interfaces/IFoodRecommendSelected';
+import food1 from '../../../../assets/food/saladKai1.svg'
 
 interface SelectedFoodItemProps {
   food: IFoodRecommendSelected;
@@ -13,13 +14,13 @@ const SelectedFoodItem: React.FC<SelectedFoodItemProps> = ({ food, onRemove }) =
     <div className="flex items-center justify-between py-3 border-b border-gray-100 last:border-b-0">
       <div className="flex items-center space-x-3">
         <img
-          src={food.food?.image}
-          alt={food.food?.name}
+          src={food.food.ImageUrl || food1}
+          alt={food.food?.FoodName}
           className="w-10 h-10 object-cover rounded-lg"
         />
         <div>
-          <h4 className="font-medium text-gray-800 text-sm">{food.food?.name}</h4>
-          <p className="text-xs text-gray-600">{food.food?.calories} แคลลอรี่</p>
+          <h4 className="font-medium text-gray-800 text-sm">{food.food?.FoodName}</h4>
+          <p className="text-xs text-gray-600">{food.food?.Calories} แคลลอรี่</p>
         </div>
       </div>
       <button

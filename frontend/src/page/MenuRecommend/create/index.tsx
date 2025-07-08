@@ -5,44 +5,101 @@ import SearchBar from "../../../component/recommend/create/searchBar/SearchBar";
 import FoodCard from "../../../component/recommend/create/foodCard/FoodCard";
 import SummaryPanel from "../../../component/recommend/create/sumaryPanel/SummaryPanel";
 
-import food1 from "../../../assets/food/saladPak1.svg";
-import food2 from "../../../assets/food/sapageties.svg";
-import food3 from "../../../assets/food/stakesalmon.svg";
-
 import type { IFood } from "../../../interfaces/IFood";
 import type { IFoodRecommendSelected } from "../../../interfaces/IFoodRecommendSelected";
 import ModalCreateMenu from "../../../component/recommend/create/modalCreateMenu/ModalCreateMenu";
 import { useNavigate } from "react-router-dom";
-import type { IFoodRecommend } from "../../../interfaces/IFoodRecommend";
+import { CreateFoodRecommend, GetAllFoods } from "../../../services/https";
 
 function CreateRecommend() {
   const [selectedCategory, setSelectedCategory] = useState<string>("healthy");
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [selectedFoods, setSelectedFoods] = useState<IFoodRecommendSelected[]>(
-    []
-  );
+  const [selectedFood, setSelectedFood] = useState<IFoodRecommendSelected | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [foods, setFoods] = useState<IFood[]>([]);
+  const [foodsLoading, setFoodsLoading] = useState(true);
+  const [foodsError, setFoodsError] = useState<string | null>(null);
+  const userIdStr = localStorage.getItem("user_id");
+  const userId = userIdStr ? parseInt(userIdStr) : undefined;
+
+  
 
   useEffect(() => {
     if (isModalOpen) {
-      document.body.style.overflow = "hidden"; // ❌ ห้าม scroll
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "auto"; // ✅ กลับมา scroll ได้
+      document.body.style.overflow = "auto";
     }
 
-    // ล้างค่าเมื่อ component หายไป
     return () => {
       document.body.style.overflow = "auto";
     };
   }, [isModalOpen]);
 
-  const handleModalSave = (title: string, desc: string) => {
-    console.log("ชื่อเมนู:", title);
-    console.log("คำอธิบาย:", desc);
-    alert("บันทึกเรียบร้อยแล้ว!");
-    setSelectedFoods([]);
-    setIsModalOpen(false);
+  useEffect(() => {
+    
+    const loadFoods = async () => {
+      try {
+        setFoodsLoading(true);
+        setFoodsError(null);
+        const result = await GetAllFoods();
+        
+        // ตรวจสอบว่าข้อมูลที่ได้มาเป็น array หรือไม่
+        if (Array.isArray(result.data)) {
+          setFoods(result.data);
+        } else {
+          console.error("Foods data is not an array:", result.data);
+          setFoodsError("ข้อมูลอาหารไม่ถูกต้อง");
+          setFoods([]);
+        }
+      } catch (err) {
+        console.error("Error fetching foods:", err);
+        setFoodsError("ไม่สามารถโหลดข้อมูลอาหารได้");
+        setFoods([]);
+      } finally {
+        setFoodsLoading(false);
+      }
+    };
+
+    loadFoods();
+    console.log("foodsList: ", foods)
+  }, []);
+
+  const handleModalSave = async (
+    title: string,
+    instruction: string,
+    description: string,
+    benefits: string,
+    disadvantages: string
+  ) => {
+    if (!selectedFood) return;
+
+    setIsLoading(true);
+    try {
+      const recommendData = {
+        userID: userId, 
+        foodID: selectedFood.food.ID,
+        name: title,
+        instruction: instruction,
+        description: description,
+        benefits: benefits,
+        disadvantages: disadvantages,
+        rankingID: 0
+      };
+
+      await CreateFoodRecommend(recommendData);
+      alert("สร้างการแนะนำอาหารเรียบร้อยแล้ว!");
+      setSelectedFood(null);
+      setIsModalOpen(false);
+      navigate("/");
+    } catch (error) {
+      console.error("Error creating food recommend:", error);
+      alert("เกิดข้อผิดพลาดในการสร้างการแนะนำอาหาร");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const categories = [
@@ -52,191 +109,42 @@ function CreateRecommend() {
     { value: "drink", label: "เครื่องดื่ม" },
   ];
 
-  const foods: IFood[] = [
-    {
-      id: 1,
-      name: "สเต็กปลาแซลมอน",
-      calories: 300,
-      image: food1,
-      category: "healthy",
-      protein: 20,
-      carb: 30,
-      sodium: 100,
-      badge: "ตราสินค้าที่น่าเชื่อถือ",
-    },
-    {
-      id: 2,
-      name: "สปาเก็ตตี้",
-      calories: 300,
-      image: food2,
-      protein: 20,
-      carb: 30,
-      sodium: 100,
-      badge: "ตราสินค้าที่น่าเชื่อถือ",
-      category: "healthy",
-    },
-    {
-      id: 3,
-      name: "สเต็กปลาแซลมอน",
-      calories: 300,
-      image: food3,
-      protein: 20,
-      carb: 30,
-      sodium: 100,
-      category: "healthy",
-    },
-    {
-      id: 4,
-      name: "สเต็กปลาแซลมอน",
-      calories: 300,
-      image: food3,
-      protein: 20,
-      carb: 30,
-      sodium: 100,
-      category: "healthy",
-    },
-    {
-      id: 5,
-      name: "สเต็กปลาแซลมอน",
-      calories: 300,
-      image: food3,
-      protein: 20,
-      carb: 30,
-      sodium: 100,
-      category: "healthy",
-    },
-    {
-      id: 6,
-      name: "สเต็กปลาแซลมอน",
-      calories: 300,
-      image: food1,
-      category: "healthy",
-      protein: 20,
-      carb: 30,
-      sodium: 100,
-      badge: "ตราสินค้าที่น่าเชื่อถือ",
-    },
-    {
-      id: 7,
-      name: "สปาเก็ตตี้",
-      calories: 300,
-      image: food2,
-      protein: 20,
-      carb: 30,
-      sodium: 100,
-      badge: "ตราสินค้าที่น่าเชื่อถือ",
-      category: "healthy",
-    },
-    {
-      id: 8,
-      name: "สเต็กปลาแซลมอน",
-      calories: 300,
-      image: food3,
-      protein: 20,
-      carb: 30,
-      sodium: 100,
-      category: "healthy",
-    },
-    {
-      id: 9,
-      name: "สเต็กปลาแซลมอน",
-      calories: 300,
-      image: food3,
-      protein: 20,
-      carb: 30,
-      sodium: 100,
-      category: "healthy",
-    },
-    {
-      id: 10,
-      name: "สเต็กปลาแซลมอน",
-      calories: 300,
-      image: food3,
-      protein: 20,
-      carb: 30,
-      sodium: 100,
-      category: "healthy",
-    },
-    {
-      id: 11,
-      name: "สเต็กปลาแซลมอน",
-      calories: 300,
-      image: food1,
-      category: "healthy",
-      protein: 20,
-      carb: 30,
-      sodium: 100,
-      badge: "ตราสินค้าที่น่าเชื่อถือ",
-    },
-    {
-      id: 12,
-      name: "สปาเก็ตตี้",
-      calories: 300,
-      image: food2,
-      protein: 20,
-      carb: 30,
-      sodium: 100,
-      badge: "ตราสินค้าที่น่าเชื่อถือ",
-      category: "healthy",
-    },
-    {
-      id: 13,
-      name: "สเต็กปลาแซลมอน",
-      calories: 300,
-      image: food3,
-      protein: 20,
-      carb: 30,
-      sodium: 100,
-      category: "healthy",
-    },
-    {
-      id: 14,
-      name: "สเต็กปลาแซลมอน",
-      calories: 300,
-      image: food3,
-      protein: 20,
-      carb: 30,
-      sodium: 100,
-      category: "healthy",
-    },
-    {
-      id: 15,
-      name: "สเต็กปลาแซลมอน",
-      calories: 300,
-      image: food3,
-      protein: 20,
-      carb: 30,
-      sodium: 100,
-      category: "healthy",
-    },
-  ];
+  const mapFoodType = (foodTypeID: number): string => {
+    switch (foodTypeID) {
+      case 1:
+        return "healthy";
+      case 2:
+        return "onedish";
+      case 3:
+        return "desserts";
+      case 4:
+        return "drink";
+      default:
+        return "healthy";
+    }
+  };
 
-  const filteredFoods = foods.filter((food) => {
-    const matchesCategory = food.category === selectedCategory;
-    const matchesSearch = food.name
+  const filteredFoods = Array.isArray(foods) ? foods.filter((food) => {
+    const matchesCategory = mapFoodType(food.FoodTypeID) === selectedCategory;
+    const matchesSearch = food.FoodName
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSearch;
-  });
+  }) : [];
 
-  const handleAddFood = (food: IFoodRecommendSelected) => {
-    setSelectedFoods((prev) => [...prev, food]);
+  const handleSelectFood = (food: IFoodRecommendSelected) => {
+    setSelectedFood(food);
   };
 
-  const handleRemoveFood = (uniqueId: number) => {
-    setSelectedFoods((prev) =>
-      prev.filter((food) => food.uniqueId !== uniqueId)
-    );
+  const handleRemoveFood = () => {
+    setSelectedFood(null);
   };
 
   const handleCreateMenu = () => {
-    // เงื่อนไขขึ้น popup
-    if (selectedFoods.length > 1) {
+    if (selectedFood) {
       setIsModalOpen(true);
     } else {
-      alert("สร้างรายการเรียบร้อยแล้ว!");
-      setSelectedFoods([]);
-      navigate("/");
+      alert("กรุณาเลือกอาหารก่อนสร้างการแนะนำ");
     }
   };
 
@@ -247,10 +155,10 @@ function CreateRecommend() {
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-            เลือกเมนูอาหารของคุณ
+            เลือกอาหารที่จะแนะนำของคุณ
           </h1>
           <p className="text-gray-600 text-lg">
-            เลือกอาหารตามใจ และวิเคราะห์คุณค่าทางโภชนาการได้แบบเรียลไทม์
+            เลือกแนะนำอาหารตามใจ และวิเคราะห์คุณค่าทางโภชนาการได้แบบเรียลไทม์
           </p>
         </div>
 
@@ -279,9 +187,35 @@ function CreateRecommend() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-              {filteredFoods.map((food) => (
-                <FoodCard key={food.id} food={food} onAdd={handleAddFood} />
-              ))}
+              {foodsLoading ? (
+                <div className="col-span-full text-center py-8">
+                  <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#84AC46]"></div>
+                  <p className="mt-2 text-gray-600">กำลังโหลดข้อมูลอาหาร...</p>
+                </div>
+              ) : foodsError ? (
+                <div className="col-span-full text-center py-8">
+                  <p className="text-red-500">{foodsError}</p>
+                  <button 
+                    onClick={() => window.location.reload()}
+                    className="mt-2 text-[#84AC46] hover:underline"
+                  >
+                    ลองใหม่
+                  </button>
+                </div>
+              ) : filteredFoods.length === 0 ? (
+                <div className="col-span-full text-center py-8">
+                  <p className="text-gray-500">ไม่พบอาหารในหมวดหมู่นี้</p>
+                </div>
+              ) : (
+                filteredFoods.map((food) => (
+                  <FoodCard 
+                    key={food.ID} 
+                    food={food} 
+                    onAdd={handleSelectFood}
+                    isSelected={selectedFood?.food.ID === food.ID}
+                  />
+                ))
+              )}
             </div>
           </div>
 
@@ -289,7 +223,7 @@ function CreateRecommend() {
           <div className="lg:col-span-5">
             <div className="sticky top-8">
               <SummaryPanel
-                selectedFoods={selectedFoods}
+                selectedFood={selectedFood}
                 onRemoveFood={handleRemoveFood}
                 onCreateMenu={handleCreateMenu}
               />
@@ -302,6 +236,7 @@ function CreateRecommend() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSave={handleModalSave}
+        isLoading={isLoading}
       />
     </div>
   );
