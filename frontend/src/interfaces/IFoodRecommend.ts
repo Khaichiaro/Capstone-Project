@@ -43,3 +43,14 @@ export interface IFoodRecommend {
   UserID: number;
   User: IUser;
 }
+
+export interface IFoodRecommendCreate {
+  userID?: number;
+  foodID?: number;
+  name?: string;
+  instruction?: string;
+  description?: string;
+  benefits?: string;
+  disadvantages?: string;
+  rankingID?: number;
+}

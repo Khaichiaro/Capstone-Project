@@ -6,6 +6,7 @@ import type { IUser } from "../../interfaces/IUser";
 import type { NutritionGoalInterface } from "../../interfaces/INutritionGoal";
 import type { UserActivityInterface } from "../../interfaces/IUserActivity";
 import type { DailyNutrientSumInterface } from "../../interfaces/IDailyNutrientSum";
+import type { IFoodRecommend, IFoodRecommendCreate } from "../../interfaces/IFoodRecommend";
 
 const apiUrl = "http://localhost:8000";
 const Authorization = localStorage.getItem("token");
@@ -253,6 +254,20 @@ async function checkLikeStatus(userId: number, foodRecommendId: number) {
   return res.data; // true หรือ false
 }
 
+async function CreateFoodRecommend(foodRecommend: IFoodRecommendCreate){
+  const res = await axios.post(
+    `${apiUrl}/createRecommend`, foodRecommend, requestOptions
+  );
+  return res;
+}
+
+async function GetAllFoods() {
+  return await axios
+  .get(`${apiUrl}/foods`, requestOptions)
+  .then((res) => res)
+  .catch((e) => e.response);
+}
+
 export {
   //User
   ListUsers,
@@ -298,4 +313,6 @@ export {
   GetAllFoodRecommendWithRanking,
   toggleLike,
   checkLikeStatus,
+  CreateFoodRecommend,
+  GetAllFoods,
 };
