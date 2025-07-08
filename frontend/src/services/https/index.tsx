@@ -314,5 +314,5 @@ export {
   toggleLike,
   checkLikeStatus,
   CreateFoodRecommend,
-  GetAllFoods,
+  GetAllFoods, apiUrl,
 };

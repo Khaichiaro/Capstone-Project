@@ -7,6 +7,7 @@ import (
 type Foods struct {
 	gorm.Model
 
+	ImageUrl 	string
 	FoodName     string  
 	Calories float64 
 	Protein  float64 

@@ -1,4 +1,4 @@
-No,Name,Calories,Protein,Carbs,Fat,Sodium,FoodType_id,image_path
+No,Name,Calories,Protein,Carbs,Fat,Sodium,FoodType_id,image_path,Sugar
 0,แกงเขียวหวานไก่,459,29,21,31,929,5,Capstone-Project/backend/food_image/00.jpg
 1,แกงเทโพ,500,25,30,45,1200,5,Capstone-Project/backend/food_image/01.jpg
 2,แกงเลียง,150,15,20,5,600,5,Capstone-Project/backend/food_image/02.jpg
