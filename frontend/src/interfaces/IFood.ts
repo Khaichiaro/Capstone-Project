@@ -12,5 +12,5 @@ export interface IFood {
   Sugar: number;
 
   FoodTypeID: number;
-  FoodType?: IFoodType;
+  FoodType: IFoodType;
 }
