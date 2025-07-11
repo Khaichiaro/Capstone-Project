@@ -7,11 +7,11 @@ import FoodHistory from './page/FoodRecordForm/home'
 import EditFood from './page/FoodRecordForm/eatingdetail'
 import EatingDetail from './page/FoodRecordForm/eatingdetail.tsx'
 import EditEatingform from './page/FoodRecordForm/edit/editeatingform.tsx'
+// import EditFood from './page/FoodRecordForm/edit/editfoodform.tsx'
 
 import CreateRecommend from './page/MenuRecommend/create'
 import FoodDetailPage from './page/MenuRecommend/detail'
 import UserFoodRecommendation from './page/MenuRecommend/user/index.tsx'
-
 
 
 function App() {

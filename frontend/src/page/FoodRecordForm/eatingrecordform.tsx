@@ -1345,6 +1345,11 @@
 //       </main>
 //     </div>
 //   );
+<<<<<<< HEAD
+// };
+
+
+
 
 import { useState, useEffect, useRef, type SetStateAction } from 'react';
 import { Upload, ArrowLeft } from 'lucide-react';
@@ -1939,3 +1944,6 @@ export default function FoodDiaryPage() {
     </div>
   );
 };
+=======
+// };
+>>>>>>> bb42f0d75d1f5499a5b1c5d17d49cc59471c3333
