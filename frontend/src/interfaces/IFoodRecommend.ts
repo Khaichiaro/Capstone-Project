@@ -26,6 +26,7 @@ import type { IUser } from "./IUser";
 
 
 export interface IFoodRecommend {
+  CreatedAt: string;
   ID: number;
   Name: string;
   DesCription: string;

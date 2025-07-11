@@ -275,6 +275,14 @@ async function GetAllFoodType() {
   .catch((e) => e.response);
 }
 
+async function GetFoodRecommendByUserID(userId: number) {
+  const res = await axios.get(
+    `${apiUrl}/foodRecommend/${userId}`,
+    requestOptions
+  );
+  return res;
+}
+
 export {
   //User
   ListUsers,
@@ -323,5 +331,6 @@ export {
   CreateFoodRecommend,
   GetAllFoods, 
   apiUrl,
-  GetAllFoodType
+  GetAllFoodType,
+  GetFoodRecommendByUserID,
 };

@@ -8,24 +8,26 @@ import EditFood from './page/FoodRecordForm/eatingdetail'
 import EatingDetail from './page/FoodRecordForm/eatingdetail.tsx'
 import EditEatingform from './page/FoodRecordForm/edit/editeatingform.tsx'
 
-import CreateRecommand from './page/MenuRecommend/create'
+import CreateRecommend from './page/MenuRecommend/create'
 import FoodDetailPage from './page/MenuRecommend/detail'
+import UserFoodRecommendation from './page/MenuRecommend/user/index.tsx'
 
 
 
 function App() {
-  localStorage.setItem("user_id", "2")
+  localStorage.setItem("user_id", "1")
   console.log("user_id: ", localStorage.getItem("user_id"));
 
   return (
   <Router>
         <Routes>
           <Route path="/" element={<MenuRecHome />} />
+          <Route path="/usrecommend" element={<UserFoodRecommendation/>}/>
       
           {/* <Route path="/foodintake" element={<FoodRecordForm />} /> */}
           <Route path="/foodhistory" element={<FoodHistory />} />
           {/* <Route path="/editfood" element={<EditFood />} /> */}
-          <Route path="/create/recommand" element={<CreateRecommand />} />
+          <Route path="/create/recommand" element={<CreateRecommend />} />
           <Route path="/recipe/:recipeName" element={<FoodDetailPage />} />
           {/* <Route path='/editfoodform' element={<EditEatingform />} /> */}
         </Routes>

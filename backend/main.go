@@ -60,6 +60,7 @@ func main() {
 	r.POST("/createRecommend", recommendsystems.CreateRecommend)
 	r.GET("/foods", recommendsystems.GetAllFood)
 	r.GET("/foodType", recommendsystems.GetAllFoodType)
+	r.GET("/foodRecommend/:user_id", recommendsystems.GetFoodRecommendByUserID)
 
 	//Eating History Route
     r.GET("/eatingHistory", eatingHistory.GetEatingHistory)
