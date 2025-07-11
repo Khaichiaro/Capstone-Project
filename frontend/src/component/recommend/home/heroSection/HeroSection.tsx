@@ -40,6 +40,8 @@ const HeroSection: React.FC = () => {
     fetchRankingFoods();
   }, []);
 
+  console.log("Slide: ", slides)
+
   return (
     <section className="bg-[#FDF2DC] px-8 py-12 shadow-lg">
       <div className="max-w-6xl mx-auto relative">
@@ -79,14 +81,14 @@ const HeroSection: React.FC = () => {
                     onMouseLeave={() => setShowTooltip(false)}
                   >
                     <img
-                      src={`${apiUrl}${item.Food.ImageUrl || food1}`}
+                      src={`${apiUrl}/${item.Food.ImageUrl}` || food1}
                       alt={`อันดับ ${item.Food.FoodName}`}
                       className="w-70 h-70 rounded-full object-cover transition duration-300 hover:scale-90 cursor-pointer"
                       onClick={() => navigate(`/recipe/${encodeURIComponent(item.Food.FoodName)}`)}
                     />
                     <div className="flex-1 text-center lg:text-center mb-10 lg:mb-0">
                       <br />
-                      <span className="text-green-600">{item.Food.FoodName}</span>
+                      <span className="text-green-600 font-bold">{item.Food.FoodName}</span>
                     </div>
 
                     {/* Tooltip */}

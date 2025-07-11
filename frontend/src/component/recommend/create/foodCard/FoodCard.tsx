@@ -4,11 +4,14 @@ import food1 from "../../../../assets/food/saladKai1.svg"
 import type { IFoodRecommendSelected } from "../../../../interfaces/IFoodRecommendSelected";
 import { useNavigate } from "react-router-dom";
 import { Check } from "lucide-react";
+import { apiUrl } from "../../../../services/https";
+import type { IFoodType } from "../../../../interfaces/IFoodType";
 
 interface FoodCardProps {
   food: IFood;
   onAdd: (food: IFoodRecommendSelected) => void;
   isSelected?: boolean;
+  foodTypes: IFoodType[];
 }
 
 const FoodCard: React.FC<FoodCardProps> = ({ food, onAdd, isSelected = false }) => {
@@ -48,7 +51,7 @@ const FoodCard: React.FC<FoodCardProps> = ({ food, onAdd, isSelected = false }) 
         onMouseLeave={() => setShowTooltip(false)}
       >
         <img
-          src={food.ImageUrl || food1}
+          src={`${apiUrl}/${food.ImageUrl}` || food1}
           alt={food.FoodName || 'Food'}
           className="w-full h-32 sm:h-40 object-cover cursor-pointer hover:scale-105 transition-transform"
           onClick={() => navigate(`/recipe/${encodeURIComponent(food.FoodName || '')}`)}

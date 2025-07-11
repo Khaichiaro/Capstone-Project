@@ -1,6 +1,7 @@
 package recommendsystems
 
 import (
+	// "encoding/json"
 	"net/http"
 
 	"github.com/Khaichiaro/Capstone-Project/backend/config"
@@ -169,4 +170,17 @@ func GetAllFood(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, foods)
+}
+
+func GetAllFoodType(c *gin.Context) {
+	var foodType []entity.FoodType
+
+	db := config.DB()
+	result := db.Preload("Food").Find(&foodType).Error
+
+	if result.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": result.Error})
+	}
+
+	c.JSON(http.StatusOK, foodType)
 }

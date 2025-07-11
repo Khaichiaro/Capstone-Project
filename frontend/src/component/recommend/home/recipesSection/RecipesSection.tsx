@@ -37,7 +37,7 @@ const RecipesSection: React.FC = () => {
           {recipes.map((recipe) => (
             <RecipeCard
               key={recipe.ID}
-              image={`${apiUrl}${recipe.Food.ImageUrl || food1}`}
+              image={`${apiUrl}/${recipe.Food.ImageUrl || food1}`}
               title={recipe.Food.FoodName}
               calories={recipe.Food.Calories}
               likes={recipe.LikeCount}
