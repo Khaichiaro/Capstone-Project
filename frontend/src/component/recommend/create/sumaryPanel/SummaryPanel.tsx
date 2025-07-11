@@ -2,6 +2,7 @@ import React from "react";
 import type { IFoodRecommendSelected } from "../../../../interfaces/IFoodRecommendSelected";
 import { Trash2, Plus } from "lucide-react";
 import food1 from "../../../../assets/food/saladKai1.svg"; // เพิ่ม import
+import { apiUrl } from "../../../../services/https";
 
 interface SummaryPanelProps {
   selectedFood: IFoodRecommendSelected | null;
@@ -14,6 +15,8 @@ const SummaryPanel: React.FC<SummaryPanelProps> = ({
   onRemoveFood,
   onCreateMenu,
 }) => {
+
+  console.log("SelectedFood: ", selectedFood)
   const calculateTotalNutrition = () => {
     if (!selectedFood?.food) return {
       calories: 0,
@@ -170,7 +173,7 @@ const SummaryPanel: React.FC<SummaryPanelProps> = ({
           <div className="flex items-center justify-between py-3 border-b border-gray-100">
             <div className="flex items-center space-x-3">
               <img
-                src={selectedFood.food.ImageUrl || food1} // ใช้ fallback image
+                src={`${apiUrl}/${selectedFood.food.ImageUrl}` || food1} // ใช้ fallback image
                 alt={selectedFood.food.FoodName || 'Food'}
                 className="w-12 h-12 object-cover rounded-lg"
                 onError={(e) => {

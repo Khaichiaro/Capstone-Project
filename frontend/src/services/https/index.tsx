@@ -268,6 +268,21 @@ async function GetAllFoods() {
   .catch((e) => e.response);
 }
 
+async function GetAllFoodType() {
+  return await axios
+  .get(`${apiUrl}/foodType`, requestOptions)
+  .then((res) => res)
+  .catch((e) => e.response);
+}
+
+async function GetFoodRecommendByUserID(userId: number) {
+  const res = await axios.get(
+    `${apiUrl}/foodRecommend/${userId}`,
+    requestOptions
+  );
+  return res;
+}
+
 export {
   //User
   ListUsers,
@@ -314,5 +329,8 @@ export {
   toggleLike,
   checkLikeStatus,
   CreateFoodRecommend,
-  GetAllFoods,
+  GetAllFoods, 
+  apiUrl,
+  GetAllFoodType,
+  GetFoodRecommendByUserID,
 };

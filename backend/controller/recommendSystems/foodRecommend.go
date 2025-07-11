@@ -1,6 +1,7 @@
 package recommendsystems
 
 import (
+	// "encoding/json"
 	"net/http"
 
 	"github.com/Khaichiaro/Capstone-Project/backend/config"
@@ -31,6 +32,7 @@ func GetAllFoodRecommend(c *gin.Context){
 		Preload("User.FoodRecommend").
 		Preload("User.ExerciseActivity").
 		Preload("Food").
+		Preload("Food.FoodType").
 		Preload("Ranking").
 		Find(&foodRecommend)
 	
@@ -161,12 +163,49 @@ func GetAllFood(c *gin.Context) {
 	db := config.DB()
 	result := db.Preload("FoodType").
 		Where("id NOT IN (?)", db.Model(&entity.FoodRecommend{}).Select("food_id").Where("deleted_at IS NULL")).
-		Find(&foods).Error
+		Find(&foods)
 
-	if result != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": result.Error()})
+	if result.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": result.Error.Error()})
 		return
 	}
 
 	c.JSON(http.StatusOK, foods)
+}
+
+func GetAllFoodType(c *gin.Context) {
+	var foodType []entity.FoodType
+
+	db := config.DB()
+	result := db.Find(&foodType)
+
+	if result.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": result.Error.Error()})
+	}
+
+	c.JSON(http.StatusOK, foodType)
+}
+
+func GetFoodRecommendByUserID(c *gin.Context) {
+	userId := c.Param("user_id")
+
+	var foodRec []entity.FoodRecommend
+	db := config.DB()
+	result := db.
+	Preload("User").
+	Preload("User.Like").
+	Preload("User.FoodRecommend").
+	Preload("Food").
+	Preload("Food.FoodType").
+	Preload("Ranking").
+	Where("user_id == ?", userId).Find(&foodRec)
+
+	if result.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": result.Error.Error()})
+	}
+	if result == nil {
+		c.JSON(http.StatusOK, gin.H{"meassage": "Not Have Record"})
+	}
+
+	c.JSON(http.StatusOK, foodRec)
 }

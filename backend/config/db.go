@@ -803,11 +803,14 @@ func importFoodData() {
 		// trim + convert
 		name := strings.TrimSpace(row[1])
 		calories, _ := strconv.ParseFloat(strings.TrimSpace(row[2]), 64)
-		sugar, _ := strconv.ParseFloat(strings.TrimSpace(row[3]), 64)
-		fat, _ := strconv.ParseFloat(strings.TrimSpace(row[4]), 64)
-		sodium, _ := strconv.ParseFloat(strings.TrimSpace(row[5]), 64)
-		protein, _ := strconv.ParseFloat(strings.TrimSpace(row[6]), 64)
-		carbs, _ := strconv.ParseFloat(strings.TrimSpace(row[7]), 64)
+		// sugar, _ := strconv.ParseFloat(strings.TrimSpace(row[9]), 64)
+		fat, _ := strconv.ParseFloat(strings.TrimSpace(row[5]), 64)
+		sodium, _ := strconv.ParseFloat(strings.TrimSpace(row[6]), 64)
+		protein, _ := strconv.ParseFloat(strings.TrimSpace(row[3]), 64)
+		carbs, _ := strconv.ParseFloat(strings.TrimSpace(row[4]), 64)
+
+		image := strings.TrimSpace(row[8])
+		foodTypeID, _ := strconv.ParseUint(strings.TrimSpace(row[7]), 10, 64)
 
 		food := entity.Foods{
 			FoodName:   name,
@@ -816,8 +819,9 @@ func importFoodData() {
 			Carbs:      carbs,
 			Sodium:     sodium,
 			Fat:        fat,
-			Sugar:      sugar,
-			FoodTypeID: 1, // หรือจัดหมวดอัตโนมัติ
+			// Sugar:      sugar,
+			FoodTypeID: uint(foodTypeID),
+			ImageUrl:   image,
 		}
 
 		// Food

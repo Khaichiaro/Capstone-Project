@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import type { IFoodRecommend } from "../../../../interfaces/IFoodRecommend";
 import { useEffect, useState } from "react";
 import { GetAllFoodRecommend } from "../../../../services/https";
+import { apiUrl } from "../../../../services/https";
 
 // Recipes Section Component
 const RecipesSection: React.FC = () => {
@@ -36,7 +37,7 @@ const RecipesSection: React.FC = () => {
           {recipes.map((recipe) => (
             <RecipeCard
               key={recipe.ID}
-              image={recipe.Food.ImageUrl || food1}
+              image={`${apiUrl}/${recipe.Food.ImageUrl || food1}`}
               title={recipe.Food.FoodName}
               calories={recipe.Food.Calories}
               likes={recipe.LikeCount}

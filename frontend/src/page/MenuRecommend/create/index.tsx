@@ -9,10 +9,11 @@ import type { IFood } from "../../../interfaces/IFood";
 import type { IFoodRecommendSelected } from "../../../interfaces/IFoodRecommendSelected";
 import ModalCreateMenu from "../../../component/recommend/create/modalCreateMenu/ModalCreateMenu";
 import { useNavigate } from "react-router-dom";
-import { CreateFoodRecommend, GetAllFoods } from "../../../services/https";
+import { CreateFoodRecommend, GetAllFoodType, GetAllFoods } from "../../../services/https";
+import type { IFoodType } from "../../../interfaces/IFoodType";
 
 function CreateRecommend() {
-  const [selectedCategory, setSelectedCategory] = useState<string>("healthy");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedFood, setSelectedFood] = useState<IFoodRecommendSelected | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,6 +24,7 @@ function CreateRecommend() {
   const [foodsError, setFoodsError] = useState<string | null>(null);
   const userIdStr = localStorage.getItem("user_id");
   const userId = userIdStr ? parseInt(userIdStr) : undefined;
+  const [foodTypes, setFoodTypes] = useState<IFoodType[]>([]);
 
   
 
@@ -67,6 +69,15 @@ function CreateRecommend() {
     console.log("foodsList: ", foods)
   }, []);
 
+  useEffect(() => {
+    const fetchFoodTypes = async () => {
+      const response = await GetAllFoodType();
+      setFoodTypes(response.data);
+    };
+    fetchFoodTypes();
+  }, []);
+  console.log("FoodType: ", foodTypes)
+
   const handleModalSave = async (
     title: string,
     instruction: string,
@@ -102,35 +113,30 @@ function CreateRecommend() {
     }
   };
 
-  const categories = [
-    { value: "healthy", label: "เมนูสุขภาพ" },
-    { value: "onedish", label: "อาหารจานเดียว" },
-    { value: "desserts", label: "ขนมหวาน" },
-    { value: "drink", label: "เครื่องดื่ม" },
+  const categoryOptions = [
+    { value: "all", label: "ทั้งหมด" },
+    ...foodTypes.map((ft) => ({
+      value: ft.ID.toString(),
+      label: ft.FoodType,
+    })),
   ];
 
   const mapFoodType = (foodTypeID: number): string => {
-    switch (foodTypeID) {
-      case 1:
-        return "healthy";
-      case 2:
-        return "onedish";
-      case 3:
-        return "desserts";
-      case 4:
-        return "drink";
-      default:
-        return "healthy";
-    }
+    const found = foodTypes.find((ft) => ft.ID === foodTypeID);
+    return found ? found.FoodType : "ไม่ทราบหมวดหมู่";
   };
 
-  const filteredFoods = Array.isArray(foods) ? foods.filter((food) => {
-    const matchesCategory = mapFoodType(food.FoodTypeID) === selectedCategory;
-    const matchesSearch = food.FoodName
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    return matchesCategory && matchesSearch;
-  }) : [];
+  const filteredFoods = Array.isArray(foods)
+  ? foods.filter((food) => {
+      const matchesCategory =
+        selectedCategory === "all" ||
+        food.FoodTypeID.toString() === selectedCategory;
+      const matchesSearch = food.FoodName
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      return matchesCategory && matchesSearch;
+    })
+  : [];
 
   const handleSelectFood = (food: IFoodRecommendSelected) => {
     setSelectedFood(food);
@@ -172,7 +178,7 @@ function CreateRecommend() {
               <CategoryDropdown
                 selectedCategory={selectedCategory}
                 onCategoryChange={setSelectedCategory}
-                categories={categories}
+                categories={categoryOptions}
               />
             </div>
 
@@ -213,6 +219,7 @@ function CreateRecommend() {
                     food={food} 
                     onAdd={handleSelectFood}
                     isSelected={selectedFood?.food.ID === food.ID}
+                    foodTypes={foodTypes}
                   />
                 ))
               )}

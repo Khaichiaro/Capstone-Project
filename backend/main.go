@@ -27,6 +27,8 @@ func main() {
 
 	r.Use(CORSMiddleware())
 
+	r.Static("/food_image", "./food_image")
+
 	// Auth Route
 	r.POST("/signup", users.SignUp)
 	r.POST("/signin", users.SignIn)
@@ -57,6 +59,8 @@ func main() {
 	r.GET("/checkLikeStatus/:user_id/:food_recommend_id", recommendsystems.CheckLikeStatus)
 	r.POST("/createRecommend", recommendsystems.CreateRecommend)
 	r.GET("/foods", recommendsystems.GetAllFood)
+	r.GET("/foodType", recommendsystems.GetAllFoodType)
+	r.GET("/foodRecommend/:user_id", recommendsystems.GetFoodRecommendByUserID)
 
 	//Eating History Route
     r.GET("/eatingHistory", eatingHistory.GetEatingHistory)

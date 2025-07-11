@@ -2,6 +2,7 @@ import { User } from "lucide-react";
 import type { IFoodRecommend } from "../../../../interfaces/IFoodRecommend";
 import profile2 from "../../../../assets/profile2.svg";
 import food1 from "../../../../assets/food/saladPak1.svg";
+import { apiUrl } from "../../../../services/https";
 
 // Main Food Card Component
 const MainFoodCard = ({ food }: { food: IFoodRecommend }) => {
@@ -14,7 +15,7 @@ const MainFoodCard = ({ food }: { food: IFoodRecommend }) => {
         <div className="flex flex-col lg:flex-row items-center justify-center gap-8 mb-8">
           <div className="w-80 h-80 lg:w-96 lg:h-96 relative">
             <img
-              src={food.Food.ImageUrl || food1}
+              src={`${apiUrl}/${food.Food.ImageUrl}` || food1}
               alt={food.Food.FoodName}
               className="w-full h-full object-cover rounded-full shadow-lg"
             />
