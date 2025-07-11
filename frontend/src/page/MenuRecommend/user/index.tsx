@@ -21,7 +21,7 @@ const UserFoodRecommendation: React.FC = () => {
           
           const recommendations = await GetFoodRecommendByUserID(parseInt(userId?? '0'));
           // เรียงลำดับ โดย Ranking มากกว่าอยู่ก่อน แล้ว CreatedAt ใหม่กว่ารองลงมา
-          const sortedFoods = recommendations.data.sort((a, b) => {
+          const sortedFoods = recommendations.data.sort((a: { Ranking: number; CreatedAt: string | number | Date; }, b: { Ranking: number; CreatedAt: string | number | Date; }) => {
           const rankA = a.Ranking ?? 0;
           const rankB = b.Ranking ?? 0;
   
