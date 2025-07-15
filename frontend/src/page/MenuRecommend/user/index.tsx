@@ -78,7 +78,7 @@ const UserFoodRecommendation: React.FC = () => {
       : 0;
   
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 via-lime-50 to-yellow-50">
+      <div className="min-h-screen bg-[#FFFBF3]">
         <NavBar/>
         
         <main className="container mx-auto px-4 py-8">
