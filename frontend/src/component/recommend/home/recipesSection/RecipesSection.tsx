@@ -33,20 +33,16 @@ const RecipesSection: React.FC = () => {
         {/* <div >
           <p className="text-gray-600">อาหารที่เราแนะนำ</p>
         </div> */}
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-4 gap-6">
           {recipes.map((recipe) => (
             <RecipeCard
-              key={recipe.ID}
-              image={`${apiUrl}/${recipe.Food.ImageUrl || food1}`}
-              title={recipe.Food.FoodName}
-              calories={recipe.Food.Calories}
-              likes={recipe.LikeCount}
-              foodRecommendId={recipe.ID}
-              onClick={() => {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-                navigate(`/recipe/${encodeURIComponent(recipe.Food.FoodName)}`)
-            }} 
-            />
+            key={recipe.ID}
+            food={recipe}
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+              navigate(`/recipe/${encodeURIComponent(recipe.Food.FoodName)}`);
+            }}
+          />
           ))}
         </div>
       </div>
