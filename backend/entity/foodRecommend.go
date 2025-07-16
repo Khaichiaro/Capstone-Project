@@ -11,7 +11,7 @@ type FoodRecommend struct {
 	Instruction string
 	Benefits    string
 	Disadvantages string
-	LikeCount   int    
+	LikeCount   uint    
 
 	UserID uint   
 	User   *Users `gorm:"foreignKey:UserID"`

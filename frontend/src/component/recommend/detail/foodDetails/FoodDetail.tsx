@@ -15,19 +15,38 @@ const FoodDetails = ({
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(food.LikeCount);
 
-  useEffect(() => {
-    const fetchLikeStatus = async () => {
-      if (!userId) return;
-      try {
-        const result = await checkLikeStatus(parseInt(userId), food.ID);
-        setLiked(result.liked);
-      } catch (err) {
-        console.error("Failed to fetch like status:", err);
-      }
-    };
+  const fetchLikeStatus = async () => {
+    if (!userId) return;
+    try {
+      const result = await checkLikeStatus(parseInt(userId), food.ID);
+      setLiked(result.liked);
+    } catch (err) {
+      console.error("Failed to fetch like status:", err);
+    }
+  };
 
+  useEffect(() => {
     fetchLikeStatus();
   }, [userId, food.ID]);
+
+  console.log("liked status for", food.Food.FoodName, "=>", liked);
+
+  const handleToggleLike = async () => {
+    if (!userId) return;
+    try {
+      const result = await toggleLike({
+        user_id: parseInt(userId),
+        food_recommend_id: food.ID,
+      });
+      // 👉 Re-fetch like status + like count from server
+      fetchLikeStatus(); // ← เพิ่มมาเพื่อ sync ใหม่จาก backend
+      setLikeCount((prev) => prev + (result.liked ? 1 : -1));
+    } catch (err) {
+      console.error("Like toggle failed:", err);
+    }
+  };
+
+  console.log("liked status for", food.Food.FoodName, "=>", liked);
 
   if (loading) {
     return (
@@ -47,22 +66,6 @@ const FoodDetails = ({
   const formatLikes = (num: number): string => {
     if (num >= 1000) return (num / 1000).toFixed(1) + "k";
     return num.toString();
-  };
-
-  const handleToggleLike = async () => {
-    try {
-      if (!userId) return;
-      const response = await toggleLike({
-        user_id: parseInt(userId),
-        food_recommend_id: food.ID,
-      });
-
-      setLiked(response.liked);
-      setLikeCount((prev) => prev + (response.liked ? 1 : -1));
-      console.log("Like Status:", response);
-    } catch (err) {
-      console.error("Like toggle failed:", err);
-    }
   };
 
   // Nutrition data with consistent colors
@@ -100,16 +103,24 @@ const FoodDetails = ({
   ];
 
   // คำนวณผลรวมของโภชนาการทั้งหมด
-  const totalNutrition = nutritionData.reduce((sum, item) => sum + item.value, 0);
+  const totalNutrition = nutritionData.reduce(
+    (sum, item) => sum + item.value,
+    0
+  );
 
   // คำนวณเปอร์เซ็นต์ของแต่ละโภชนาการ
-  const nutritionWithPercentage = nutritionData.map(item => ({
+  const nutritionWithPercentage = nutritionData.map((item) => ({
     ...item,
-    percentage: totalNutrition > 0 ? (item.value / totalNutrition) * 100 : 0
+    percentage: totalNutrition > 0 ? (item.value / totalNutrition) * 100 : 0,
   }));
 
   // Create SVG path for donut chart
-  const createArcPath = (startAngle: number, endAngle: number, innerRadius: number, outerRadius: number) => {
+  const createArcPath = (
+    startAngle: number,
+    endAngle: number,
+    innerRadius: number,
+    outerRadius: number
+  ) => {
     const start = polarToCartesian(50, 50, outerRadius, endAngle);
     const end = polarToCartesian(50, 50, outerRadius, startAngle);
     const innerStart = polarToCartesian(50, 50, innerRadius, endAngle);
@@ -118,25 +129,51 @@ const FoodDetails = ({
     const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
 
     return [
-      "M", start.x, start.y,
-      "A", outerRadius, outerRadius, 0, largeArcFlag, 0, end.x, end.y,
-      "L", innerEnd.x, innerEnd.y,
-      "A", innerRadius, innerRadius, 0, largeArcFlag, 1, innerStart.x, innerStart.y,
-      "Z"
+      "M",
+      start.x,
+      start.y,
+      "A",
+      outerRadius,
+      outerRadius,
+      0,
+      largeArcFlag,
+      0,
+      end.x,
+      end.y,
+      "L",
+      innerEnd.x,
+      innerEnd.y,
+      "A",
+      innerRadius,
+      innerRadius,
+      0,
+      largeArcFlag,
+      1,
+      innerStart.x,
+      innerStart.y,
+      "Z",
     ].join(" ");
   };
 
-  const polarToCartesian = (centerX: number, centerY: number, radius: number, angleInDegrees: number) => {
-    const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
+  const polarToCartesian = (
+    centerX: number,
+    centerY: number,
+    radius: number,
+    angleInDegrees: number
+  ) => {
+    const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
     return {
-      x: centerX + (radius * Math.cos(angleInRadians)),
-      y: centerY + (radius * Math.sin(angleInRadians))
+      x: centerX + radius * Math.cos(angleInRadians),
+      y: centerY + radius * Math.sin(angleInRadians),
     };
   };
 
   const NutritionWheel = ({ nutritionData }: { nutritionData: any[] }) => {
-    const totalNutrition = nutritionData.reduce((sum, item) => sum + item.value, 0);
-    
+    const totalNutrition = nutritionData.reduce(
+      (sum, item) => sum + item.value,
+      0
+    );
+
     if (totalNutrition === 0) {
       return (
         <div className="flex items-center justify-center h-32">
@@ -147,17 +184,24 @@ const FoodDetails = ({
       );
     }
 
-    const nutritionPercentages = nutritionData.map(item => ({
-      ...item,
-      percentage: (item.value / totalNutrition) * 100
-    })).filter(item => item.percentage > 0);
+    const nutritionPercentages = nutritionData
+      .map((item) => ({
+        ...item,
+        percentage: (item.value / totalNutrition) * 100,
+      }))
+      .filter((item) => item.percentage > 0);
 
     let currentAngle = 0;
 
     return (
       <div className="flex flex-col items-center">
         <div className="relative">
-          <svg width="120" height="120" viewBox="0 0 100 100" className="transform -rotate-90">
+          <svg
+            width="120"
+            height="120"
+            viewBox="0 0 100 100"
+            className="transform -rotate-90"
+          >
             {nutritionPercentages.map((segment, index) => {
               const startAngle = currentAngle;
               const endAngle = currentAngle + (segment.percentage / 100) * 360;
@@ -171,18 +215,20 @@ const FoodDetails = ({
                   fill={segment.color}
                   className="transition-all duration-700 ease-in-out"
                   style={{
-                    transformOrigin: '50% 50%',
-                    animation: `fadeIn 0.8s ease-in-out ${index * 0.1}s both`
+                    transformOrigin: "50% 50%",
+                    animation: `fadeIn 0.8s ease-in-out ${index * 0.1}s both`,
                   }}
                 />
               );
             })}
           </svg>
-          
+
           {/* Center circle with calories */}
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="bg-white rounded-full w-12 h-12 flex flex-col items-center justify-center shadow-sm">
-              <span className="text-xs font-bold text-gray-800">{food.Food.Calories ?? 0}</span>
+              <span className="text-xs font-bold text-gray-800">
+                {food.Food.Calories ?? 0}
+              </span>
               <span className="text-xs text-gray-500">kcal</span>
             </div>
           </div>
@@ -192,12 +238,15 @@ const FoodDetails = ({
         <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
           {nutritionPercentages.map((segment, index) => (
             <div key={index} className="flex items-center space-x-2">
-              <div 
+              <div
                 className="w-3 h-3 rounded-full"
                 style={{ backgroundColor: segment.color }}
               />
               <span className="text-gray-600">{segment.label}</span>
-              <span className="font-medium text-gray-800">{segment.value}{segment.unit}</span>
+              <span className="font-medium text-gray-800">
+                {segment.value}
+                {segment.unit}
+              </span>
             </div>
           ))}
         </div>
@@ -275,7 +324,7 @@ const FoodDetails = ({
             <h4 className="text-lg font-semibold text-gray-800 mb-4">
               ข้อมูลโภชนาการ
             </h4>
-            
+
             {/* Nutrition Wheel */}
             <div className="flex flex-col items-center mb-6">
               <NutritionWheel nutritionData={nutritionData} />
@@ -298,7 +347,10 @@ const FoodDetails = ({
                       </span>
                     </div>
                   </div>
-                  <div className="relative h-3 rounded-full bg-gray-200 overflow-hidden" style={{ width: "100%" }}>
+                  <div
+                    className="relative h-3 rounded-full bg-gray-200 overflow-hidden"
+                    style={{ width: "100%" }}
+                  >
                     <div
                       className="absolute left-0 top-0 h-full rounded-full"
                       style={{

@@ -13,16 +13,36 @@ const RecipesSection: React.FC = () => {
   const navigate = useNavigate();
   const [recipes, setRecipes] = useState<IFoodRecommend[]>([]);
 
-  useEffect(() =>{
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await GetAllFoodRecommend();
-        console.log("FoodRecommend",data.data);
-        setRecipes(data.data);
+        const response = await GetAllFoodRecommend();
+        const allData: IFoodRecommend[] = response.data;
+
+        const ranked = allData
+          .filter(
+            (item) =>
+              item.Ranking?.Rank !== undefined && item.Ranking?.Rank !== null
+          )
+          .sort(
+            (a, b) => parseInt(a.Ranking!.Rank) - parseInt(b.Ranking!.Rank)
+          );
+
+        const unranked = allData
+          .filter((item) => !item.Ranking)
+          .sort(
+            (a, b) =>
+              new Date(b.CreatedAt).getTime() - new Date(a.CreatedAt).getTime()
+          );
+
+        const finalList = [...ranked, ...unranked]; // 🧠 รวมโดยให้ ranked อยู่บน
+
+        setRecipes(finalList);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
+
     fetchData();
   }, []);
 
@@ -36,13 +56,13 @@ const RecipesSection: React.FC = () => {
         <div className="grid grid-cols-4 gap-6">
           {recipes.map((recipe) => (
             <RecipeCard
-            key={recipe.ID}
-            food={recipe}
-            onClick={() => {
-              window.scrollTo({ top: 0, behavior: "smooth" });
-              navigate(`/recipe/${encodeURIComponent(recipe.Food.FoodName)}`);
-            }}
-          />
+              key={recipe.ID}
+              food={recipe}
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                navigate(`/recipe/${encodeURIComponent(recipe.Food.FoodName)}`);
+              }}
+            />
           ))}
         </div>
       </div>

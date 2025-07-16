@@ -1,7 +1,9 @@
 package main
 
 import (
+	"log"
 	"net/http"
+	"time"
 
 	"github.com/Khaichiaro/Capstone-Project/backend/config"
 
@@ -61,6 +63,7 @@ func main() {
 	r.GET("/foods", recommendsystems.GetAllFood)
 	r.GET("/foodType", recommendsystems.GetAllFoodType)
 	r.GET("/foodRecommend/:user_id", recommendsystems.GetFoodRecommendByUserID)
+	r.DELETE("/foodRecommend/:id", recommendsystems.DeleteFoodRecommend)
 
 	//Eating History Route
     r.GET("/eatingHistory", eatingHistory.GetEatingHistory)
@@ -98,6 +101,26 @@ func main() {
 			"message": "pong",
 		})
 	})
+
+	// เรียก assign ranking ครั้งแรกทันทีเมื่อ backend start
+	if err := recommendsystems.AssignFoodRanking(); err != nil {
+		log.Println("❌ Failed to assign rankings:", err)
+	} else {
+		log.Println("✅ Initial ranking assigned")
+	}
+
+	// ตั้ง background job ให้รันทุก 7 วัน (สัปดาห์ละ 1 ครั้ง)
+	go func() {
+		ticker := time.NewTicker(7 * 24 * time.Hour)
+		for range ticker.C {
+			log.Println("🔁 Auto-rerank triggered...")
+			if err := recommendsystems.AssignFoodRanking(); err != nil {
+				log.Println("❌ Auto-rerank failed:", err)
+			} else {
+				log.Println("✅ Auto-rerank completed")
+			}
+		}
+	}()
 
 	// Run the server
 	r.Run("localhost:" + POST)

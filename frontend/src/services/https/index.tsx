@@ -6,7 +6,10 @@ import type { IUser } from "../../interfaces/IUser";
 import type { NutritionGoalInterface } from "../../interfaces/INutritionGoal";
 import type { UserActivityInterface } from "../../interfaces/IUserActivity";
 import type { DailyNutrientSumInterface } from "../../interfaces/IDailyNutrientSum";
-import type { IFoodRecommend, IFoodRecommendCreate } from "../../interfaces/IFoodRecommend";
+import type {
+  IFoodRecommend,
+  IFoodRecommendCreate,
+} from "../../interfaces/IFoodRecommend";
 
 const apiUrl = "http://localhost:8000";
 const Authorization = localStorage.getItem("token");
@@ -254,25 +257,27 @@ async function checkLikeStatus(userId: number, foodRecommendId: number) {
   return res.data; // true หรือ false
 }
 
-async function CreateFoodRecommend(foodRecommend: IFoodRecommendCreate){
+async function CreateFoodRecommend(foodRecommend: IFoodRecommendCreate) {
   const res = await axios.post(
-    `${apiUrl}/createRecommend`, foodRecommend, requestOptions
+    `${apiUrl}/createRecommend`,
+    foodRecommend,
+    requestOptions
   );
   return res;
 }
 
 async function GetAllFoods() {
   return await axios
-  .get(`${apiUrl}/foods`, requestOptions)
-  .then((res) => res)
-  .catch((e) => e.response);
+    .get(`${apiUrl}/foods`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
 }
 
 async function GetAllFoodType() {
   return await axios
-  .get(`${apiUrl}/foodType`, requestOptions)
-  .then((res) => res)
-  .catch((e) => e.response);
+    .get(`${apiUrl}/foodType`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
 }
 
 async function GetFoodRecommendByUserID(userId: number) {
@@ -281,6 +286,25 @@ async function GetFoodRecommendByUserID(userId: number) {
     requestOptions
   );
   return res;
+}
+
+async function DeleteFoodRecommend(id: number) {
+  try {
+    const res = await axios.delete(
+      `${apiUrl}/foodRecommend/${id}`,
+      requestOptions
+    );
+    return {
+      success: true,
+      data: res.data,
+    };
+  } catch (error: any) {
+    console.error("Error deleting food recommendation:", error);
+    return {
+      success: false,
+      error: error.response?.data || "Unknown error",
+    };
+  }
 }
 
 export {
@@ -329,8 +353,9 @@ export {
   toggleLike,
   checkLikeStatus,
   CreateFoodRecommend,
-  GetAllFoods, 
+  GetAllFoods,
   apiUrl,
   GetAllFoodType,
   GetFoodRecommendByUserID,
+  DeleteFoodRecommend,
 };

@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"math/rand"
 	"time"
 
 	"github.com/Khaichiaro/Capstone-Project/backend/entity"
@@ -30,6 +31,7 @@ func ConnectionDB() {
 }
 
 func SetupDatabase() {
+
 	db.AutoMigrate(
 		&entity.Genders{},         // No FK
 		&entity.UserGroup{},       // No FK
@@ -37,7 +39,7 @@ func SetupDatabase() {
 		&entity.Levels{},          // No FK
 		&entity.NutritionGoals{},  // No FK
 		&entity.ExerciseType{},    // No FK
-		&entity.Exercise{},       // FK to ExerciseType
+		&entity.Exercise{},        // FK to ExerciseType
 		&entity.ActivityFactors{}, // No FK
 
 		&entity.Users{}, // FK to Gender, UserGroup, UserProfile, Level, NutritionGoals, Exercise
@@ -62,26 +64,26 @@ func SetupDatabase() {
 		&entity.FoodPlanFood{}, // FK to FoodPlan, Foods
 	)
 
-		// Ranking
+	// Ranking
 	ranking := []entity.Ranking{
 		{
-			Rank: "1",
+			Rank:   "1",
 			Detail: "ได้รับความนิยมสูงสุด!!!",
 		},
 		{
-			Rank: "2",
+			Rank:   "2",
 			Detail: "ได้รับความนิยมเป็นอันดับสอง!!",
 		},
 		{
-			Rank: "3",
+			Rank:   "3",
 			Detail: "ได้รับความนิยมเป็นอันดับสาม!",
 		},
 		{
-			Rank: "4",
+			Rank:   "4",
 			Detail: "ได้รับความนิยมเป็นอันดับสี่",
 		},
 		{
-			Rank: "5",
+			Rank:   "5",
 			Detail: "ได้รับความนิยมเป็นอันดับห้า",
 		},
 	}
@@ -92,7 +94,7 @@ func SetupDatabase() {
 				Rank: ranking.Rank,
 			})
 	}
-	
+
 	importFoodData()
 
 	GenderMale := entity.Genders{Gender: "ชาย"}
@@ -201,7 +203,7 @@ func SetupDatabase() {
 		{
 			FirstName:        "Alice",
 			LastName:         "Smith",
-			DateOfBirth:       time.Date(1999, time.May, 15, 0, 0, 0, 0, time.UTC),
+			DateOfBirth:      time.Date(1999, time.May, 15, 0, 0, 0, 0, time.UTC),
 			PhoneNumber:      "0812345678",
 			Height:           165,
 			Weight:           70,
@@ -272,44 +274,44 @@ func SetupDatabase() {
 	// NutritionGoals
 	nutritionGoals := []entity.NutritionGoals{
 		{
-			Name:         "ลดน้ําหนัก",
-			StartDate:    time.Date(2025, 6, 9, 0, 0, 0, 0, time.UTC),
-			EndDate:      time.Date(2025, 9, 9, 0, 0, 0, 0, time.UTC),
-			TargetWeights: 65,
+			Name:              "ลดน้ําหนัก",
+			StartDate:         time.Date(2025, 6, 9, 0, 0, 0, 0, time.UTC),
+			EndDate:           time.Date(2025, 9, 9, 0, 0, 0, 0, time.UTC),
+			TargetWeights:     65,
 			ProteinPercentage: 30,
 			CarbsPercentage:   45,
 			FatPercentage:     25,
-			CalculatedTDEE:	   1800,
+			CalculatedTDEE:    1800,
 			TargetCalories:    1500,
 			TargetProtein:     112.5,
 			TargetCarbs:       168.75,
 			TargetFat:         41.67,
 		},
 		{
-			Name:         "รักษาน้ําหนัก",
-			StartDate:    time.Date(2025, 6, 10, 0, 0, 0, 0, time.UTC),
-			EndDate:      time.Date(0, 0, 0, 0, 0, 0, 0, time.UTC),
-			TargetWeights: 80,
+			Name:              "รักษาน้ําหนัก",
+			StartDate:         time.Date(2025, 6, 10, 0, 0, 0, 0, time.UTC),
+			EndDate:           time.Date(0, 0, 0, 0, 0, 0, 0, time.UTC),
+			TargetWeights:     80,
 			ProteinPercentage: 25,
 			CarbsPercentage:   45,
 			FatPercentage:     30,
-			CalculatedTDEE:	   2500,
+			CalculatedTDEE:    2500,
 			TargetCalories:    2500,
 			TargetProtein:     112.5,
 			TargetCarbs:       281.25,
 			TargetFat:         83.33,
 		},
 		{
-			Name:         "เพิ่มน้ําหนัก",
-			StartDate:    time.Date(2025, 6, 11, 0, 0, 0, 0, time.UTC),
-			EndDate:      time.Date(2025, 10, 11, 0, 0, 0, 0, time.UTC),
-			TargetWeights: 65,
+			Name:              "เพิ่มน้ําหนัก",
+			StartDate:         time.Date(2025, 6, 11, 0, 0, 0, 0, time.UTC),
+			EndDate:           time.Date(2025, 10, 11, 0, 0, 0, 0, time.UTC),
+			TargetWeights:     65,
 			ProteinPercentage: 35,
 			CarbsPercentage:   40,
-			FatPercentage:     25,	
-			CalculatedTDEE:	   2800,	
+			FatPercentage:     25,
+			CalculatedTDEE:    2800,
 			TargetCalories:    3100,
-			TargetProtein:     271.88,	
+			TargetProtein:     271.88,
 			TargetCarbs:       310,
 			TargetFat:         86.11,
 		},
@@ -325,54 +327,54 @@ func SetupDatabase() {
 	// EatingHistory
 	eatingHistory := []entity.EatingHistory{
 		{
-			Name: "ข้าวผัด",
+			Name:              "ข้าวผัด",
 			EatingHistoryDate: time.Date(2025, 1, 25, 0, 0, 0, 0, time.UTC),
-			TotalCalories: 627.4,
-			TotalProtein: 54.7,
-			TotalCarbs: 15,
-			TotalSodium: 782,
-			TotalFat: 37.2,
-			UserID: 1,
+			TotalCalories:     627.4,
+			TotalProtein:      54.7,
+			TotalCarbs:        15,
+			TotalSodium:       782,
+			TotalFat:          37.2,
+			UserID:            1,
 		},
 		{
-			Name: "ต้มยำกุ้ง",
+			Name:              "ต้มยำกุ้ง",
 			EatingHistoryDate: time.Date(2025, 2, 26, 0, 0, 0, 0, time.UTC),
-			TotalCalories: 345.2,
-			TotalProtein: 22.5,
-			TotalCarbs: 13,
-			TotalSodium: 1200,
-			TotalFat: 14.1,
-			UserID: 1,
+			TotalCalories:     345.2,
+			TotalProtein:      22.5,
+			TotalCarbs:        13,
+			TotalSodium:       1200,
+			TotalFat:          14.1,
+			UserID:            1,
 		},
 		{
-			Name: "สปาเกตตี",
+			Name:              "สปาเกตตี",
 			EatingHistoryDate: time.Date(2025, 1, 27, 0, 0, 0, 0, time.UTC),
-			TotalCalories: 702.1,
-			TotalProtein: 28.3,
-			TotalCarbs: 85,
-			TotalSodium: 950,
-			TotalFat: 22.8,
-			UserID: 2,
+			TotalCalories:     702.1,
+			TotalProtein:      28.3,
+			TotalCarbs:        85,
+			TotalSodium:       950,
+			TotalFat:          22.8,
+			UserID:            2,
 		},
 		{
-			Name: "ข้าวมันไก่",
+			Name:              "ข้าวมันไก่",
 			EatingHistoryDate: time.Date(2025, 1, 28, 0, 0, 0, 0, time.UTC),
-			TotalCalories: 753.3,
-			TotalProtein: 36.2,
-			TotalCarbs: 78,
-			TotalSodium: 1020,
-			TotalFat: 29.4,
-			UserID: 2,
+			TotalCalories:     753.3,
+			TotalProtein:      36.2,
+			TotalCarbs:        78,
+			TotalSodium:       1020,
+			TotalFat:          29.4,
+			UserID:            2,
 		},
 		{
-			Name: "ปีกไก่ย่าง",
+			Name:              "ปีกไก่ย่าง",
 			EatingHistoryDate: time.Date(2025, 1, 29, 0, 0, 0, 0, time.UTC),
-			TotalCalories: 523.5,
-			TotalProtein: 45.1,
-			TotalCarbs: 8,
-			TotalSodium: 830,
-			TotalFat: 27.9,
-			UserID: 1,
+			TotalCalories:     523.5,
+			TotalProtein:      45.1,
+			TotalCarbs:        8,
+			TotalSodium:       830,
+			TotalFat:          27.9,
+			UserID:            1,
 		},
 	}
 	for _, eatingHistory := range eatingHistory {
@@ -433,23 +435,23 @@ func SetupDatabase() {
 	// Meals
 	meals := []entity.Meals{
 		{
-			FoodPicture:   "https://example.com/meal1.jpg",
-			MealTypeID:    1,
-			UserID:        1,
+			FoodPicture: "https://example.com/meal1.jpg",
+			MealTypeID:  1,
+			UserID:      1,
 		},
 		{
-			FoodPicture:   "https://example.com/meal2.jpg",
-			MealTypeID:    2,
-			UserID:        1,
+			FoodPicture: "https://example.com/meal2.jpg",
+			MealTypeID:  2,
+			UserID:      1,
 		},
 	}
 	for _, meal := range meals {
 		db.FirstOrCreate(
 			&meal,
 			&entity.Meals{
-				FoodPicture:   meal.FoodPicture,
-				MealTypeID:    meal.MealTypeID,
-				UserID:        meal.UserID,
+				FoodPicture: meal.FoodPicture,
+				MealTypeID:  meal.MealTypeID,
+				UserID:      meal.UserID,
 			})
 	}
 
@@ -465,75 +467,6 @@ func SetupDatabase() {
 	db.FirstOrCreate(&FoodType4, &entity.FoodType{FoodType: "เครื่องดื่ม"})
 	db.FirstOrCreate(&FoodType5, &entity.FoodType{FoodType: "อื่นๆ"})
 
-
-	// Like
-	like := []entity.Like{
-		{
-			UserID:        1,
-			FoodRecommendID: 1,
-		},
-		{
-			UserID:        2,
-			FoodRecommendID: 1,
-		},
-		{
-			UserID:        3,
-			FoodRecommendID: 1,
-		},
-		{
-			UserID:        1,
-			FoodRecommendID: 2,
-		},
-		{
-			UserID:        2,
-			FoodRecommendID: 2,
-		},
-		{
-			UserID:        1,
-			FoodRecommendID: 3,
-		},
-		{
-			UserID:        3,
-			FoodRecommendID: 3,
-		},
-		{
-			UserID:        1,
-			FoodRecommendID: 4,
-		},
-		{
-			UserID:        1,
-			FoodRecommendID: 5,
-		},
-		{
-			UserID:        1,
-			FoodRecommendID: 6,
-		},
-		{
-			UserID:        1,
-			FoodRecommendID: 7,
-		},
-		{
-			UserID:        1,
-			FoodRecommendID: 8,
-		},
-		{
-			UserID:        1,
-			FoodRecommendID: 9,
-		},
-		{
-			UserID:        1,
-			FoodRecommendID: 10,
-		},
-	}
-	for _, like := range like {
-		db.FirstOrCreate(
-			&like,
-			&entity.Like{
-				UserID:        like.UserID,
-				FoodRecommendID: like.FoodRecommendID,
-			})
-	}
-
 	ExerciseType0 := entity.ExerciseType{Name: "Cardio"}
 	ExerciseType1 := entity.ExerciseType{Name: "Flex"}
 	ExerciseType2 := entity.ExerciseType{Name: "Strength"}
@@ -545,232 +478,230 @@ func SetupDatabase() {
 	// กิจกรรมประเภท Cardio (ExerciseTypeId = 1)
 
 	exercise1 := &entity.Exercise{
-	    Name:           "Running",
-	    ExerciseTypeID:         1,
-	    CaloriesBurnPerMinute: 10,
+		Name:                  "Running",
+		ExerciseTypeID:        1,
+		CaloriesBurnPerMinute: 10,
 	}
 	db.FirstOrCreate(exercise1, &entity.Exercise{Name: "Running"})
 
 	exercise2 := &entity.Exercise{
-	    Name:           "Jumping rope",
-	    ExerciseTypeID:         1,
-	    CaloriesBurnPerMinute: 12,
+		Name:                  "Jumping rope",
+		ExerciseTypeID:        1,
+		CaloriesBurnPerMinute: 12,
 	}
 	db.FirstOrCreate(exercise2, &entity.Exercise{Name: "Jumping rope"})
 
 	exercise3 := &entity.Exercise{
-	    Name:           "Cycling (moderate speed)",
-	    ExerciseTypeID:         1,
-	    CaloriesBurnPerMinute: 8,
+		Name:                  "Cycling (moderate speed)",
+		ExerciseTypeID:        1,
+		CaloriesBurnPerMinute: 8,
 	}
 	db.FirstOrCreate(exercise3, &entity.Exercise{Name: "Cycling (moderate speed)"})
 
 	exercise4 := &entity.Exercise{
-	    Name:           "Swimming",
-	    ExerciseTypeID:         1,
-	    CaloriesBurnPerMinute: 9,
+		Name:                  "Swimming",
+		ExerciseTypeID:        1,
+		CaloriesBurnPerMinute: 9,
 	}
 	db.FirstOrCreate(exercise4, &entity.Exercise{Name: "Swimming"})
 
 	exercise5 := &entity.Exercise{
-	    Name:           "Zumba",
-	    ExerciseTypeID:         1,
-	    CaloriesBurnPerMinute: 7,
+		Name:                  "Zumba",
+		ExerciseTypeID:        1,
+		CaloriesBurnPerMinute: 7,
 	}
 	db.FirstOrCreate(exercise5, &entity.Exercise{Name: "Zumba"})
 
 	exercise6 := &entity.Exercise{
-	    Name:           "Rowing machine",
-	    ExerciseTypeID:         1,
-	    CaloriesBurnPerMinute: 9,
+		Name:                  "Rowing machine",
+		ExerciseTypeID:        1,
+		CaloriesBurnPerMinute: 9,
 	}
 	db.FirstOrCreate(exercise6, &entity.Exercise{Name: "Rowing machine"})
 
 	exercise7 := &entity.Exercise{
-	    Name:           "Stair climbing",
-	    ExerciseTypeID:         1,
-	    CaloriesBurnPerMinute: 8,
+		Name:                  "Stair climbing",
+		ExerciseTypeID:        1,
+		CaloriesBurnPerMinute: 8,
 	}
 	db.FirstOrCreate(exercise7, &entity.Exercise{Name: "Stair climbing"})
 
 	exercise8 := &entity.Exercise{
-		Name: "High knees", 
-		ExerciseTypeID: 1, 
+		Name:                  "High knees",
+		ExerciseTypeID:        1,
 		CaloriesBurnPerMinute: 10,
 	}
 	db.FirstOrCreate(exercise8, &entity.Exercise{Name: "High knees"})
 
 	exercise9 := &entity.Exercise{
-		Name: "Burpees", 
-		ExerciseTypeID: 1, 
+		Name:                  "Burpees",
+		ExerciseTypeID:        1,
 		CaloriesBurnPerMinute: 12,
 	}
 	db.FirstOrCreate(exercise9, &entity.Exercise{Name: "Burpees"})
 
 	exercise10 := &entity.Exercise{
-		Name: "Elliptical trainer", 
-		ExerciseTypeID: 1, 
+		Name:                  "Elliptical trainer",
+		ExerciseTypeID:        1,
 		CaloriesBurnPerMinute: 8,
 	}
 	db.FirstOrCreate(exercise10, &entity.Exercise{Name: "Elliptical trainer"})
 
 	// กิจกรรมประเภท Flex (ExerciseTypeID = 2)
 	exercise11 := &entity.Exercise{
-		Name: "Yoga", 
-		ExerciseTypeID: 2, 
+		Name:                  "Yoga",
+		ExerciseTypeID:        2,
 		CaloriesBurnPerMinute: 3,
 	}
 	db.FirstOrCreate(exercise11, &entity.Exercise{Name: "Yoga"})
 
 	exercise12 := &entity.Exercise{
-		Name: "Stretching", 
-		ExerciseTypeID: 2, 
+		Name:                  "Stretching",
+		ExerciseTypeID:        2,
 		CaloriesBurnPerMinute: 2,
 	}
 	db.FirstOrCreate(exercise12, &entity.Exercise{Name: "Stretching"})
 
 	exercise13 := &entity.Exercise{
-		Name: "Tai Chi", 
-		ExerciseTypeID: 2, 
+		Name:                  "Tai Chi",
+		ExerciseTypeID:        2,
 		CaloriesBurnPerMinute: 4,
 	}
 	db.FirstOrCreate(exercise13, &entity.Exercise{Name: "Tai Chi"})
 
 	exercise14 := &entity.Exercise{
-		Name: "Dynamic stretching", 
-		ExerciseTypeID: 2, 
+		Name:                  "Dynamic stretching",
+		ExerciseTypeID:        2,
 		CaloriesBurnPerMinute: 3,
 	}
 	db.FirstOrCreate(exercise14, &entity.Exercise{Name: "Dynamic stretching"})
 
 	exercise15 := &entity.Exercise{
-		Name: "Foam rolling", 
-		ExerciseTypeID: 2, 
+		Name:                  "Foam rolling",
+		ExerciseTypeID:        2,
 		CaloriesBurnPerMinute: 2,
 	}
 	db.FirstOrCreate(exercise15, &entity.Exercise{Name: "Foam rolling"})
 
 	exercise16 := &entity.Exercise{
-		Name: "Pilates (light)", 
-		ExerciseTypeID: 2, 
+		Name:                  "Pilates (light)",
+		ExerciseTypeID:        2,
 		CaloriesBurnPerMinute: 4,
 	}
 	db.FirstOrCreate(exercise16, &entity.Exercise{Name: "Pilates (light)"})
 
 	exercise17 := &entity.Exercise{
-		Name: "Neck rotations", 
-		ExerciseTypeID: 2, 
+		Name:                  "Neck rotations",
+		ExerciseTypeID:        2,
 		CaloriesBurnPerMinute: 1,
 	}
 	db.FirstOrCreate(exercise17, &entity.Exercise{Name: "Neck rotations"})
 
 	exercise18 := &entity.Exercise{
-		Name: "Hamstring stretch", 
-		ExerciseTypeID: 2, 
+		Name:                  "Hamstring stretch",
+		ExerciseTypeID:        2,
 		CaloriesBurnPerMinute: 2,
 	}
 	db.FirstOrCreate(exercise18, &entity.Exercise{Name: "Hamstring stretch"})
 
 	exercise19 := &entity.Exercise{
-		Name: "Calf stretch", 
-		ExerciseTypeID: 2, 
+		Name:                  "Calf stretch",
+		ExerciseTypeID:        2,
 		CaloriesBurnPerMinute: 2,
 	}
 	db.FirstOrCreate(exercise19, &entity.Exercise{Name: "Calf stretch"})
 
 	exercise20 := &entity.Exercise{
-		Name: "Shoulder rolls", 
-		ExerciseTypeID: 2, 
+		Name:                  "Shoulder rolls",
+		ExerciseTypeID:        2,
 		CaloriesBurnPerMinute: 2,
 	}
 	db.FirstOrCreate(exercise20, &entity.Exercise{Name: "Shoulder rolls"})
 
 	// กิจกรรมประเภท Strength (ExerciseTypeID = 3)
 	exercise21 := &entity.Exercise{
-		Name: "Push-ups", 
-		ExerciseTypeID: 3, 
+		Name:                  "Push-ups",
+		ExerciseTypeID:        3,
 		CaloriesBurnPerMinute: 7,
 	}
 	db.FirstOrCreate(exercise21, &entity.Exercise{Name: "Push-ups"})
 
 	exercise22 := &entity.Exercise{
-		Name: "Squats", 
-		ExerciseTypeID: 3, 
+		Name:                  "Squats",
+		ExerciseTypeID:        3,
 		CaloriesBurnPerMinute: 8,
 	}
 	db.FirstOrCreate(exercise22, &entity.Exercise{Name: "Squats"})
 
 	exercise23 := &entity.Exercise{
-		Name: "Lunges", 
-		ExerciseTypeID: 3, 
+		Name:                  "Lunges",
+		ExerciseTypeID:        3,
 		CaloriesBurnPerMinute: 6,
 	}
 	db.FirstOrCreate(exercise23, &entity.Exercise{Name: "Lunges"})
 
 	exercise24 := &entity.Exercise{
-		Name: "Deadlifts", 
-		ExerciseTypeID: 3, 
+		Name:                  "Deadlifts",
+		ExerciseTypeID:        3,
 		CaloriesBurnPerMinute: 9,
 	}
 	db.FirstOrCreate(exercise24, &entity.Exercise{Name: "Deadlifts"})
 
 	exercise25 := &entity.Exercise{
-		Name: "Bench press", 
-		ExerciseTypeID: 3, 
+		Name:                  "Bench press",
+		ExerciseTypeID:        3,
 		CaloriesBurnPerMinute: 8,
 	}
 	db.FirstOrCreate(exercise25, &entity.Exercise{Name: "Bench press"})
 
 	exercise26 := &entity.Exercise{
-		Name: "Bicep curls", 
-		ExerciseTypeID: 3, 
+		Name:                  "Bicep curls",
+		ExerciseTypeID:        3,
 		CaloriesBurnPerMinute: 5,
 	}
 	db.FirstOrCreate(exercise26, &entity.Exercise{Name: "Bicep curls"})
 
 	exercise27 := &entity.Exercise{
-		Name: "Tricep dips", 
-		ExerciseTypeID: 3, 
+		Name:                  "Tricep dips",
+		ExerciseTypeID:        3,
 		CaloriesBurnPerMinute: 6,
 	}
 	db.FirstOrCreate(exercise27, &entity.Exercise{Name: "Tricep dips"})
 
 	exercise28 := &entity.Exercise{
-		Name: "Plank (isometric hold)", 
-		ExerciseTypeID: 3, 
+		Name:                  "Plank (isometric hold)",
+		ExerciseTypeID:        3,
 		CaloriesBurnPerMinute: 5,
 	}
 	db.FirstOrCreate(exercise28, &entity.Exercise{Name: "Plank (isometric hold)"})
 
 	exercise29 := &entity.Exercise{
-		Name: "Leg press", 
-		ExerciseTypeID: 3, 
+		Name:                  "Leg press",
+		ExerciseTypeID:        3,
 		CaloriesBurnPerMinute: 7,
 	}
 	db.FirstOrCreate(exercise29, &entity.Exercise{Name: "Leg press"})
 
 	exercise30 := &entity.Exercise{
-		Name: "Kettlebell swings", 
-		ExerciseTypeID: 3, 
+		Name:                  "Kettlebell swings",
+		ExerciseTypeID:        3,
 		CaloriesBurnPerMinute: 10,
 	}
 	db.FirstOrCreate(exercise30, &entity.Exercise{Name: "Kettlebell swings"})
 
-
 	// เพิ่มกิจกรรม ExerciseActivity
 	activityDate, _ := time.Parse("2006-01-02", "2025-05-20")
 	exerciseActivity := &entity.ExerciseActivity{
-	    UserID:        1,
-	    ExerciseID:    1,
-	    Date:          activityDate,
-	    Duration:      30,
-	    CaloriesBurned: 10 * 30, // คำนวณจากค่าของ ExerciseID = 1
+		UserID:         1,
+		ExerciseID:     1,
+		Date:           activityDate,
+		Duration:       30,
+		CaloriesBurned: 10 * 30, // คำนวณจากค่าของ ExerciseID = 1
 	}
 	db.FirstOrCreate(exerciseActivity, &entity.ExerciseActivity{
-	    UserID:       1,
-	    Date:         activityDate,
+		UserID: 1,
+		Date:   activityDate,
 	})
-
 
 }
 
@@ -813,12 +744,12 @@ func importFoodData() {
 		foodTypeID, _ := strconv.ParseUint(strings.TrimSpace(row[7]), 10, 64)
 
 		food := entity.Foods{
-			FoodName:   name,
-			Calories:   calories,
-			Protein:    protein,
-			Carbs:      carbs,
-			Sodium:     sodium,
-			Fat:        fat,
+			FoodName: name,
+			Calories: calories,
+			Protein:  protein,
+			Carbs:    carbs,
+			Sodium:   sodium,
+			Fat:      fat,
 			// Sugar:      sugar,
 			FoodTypeID: uint(foodTypeID),
 			ImageUrl:   image,
@@ -828,24 +759,158 @@ func importFoodData() {
 		result := db.FirstOrCreate(&food, entity.Foods{FoodName: name})
 
 		// FoodRecommend
+		// เช็คว่ามี FoodRecommend สำหรับเมนูนี้อยู่แล้วหรือยัง
+		var recommend entity.FoodRecommend
 		if result.RowsAffected > 0 && i <= 10 {
-			recommend := entity.FoodRecommend{
-				Name:         name + " อร่อยมาก",
-				DesCription:  fmt.Sprintf("เมนูแนะนำที่มีพลังงาน %.0f แคลอรี่", calories),
-				Instruction:  "เสิร์ฟแบบเย็น หรือรับประทานเดี่ยว ๆ ก่อนนอน",
-				Benefits:     "ช่วยเสริมสร้างกล้ามเนื้อ\nลดความรู้สึกหิว\nดีต่อระบบย่อยอาหาร",
-				Disadvantages: "หากรับประทานมากเกินไปอาจทำให้ได้รับไขมันหรือโซเดียมเกิน",
-				UserID:       1,
-				FoodID:       food.ID,
-				LikeCount:    2,
+			randomUserID := rand.Intn(3) + 1
+
+			db.FirstOrCreate(&recommend, entity.FoodRecommend{
+				Name:   name + " อร่อยมาก",
+				FoodID: food.ID,
+				UserID: uint(randomUserID), // 👈 สุ่มจาก 1–3
+			})
+
+			// ถ้ายังไม่เคยมี ก็ค่อยเติมรายละเอียด
+			if recommend.ID == 0 || recommend.DesCription == "" {
+				recommend.DesCription = fmt.Sprintf("เมนูแนะนำที่มีพลังงาน %.0f แคลอรี่", calories)
+				recommend.Instruction = "เสิร์ฟแบบเย็น หรือรับประทานเดี่ยว ๆ ก่อนนอน"
+				recommend.Benefits = "ช่วยเสริมสร้างกล้ามเนื้อ\nลดความรู้สึกหิว\nดีต่อระบบย่อยอาหาร"
+				recommend.Disadvantages = "หากรับประทานมากเกินไปอาจทำให้ได้รับไขมันหรือโซเดียมเกิน"
+
+				// // 👉 สร้าง Like mockup แบบสุ่ม UserID (1–3) โดยไม่ซ้ำ
+				// numLikes := rand.Intn(3) + 1
+				// userUsed := map[int]bool{}
+				// for count := 0; count < numLikes; {
+				// 	uid := rand.Intn(3) + 1
+				// 	if !userUsed[uid] {
+				// 		userUsed[uid] = true
+				// 		like := entity.Like{
+				// 			UserID:          uint(uid),
+				// 			FoodRecommendID: recommend.ID,
+				// 		}
+				// 		db.FirstOrCreate(&like, entity.Like{
+				// 			UserID:          like.UserID,
+				// 			FoodRecommendID: like.FoodRecommendID,
+				// 		})
+				// 		count++
+				// 	}
+				// }
+
+				//Like
+				like := []entity.Like{
+					{
+						UserID:          1,
+						FoodRecommendID: 1,
+					},
+					{
+						UserID:          2,
+						FoodRecommendID: 1,
+					},
+					{
+						UserID:          3,
+						FoodRecommendID: 1,
+					},
+					{
+						UserID:          1,
+						FoodRecommendID: 2,
+					},
+					{
+						UserID:          2,
+						FoodRecommendID: 2,
+					},
+					{
+						UserID:          2,
+						FoodRecommendID: 3,
+					},
+					{
+						UserID:          3,
+						FoodRecommendID: 3,
+					},
+					{
+						UserID:          2,
+						FoodRecommendID: 4,
+					},
+					{
+						UserID:          3,
+						FoodRecommendID: 5,
+					},
+					{
+						UserID:          2,
+						FoodRecommendID: 6,
+					},
+					{
+						UserID:          1,
+						FoodRecommendID: 7,
+					},
+					{
+						UserID:          2,
+						FoodRecommendID: 8,
+					},
+					{
+						UserID:          3,
+						FoodRecommendID: 9,
+					},
+					{
+						UserID:          3,
+						FoodRecommendID: 10,
+					},
+				}
+				for _, like := range like {
+					db.FirstOrCreate(
+						&like,
+						&entity.Like{
+							UserID:          like.UserID,
+							FoodRecommendID: like.FoodRecommendID,
+						})
+				}
+
+				// 👉 อัปเดต LikeCount ตามจริง
+				var likeCount int64
+				db.Model(&entity.Like{}).Where("food_recommend_id = ?", recommend.ID).Count(&likeCount)
+				recommend.LikeCount = uint(likeCount)
+
+				db.Save(&recommend)
+			}
+		}
+	}
+}
+
+func seedLikesMatchingLikeCount() {
+	var recommends []entity.FoodRecommend
+	db.Find(&recommends)
+
+	for _, rec := range recommends {
+		existingLikes := []entity.Like{}
+		db.Where("food_recommend_id = ?", rec.ID).Find(&existingLikes)
+
+		likeCount := len(existingLikes)
+		if likeCount >= int(rec.LikeCount) {
+			continue // Already enough likes
+		}
+
+		// หาผู้ใช้ที่ยังไม่ได้ like
+		var users []entity.Users
+		db.Find(&users)
+
+		added := 0
+		for _, user := range users {
+			if added >= int(rec.LikeCount)-likeCount {
+				break
 			}
 
-			// top 5 = มี ranking
-			if i <= 5 {
-				recommend.RankingID = uint(i) // 1-5
-			}
+			// Skip if already liked
+			var count int64
+			db.Model(&entity.Like{}).
+				Where("user_id = ? AND food_recommend_id = ?", user.ID, rec.ID).
+				Count(&count)
 
-			db.Create(&recommend)
+			if count == 0 {
+				db.Create(&entity.Like{
+					UserID:          user.ID,
+					FoodRecommendID: rec.ID,
+				})
+				added++
+			}
 		}
 	}
 }
