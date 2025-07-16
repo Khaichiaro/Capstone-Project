@@ -43,22 +43,29 @@ func GetAllFoodRecommend(c *gin.Context){
 	c.JSON(http.StatusOK, foodRecommend)
 }
 
-func GetAllFoodRecommendWithRanking(c *gin.Context){
+func GetAllFoodRecommendWithRanking(c *gin.Context) {
 	var foodRecommend []entity.FoodRecommend
 
 	db := config.DB().Debug()
+
+	// ดึงรายการที่มี Ranking เท่านั้น และเรียงจากอันดับ 1 ไปมากขึ้น
 	result := db.
 		Preload("User").
 		Preload("User.UserProfile").
+		Preload("User.UserGroup").
+		Preload("User.Gender").
 		Preload("Food").
+		Preload("Food.FoodType").
 		Preload("Ranking").
 		Where("ranking_id IS NOT NULL AND ranking_id != 0").
+		Order("ranking_id ASC"). // เรียงลำดับอันดับ
 		Find(&foodRecommend)
-	
+
 	if result.Error != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": result.Error.Error()})
 		return
 	}
+
 	c.JSON(http.StatusOK, foodRecommend)
 }
 
@@ -75,7 +82,7 @@ func ToggleLike(c *gin.Context) {
 
 	db := config.DB()
 
-	var like []entity.Like
+	var like entity.Like
 	err := db.Where("user_id = ? AND food_recommend_id = ?", input.UserID, input.FoodRecommendID).First(&like).Error
 
 	if err == nil {
@@ -121,22 +128,30 @@ func CheckLikeStatus(c *gin.Context) {
 	userId := c.Param("user_id")
 	foodRecId := c.Param("food_recommend_id")
 
-
 	var like entity.Like
 	db := config.DB()
-	err := db.Where("user_id = ? AND food_recommend_id = ?", userId, foodRecId).First(&like).Error
 
-	if err == nil {
+	// ค้นหา record ล่าสุดของ user กับ food นั้น ๆ (รวมที่ลบไปแล้วด้วย)
+	err := db.Unscoped().
+		Where("user_id = ? AND food_recommend_id = ?", userId, foodRecId).
+		Order("id DESC").
+		First(&like).Error
+
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusOK, gin.H{"liked": false})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Database error"})
+		}
+		return
+	}
+
+	// ถ้า record ล่าสุดยังไม่ถูกลบ
+	if like.DeletedAt.Valid == false {
 		c.JSON(http.StatusOK, gin.H{"liked": true})
-		return
-	}
-
-	if errors.Is(err, gorm.ErrRecordNotFound) {
+	} else {
 		c.JSON(http.StatusOK, gin.H{"liked": false})
-		return
 	}
-
-	c.JSON(http.StatusInternalServerError, gin.H{"error": "Database error"})
 }
 
 func CreateRecommend(c *gin.Context) {
@@ -208,4 +223,29 @@ func GetFoodRecommendByUserID(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, foodRec)
+}
+
+func DeleteFoodRecommend(c *gin.Context) {
+	id := c.Param("id")
+	db := config.DB()
+
+	// 1. ลบ likes ที่อ้างถึง
+	if err := db.Where("food_recommend_id = ?", id).Delete(&entity.Like{}).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete likes"})
+		return
+	}
+
+	// 2. ลบ foodranking ที่อ้างถึง (ถ้ามี)
+	// if err := db.Where("food_recommend_id = ?", id).Delete(&entity.Ranking{}).Error; err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete ranking"})
+	// 	return
+	// }
+
+	// 3. ลบ food_recommend เอง
+	if err := db.Delete(&entity.FoodRecommend{}, id).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete recommendation"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Deleted food recommendation and related data"})
 }
