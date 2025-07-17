@@ -1,177 +1,64 @@
-// components/FoodHistory.tsx
-import React from 'react';
+
+
+import React, { useEffect, useState } from 'react';
 import FoodEntry from './foodentry';
-import { type FoodEntryData } from '../../component/foodhistory/types';
+import { message } from 'antd';
+import { GetMeal } from '../../services/https';
+import type { IMeals } from '../../interfaces/IMeals';
 
 interface FoodHistoryProps {
   onFoodEntryClick: (id: string) => void;
 }
 
 const FoodHistory: React.FC<FoodHistoryProps> = ({ onFoodEntryClick }) => {
-  // ข้อมูลจำลองสำหรับประวัติการกินอาหาร
-  const foodEntries: FoodEntryData[] = [
-    {
-      id: '1',
-      date: '10 ก.พ. 2565',
-      breakfast: {
-        name: 'ข้าวไข่เจียว',
-        calories: 153,
-        image: '/public/kaokaijiaw.jpg'
-      },
-      lunch: {
-        name: 'ก๋วยเตี๋ยว',
-        calories: 178,
-        image: '/public/noodle.jpg'
-      },
-      dinner: {
-        name: 'โค๊ก',
-        calories: 150,
-        image: '/public/coke.jpg'
-      },
-      nutritionData: {
-        calories: 481,
-        fat: 15,
-        carbs: 65,
-        protein: 20
+  const [messageApi, contextHolder] = message.useMessage();
+  const [foodEntries, setFoodEntries] = useState<IMeals[]>([]);
+
+  useEffect(() => {
+    const fetchMeal = async () => {
+      try {
+        const res = await GetMeal();
+        // console.log("API response:", res.data); 
+
+        if (res.data && Array.isArray(res.data)) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const entries: IMeals[] = res.data.map((meal: any, index: number) => {
+            // console.log("Mapping meal:", meal); 
+            return {
+              ...meal,
+              id: `${meal.ID || index}-${index}`,
+            };
+          });
+
+          setFoodEntries(entries);
+        } else {
+          messageApi.error("ไม่พบข้อมูลรายการอาหาร");
+        }
+      } catch (error) {
+        console.error("เกิดข้อผิดพลาดในการดึงข้อมูล:", error);
+        messageApi.error("เกิดข้อผิดพลาดในการโหลดข้อมูลอาหาร");
       }
-    },
-    {
-      id: '2',
-      date: '9 ก.พ. 2565',
-      breakfast: {
-        name: 'ข้าวต้ม',
-        calories: 153,
-        image: '/public/kaotom.jpg'
-      },
-      lunch: {
-        name: 'ส้มตำ',
-        calories: 178,
-        image: '/public/papayasalad.jpg'
-      },
-      dinner: {
-        name: 'น้ำส้ม',
-        calories: 150,
-        image: '/public/namsom.jpg'
-      },
-      nutritionData: {
-        calories: 481,
-        fat: 12,
-        carbs: 70,
-        protein: 18
-      }
-    },
-    {
-      id: '3',
-      date: '8 ก.พ. 2565',
-      breakfast: {
-        name: 'ข้าวไข่เจียว',
-        calories: 153,
-        image: '/public/kaokaijiaw.jpg'
-      },
-      lunch: {
-        name: 'ก๋วยเตี๋ยว',
-        calories: 178,
-        image: '/public/noodle.jpg'
-      },
-      dinner: {
-        name: 'โค๊ก',
-        calories: 150,
-        image: '/public/coke.jpg'
-      },
-      nutritionData: {
-        calories: 481,
-        fat: 18,
-        carbs: 60,
-        protein: 21
-      }
-    },
-    {
-      id: '4',
-      date: '7 ก.พ. 2565',
-       breakfast: {
-        name: 'ข้าวต้ม',
-        calories: 153,
-        image: '/public/kaotom.jpg'
-      },
-      lunch: {
-        name: 'ส้มตำ',
-        calories: 178,
-        image: '/public/papayasalad.jpg'
-      },
-      dinner: {
-        name: 'น้ำส้ม',
-        calories: 150,
-        image: '/public/namsom.jpg'
-      },
-      nutritionData: {
-        calories: 481,
-        fat: 14,
-        carbs: 68,
-        protein: 19
-      }
-    },
-    {
-      id: '5',
-      date: '6 ก.พ. 2565',
-      breakfast: {
-        name: 'ข้าวต้ม',
-        calories: 153,
-        image: '/public/kaotom.jpg'
-      },
-      lunch: {
-        name: 'ส้มตำ',
-        calories: 178,
-        image: '/public/papayasalad.jpg'
-      },
-      dinner: {
-        name: 'น้ำส้ม',
-        calories: 150,
-        image: '/public/namsom.jpg'
-      },
-      nutritionData: {
-        calories: 481,
-        fat: 16,
-        carbs: 62,
-        protein: 22
-      }
-    },
-    {
-      id: '6',
-      date: '5 ก.พ. 2565',
-      breakfast: {
-        name: 'ข้าวต้ม',
-        calories: 153,
-        image: '/public/kaotom.jpg'
-      },
-      lunch: {
-        name: 'ส้มตำ',
-        calories: 178,
-        image: '/public/papayasalad.jpg'
-      },
-      dinner: {
-        name: 'น้ำส้ม',
-        calories: 150,
-        image: '/public/namsom.jpg'
-      },
-      nutritionData: {
-        calories: 481,
-        fat: 13,
-        carbs: 67,
-        protein: 17
-      }
-    }
-  ];
+    };
+
+    fetchMeal();
+  }, []);
+  
 
   return (
-    <div className="food-history-grid">
-      {foodEntries.map(entry => (
-        <FoodEntry
-          key={entry.id}
-          entry={entry}
-          onClick={() => onFoodEntryClick(entry.id)}
-        />
-      ))}
-    </div>
+    <>
+      {contextHolder}
+      <div className="food-history-grid">
+        {foodEntries.map((entry) => (
+          <FoodEntry
+            key={entry.ID}
+            entry={entry}
+            onClick={() => onFoodEntryClick(entry.ID?.toString() || '')} // ใช้ ID เป็น string
+          />
+          
+        ))}
+
+      </div>
+    </>
   );
 };
 

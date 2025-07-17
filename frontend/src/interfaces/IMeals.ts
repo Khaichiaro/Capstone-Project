@@ -1,17 +1,18 @@
 export interface IMeals {
     ID?: number
     FoodPicture?: string
-    MealsDate?: string
-    MealsTime?: string
-    FoodName?: string
-    Quantity?: string
-    Calories?: number
-    Protein?: number
-    Carbs?: number
-    Sodium?: number
-    Fat?: number
-    Notes?: string
+    meals_date?: string
+    meals_time?: string
+    food_name?: string
+    quantity?: string
+    calories?: number
+    protein?: number
+    carbs?: number
+    sodium?: number
+    fat?: number
+    notes?: string
     UserID?: number
-    MealType?: number
+    MealTypeID?: number
 }
+
 

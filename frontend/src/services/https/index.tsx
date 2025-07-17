@@ -31,7 +31,7 @@ async function ListUsers() {
     .catch((e) => e.response);
 }
 
-async function GetUserByID(id: string) {
+async function GetUserByID(id: number) {
   return await axios
     .get(`${apiUrl}/user/${id}`, requestOptions)
     .then((res) => res)
@@ -214,6 +214,8 @@ async function CreateDailyNutrientSum(data: DailyNutrientSumInterface) {
     .catch((e) => e.response);
 }
 
+//EatingHistory
+
 async function CreatedMeals(data: IMeals) {
   return await axios
 
@@ -223,6 +225,41 @@ async function CreatedMeals(data: IMeals) {
 
     .catch((e) => e.response);
 }
+
+async function GetMealsById(mealId: number) {
+
+    return await axios
+
+      .get(`${apiUrl}/meals/${mealId}`, requestOptions)
+
+      .then((res) => res)
+  
+      .catch((e) => e.response);
+  
+  }
+
+  async function fetchMealsByDate(date: string) {
+
+    return await axios
+
+      .get(`${apiUrl}/meals/date/${date}`, requestOptions)
+
+      .then((res) => res)
+
+      .catch((e) => e.response);
+  }
+
+    async function GetMeal() {
+
+    return await axios
+
+      .get(`${apiUrl}/meals`, requestOptions)
+
+      .then((res) => res)
+  
+      .catch((e) => e.response);
+  
+  }
 
 //FoodRecommend
 async function GetAllFoodRecommend() {
@@ -346,6 +383,9 @@ export {
 
   //EatingHistory
   CreatedMeals,
+  GetMealsById,
+  fetchMealsByDate,
+  GetMeal,
 
   //FoodRecommend
   GetAllFoodRecommend,

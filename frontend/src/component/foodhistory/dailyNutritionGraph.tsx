@@ -76,6 +76,7 @@ const DailyNutritionGraph: React.FC<DailyNutritionGraphProps> = ({ entryId, onCl
     ];
 
     // Custom tooltip สำหรับกราฟแท่ง
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const CustomTooltip = ({ active, payload }: any) => {
         if (active && payload && payload.length) {
             return (
