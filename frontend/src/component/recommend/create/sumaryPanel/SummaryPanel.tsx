@@ -8,12 +8,14 @@ interface SummaryPanelProps {
   selectedFood: IFoodRecommendSelected | null;
   onRemoveFood: () => void;
   onCreateMenu: () => void;
+  actionLabel?: string;
 }
 
 const SummaryPanel: React.FC<SummaryPanelProps> = ({
   selectedFood,
   onRemoveFood,
   onCreateMenu,
+  actionLabel,
 }) => {
 
   console.log("SelectedFood: ", selectedFood)
@@ -259,7 +261,7 @@ const SummaryPanel: React.FC<SummaryPanelProps> = ({
             : 'bg-gray-300 text-gray-500 cursor-not-allowed'
         }`}
       >
-        สร้างการแนะนำอาหาร
+        {actionLabel || 'สร้างการแนะนำอาหาร'}
       </button>
 
       <style>{`

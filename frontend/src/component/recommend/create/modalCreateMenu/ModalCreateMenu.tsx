@@ -1,5 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
+
+// interface ModalCreateMenuProps {
+//   isOpen: boolean;
+//   onClose: () => void;
+//   onSave: (
+//     title: string,
+//     instruction: string,
+//     description: string,
+//     benefits: string,
+//     disadvantages: string
+//   ) => void;
+//   isLoading?: boolean;
+// }
 
 interface ModalCreateMenuProps {
   isOpen: boolean;
@@ -12,6 +25,20 @@ interface ModalCreateMenuProps {
     disadvantages: string
   ) => void;
   isLoading?: boolean;
+  initialValues?: {
+    title: string;
+    instruction: string;
+    description: string;
+    benefits: string;
+    disadvantages: string;
+  };
+  onFormChange?: (values: {
+    title: string;
+    instruction: string;
+    description: string;
+    benefits: string;
+    disadvantages: string;
+  }) => void;
 }
 
 const ModalCreateMenu: React.FC<ModalCreateMenuProps> = ({
@@ -19,12 +46,38 @@ const ModalCreateMenu: React.FC<ModalCreateMenuProps> = ({
   onClose,
   onSave,
   isLoading = false,
+  initialValues,
+  onFormChange,
 }) => {
   const [title, setTitle] = useState("");
   const [instruction, setInstruction] = useState("");
   const [description, setDescription] = useState("");
   const [benefits, setBenefits] = useState("");
   const [disadvantages, setDisadvantages] = useState("");
+  const [hasInitialized, setHasInitialized] = useState(false);
+
+  useEffect(() => {
+    if (initialValues && isOpen && !hasInitialized) {
+      setTitle(initialValues.title);
+      setInstruction(initialValues.instruction);
+      setDescription(initialValues.description);
+      setBenefits(initialValues.benefits);
+      setDisadvantages(initialValues.disadvantages);
+      setHasInitialized(true);
+    }
+  }, [initialValues, isOpen, hasInitialized]);
+
+  useEffect(() => {
+    if (onFormChange) {
+      onFormChange({
+        title,
+        instruction,
+        description,
+        benefits,
+        disadvantages,
+      });
+    }
+  }, [title, instruction, description, benefits, disadvantages]);
 
   const handleSave = () => {
     if (!title.trim()) {
@@ -52,6 +105,7 @@ const ModalCreateMenu: React.FC<ModalCreateMenuProps> = ({
       setDescription("");
       setBenefits("");
       setDisadvantages("");
+      setHasInitialized(false);
       onClose();
     }
   };

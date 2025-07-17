@@ -11,6 +11,7 @@ import EditEatingform from './page/FoodRecordForm/edit/editeatingform.tsx'
 import CreateRecommend from './page/MenuRecommend/create'
 import FoodDetailPage from './page/MenuRecommend/detail'
 import UserFoodRecommendation from './page/MenuRecommend/user/index.tsx'
+import EditFoodRecommend from './page/MenuRecommend/edit/index.tsx'
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MenuRecHome />} />
           <Route path="/usrecommend" element={<UserFoodRecommendation/>}/>
+          <Route path="/recommend/edit/:id" element={<EditFoodRecommend />} />
       
           <Route path="/foodintake" element={<FoodRecordForm />} />
           <Route path="/foodhistory" element={<FoodHistory />} />

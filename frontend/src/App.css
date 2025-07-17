@@ -3,3 +3,8 @@
 body {
   font-family: 'Prompt', sans-serif;
 }
+
+.ant-message {
+  z-index: 9999 !important;
+  font-family: 'Prompt', sans-serif !important;
+}

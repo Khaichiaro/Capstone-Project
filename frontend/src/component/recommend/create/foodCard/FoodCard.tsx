@@ -20,6 +20,7 @@ const FoodCard: React.FC<FoodCardProps> = ({ food, onAdd, isSelected = false }) 
     null
   );
   const navigate = useNavigate();
+  
 
   const handleAdd = () => {
     const wrapped: IFoodRecommendSelected = {

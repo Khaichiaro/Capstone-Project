@@ -249,3 +249,69 @@ func DeleteFoodRecommend(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Deleted food recommendation and related data"})
 }
+
+func GetFoodRecommendByID(c *gin.Context) {
+	id := c.Param("id")
+	db := config.DB()
+
+	var foodRec entity.FoodRecommend
+	result := db.Preload("User").
+		Preload("User.Like").
+		Preload("User.FoodRecommend").
+		Preload("Food").
+		Preload("Food.FoodType").
+		Preload("Ranking").
+		Where("id = ?", id).First(&foodRec)
+
+	if result.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": result.Error.Error()})
+	}
+
+	c.JSON(http.StatusOK, foodRec)
+}
+
+func UpdateFoodRecommend(c *gin.Context) {
+	id := c.Param("id")
+	db := config.DB()
+
+	// ตรวจสอบว่า ID นั้นมีอยู่จริงก่อน
+	var existing entity.FoodRecommend
+	if err := db.First(&existing, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "FoodRecommend not found"})
+		return
+	}
+
+	// รับข้อมูล JSON ที่จะอัปเดต
+	var input entity.FoodRecommend
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON input"})
+		return
+	}
+
+	// เฉพาะ field ที่ต้องการให้แก้ไขเท่านั้น
+	updateData := map[string]interface{}{
+		"Name":          input.Name,
+		"DesCription":   input.DesCription,
+		"Instruction":   input.Instruction,
+		"Benefits":      input.Benefits,
+		"Disadvantages": input.Disadvantages,
+		"FoodID":        input.FoodID,
+	}
+
+	if err := db.Model(&existing).Updates(updateData).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update recommendation"})
+		return
+	}
+
+	// โหลดข้อมูลใหม่พร้อม Preload ความสัมพันธ์
+	var updated entity.FoodRecommend
+	if err := db.Preload("User").
+		Preload("Ranking").
+		Preload("Food").
+		First(&updated, id).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Updated but failed to fetch data"})
+		return
+	}
+
+	c.JSON(http.StatusOK, updated)
+}

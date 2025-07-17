@@ -65,6 +65,8 @@ func main() {
 	r.GET("/foodType", recommendsystems.GetAllFoodType)
 	r.GET("/foodRecommend/:user_id", recommendsystems.GetFoodRecommendByUserID)
 	r.DELETE("/foodRecommend/:id", recommendsystems.DeleteFoodRecommend)
+	r.GET("/foodRecommend/id/:id", recommendsystems.GetFoodRecommendByID)
+	r.PATCH("/foodRecommend/:id", recommendsystems.UpdateFoodRecommend)
 
 	//Eating History Route
     r.GET("/eatingHistory", eatingHistory.GetEatingHistory)
@@ -132,7 +134,7 @@ func CORSMiddleware() gin.HandlerFunc{
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE, PATCH")
 		
 		if c.Request.Method == "OPTIONS" {
 			c.AbortWithStatus(204)
