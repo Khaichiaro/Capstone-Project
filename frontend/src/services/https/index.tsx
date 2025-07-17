@@ -10,6 +10,7 @@ import type {
   IFoodRecommend,
   IFoodRecommendCreate,
 } from "../../interfaces/IFoodRecommend";
+import type { IFoodRecommendUpdateDTO } from "../../interfaces/IFoodRecommendUpdateDTO";
 
 const apiUrl = "http://localhost:8000";
 const Authorization = localStorage.getItem("token");
@@ -307,6 +308,23 @@ async function DeleteFoodRecommend(id: number) {
   }
 }
 
+async function GetFoodRecommendByID(id: number) {
+  const res = await axios.get(
+    `${apiUrl}/foodRecommend/id/${id}`,
+    requestOptions
+  );
+  return res;
+}
+
+async function UpdateFoodRecommend(id: number, foodRecommend: IFoodRecommendUpdateDTO) {
+  const res = await axios.patch(
+    `${apiUrl}/foodRecommend/${id}`,
+    foodRecommend,
+    requestOptions
+  );
+  return res;
+}
+
 export {
   //User
   ListUsers,
@@ -358,4 +376,6 @@ export {
   GetAllFoodType,
   GetFoodRecommendByUserID,
   DeleteFoodRecommend,
+  GetFoodRecommendByID,
+  UpdateFoodRecommend,
 };

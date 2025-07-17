@@ -14,7 +14,8 @@ const FoodCard: React.FC<{
   isLiked?: boolean;
   onToggleLike?: (liked: boolean) => void;
   onDelete?: (id: number) => void;
-}> = ({ food, likes, isLiked, onToggleLike, onDelete }) => {
+  onEdit?: (id: number) => void;
+}> = ({ food, likes, isLiked, onToggleLike, onDelete, onEdit }) => {
   // const [isHovered, setIsHovered] = useState(false);
   const [liked, setLiked] = useState(isLiked || false);
   const [likeCount, setLikeCount] = useState(likes);
@@ -204,21 +205,41 @@ const FoodCard: React.FC<{
               </div>
             </div>
             <div className="flex space-x-2">
-              <button className="bg-gradient-to-r from-yellow-400 to-orange-400 text-white px-4 py-2 rounded-full text-sm font-medium hover:from-yellow-500 hover:to-orange-500 transition-all duration-200 shadow-md hover:shadow-lg">
+              <button
+                onClick={() => onEdit?.(food.ID)}
+                className="bg-gradient-to-r from-yellow-400 to-orange-400 text-white px-4 py-2 rounded-full text-sm font-medium hover:from-yellow-500 hover:to-orange-500 transition-all duration-200 shadow-md hover:shadow-lg"
+              >
                 แก้ไข
               </button>
 
               <Popconfirm
-                title="คุณแน่ใจหรือไม่?"
-                description="คุณต้องการลบเมนูแนะนำนี้จริงหรือ?"
+                title={
+                  <span style={{ fontFamily: "'Prompt', sans-serif" }}>
+                    คุณแน่ใจหรือไม่?
+                  </span>
+                }
+                description={
+                  <span style={{ fontFamily: "'Prompt', sans-serif" }}>
+                    คุณต้องการลบเมนูแนะนำนี้จริงหรือ?
+                  </span>
+                }
                 onConfirm={() => onDelete?.(food.ID)}
                 onCancel={() => message.info("ยกเลิกการลบ")}
                 okText="ใช่, ลบเลย"
                 cancelText="ยกเลิก"
                 okButtonProps={{
-                  style: { backgroundColor: "#22c55e", borderColor: "#22c55e" },
+                  style: {
+                    backgroundColor: "#eb67add1",
+                    borderColor: "#eb67adff",
+                    fontFamily: "'Prompt', sans-serif",
+                  },
                 }} // ✅ เขียว (tailwind: green-500)
-                cancelButtonProps={{ style: { color: "#6b7280" } }} // ✅ เทา (tailwind: gray-500)
+                cancelButtonProps={{
+                  style: {
+                    color: "#6b7280",
+                    fontFamily: "'Prompt', sans-serif",
+                  },
+                }} // ✅ เทา (tailwind: gray-500)
               >
                 <button className="bg-gradient-to-r from-pink-400 to-red-400 text-white px-4 py-2 rounded-full text-sm font-medium hover:from-pink-500 hover:to-red-500 transition-all duration-200 shadow-md hover:shadow-lg">
                   ลบ

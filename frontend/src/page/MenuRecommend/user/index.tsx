@@ -10,6 +10,7 @@ import {
   GetFoodRecommendByUserID,
 } from "../../../services/https";
 import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const UserFoodRecommendation: React.FC = () => {
   const [foods, setFoods] = useState<IFoodRecommend[]>([]);
@@ -17,7 +18,7 @@ const UserFoodRecommendation: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredFoods, setFilteredFoods] = useState<IFoodRecommend[]>([]);
   const [likedMap, setLikedMap] = useState<Record<number, boolean>>({});
-  const userId = parseInt(localStorage.getItem("user_id") ?? "0");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadFoodRecommendations = async () => {
@@ -206,6 +207,7 @@ const UserFoodRecommendation: React.FC = () => {
                 likes={food.LikeCount}
                 isLiked={likedMap[food.ID]}
                 onDelete={handleDeleteFood}
+                onEdit={(id) => navigate(`/recommend/edit/${id}`)}
                 onToggleLike={(liked: boolean) => {
                   setLikedMap((prev) => ({ ...prev, [food.ID]: liked }));
                   // 👆 อัปเดต likedMap เพื่อสะท้อนการกดไลค์

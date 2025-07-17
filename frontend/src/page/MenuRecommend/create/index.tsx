@@ -9,13 +9,19 @@ import type { IFood } from "../../../interfaces/IFood";
 import type { IFoodRecommendSelected } from "../../../interfaces/IFoodRecommendSelected";
 import ModalCreateMenu from "../../../component/recommend/create/modalCreateMenu/ModalCreateMenu";
 import { useNavigate } from "react-router-dom";
-import { CreateFoodRecommend, GetAllFoodType, GetAllFoods } from "../../../services/https";
+import {
+  CreateFoodRecommend,
+  GetAllFoodType,
+  GetAllFoods,
+} from "../../../services/https";
 import type { IFoodType } from "../../../interfaces/IFoodType";
+import { message } from "antd";
 
 function CreateRecommend() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [selectedFood, setSelectedFood] = useState<IFoodRecommendSelected | null>(null);
+  const [selectedFood, setSelectedFood] =
+    useState<IFoodRecommendSelected | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -25,8 +31,6 @@ function CreateRecommend() {
   const userIdStr = localStorage.getItem("user_id");
   const userId = userIdStr ? parseInt(userIdStr) : undefined;
   const [foodTypes, setFoodTypes] = useState<IFoodType[]>([]);
-
-  
 
   useEffect(() => {
     if (isModalOpen) {
@@ -41,13 +45,12 @@ function CreateRecommend() {
   }, [isModalOpen]);
 
   useEffect(() => {
-    
     const loadFoods = async () => {
       try {
         setFoodsLoading(true);
         setFoodsError(null);
         const result = await GetAllFoods();
-        
+
         // ตรวจสอบว่าข้อมูลที่ได้มาเป็น array หรือไม่
         if (Array.isArray(result.data)) {
           setFoods(result.data);
@@ -66,7 +69,7 @@ function CreateRecommend() {
     };
 
     loadFoods();
-    console.log("foodsList: ", foods)
+    console.log("foodsList: ", foods);
   }, []);
 
   useEffect(() => {
@@ -76,7 +79,7 @@ function CreateRecommend() {
     };
     fetchFoodTypes();
   }, []);
-  console.log("FoodType: ", foodTypes)
+  console.log("FoodType: ", foodTypes);
 
   const handleModalSave = async (
     title: string,
@@ -90,24 +93,27 @@ function CreateRecommend() {
     setIsLoading(true);
     try {
       const recommendData = {
-        userID: userId, 
+        userID: userId,
         foodID: selectedFood.food.ID,
         name: title,
         instruction: instruction,
         description: description,
         benefits: benefits,
         disadvantages: disadvantages,
-        rankingID: 0
+        rankingID: 0,
       };
 
       await CreateFoodRecommend(recommendData);
-      alert("สร้างการแนะนำอาหารเรียบร้อยแล้ว!");
+      message.success("สร้างการแนะนำอาหารเรียบร้อยแล้ว!");
       setSelectedFood(null);
       setIsModalOpen(false);
-      navigate("/");
+      // ✅ Delay ก่อน navigate
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
     } catch (error) {
       console.error("Error creating food recommend:", error);
-      alert("เกิดข้อผิดพลาดในการสร้างการแนะนำอาหาร");
+      message.error("เกิดข้อผิดพลาดในการสร้างการแนะนำอาหาร");
     } finally {
       setIsLoading(false);
     }
@@ -121,22 +127,17 @@ function CreateRecommend() {
     })),
   ];
 
-  const mapFoodType = (foodTypeID: number): string => {
-    const found = foodTypes.find((ft) => ft.ID === foodTypeID);
-    return found ? found.FoodType : "ไม่ทราบหมวดหมู่";
-  };
-
   const filteredFoods = Array.isArray(foods)
-  ? foods.filter((food) => {
-      const matchesCategory =
-        selectedCategory === "all" ||
-        food.FoodTypeID.toString() === selectedCategory;
-      const matchesSearch = food.FoodName
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
-      return matchesCategory && matchesSearch;
-    })
-  : [];
+    ? foods.filter((food) => {
+        const matchesCategory =
+          selectedCategory === "all" ||
+          food.FoodTypeID.toString() === selectedCategory;
+        const matchesSearch = food.FoodName.toLowerCase().includes(
+          searchTerm.toLowerCase()
+        );
+        return matchesCategory && matchesSearch;
+      })
+    : [];
 
   const handleSelectFood = (food: IFoodRecommendSelected) => {
     setSelectedFood(food);
@@ -201,7 +202,7 @@ function CreateRecommend() {
               ) : foodsError ? (
                 <div className="col-span-full text-center py-8">
                   <p className="text-red-500">{foodsError}</p>
-                  <button 
+                  <button
                     onClick={() => window.location.reload()}
                     className="mt-2 text-[#84AC46] hover:underline"
                   >
@@ -214,9 +215,9 @@ function CreateRecommend() {
                 </div>
               ) : (
                 filteredFoods.map((food) => (
-                  <FoodCard 
-                    key={food.ID} 
-                    food={food} 
+                  <FoodCard
+                    key={food.ID}
+                    food={food}
                     onAdd={handleSelectFood}
                     isSelected={selectedFood?.food.ID === food.ID}
                     foodTypes={foodTypes}
