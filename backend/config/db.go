@@ -432,29 +432,6 @@ func SetupDatabase() {
 			})
 	}
 
-	// Meals
-	meals := []entity.Meals{
-		{
-			FoodPicture: "https://example.com/meal1.jpg",
-			MealTypeID:  1,
-			UserID:      1,
-		},
-		{
-			FoodPicture: "https://example.com/meal2.jpg",
-			MealTypeID:  2,
-			UserID:      1,
-		},
-	}
-	for _, meal := range meals {
-		db.FirstOrCreate(
-			&meal,
-			&entity.Meals{
-				FoodPicture: meal.FoodPicture,
-				MealTypeID:  meal.MealTypeID,
-				UserID:      meal.UserID,
-			})
-	}
-
 	// FoodType
 	FoodType1 := entity.FoodType{FoodType: "ข้าวจานเดียว"}
 	FoodType2 := entity.FoodType{FoodType: "ขนมหวาน"}

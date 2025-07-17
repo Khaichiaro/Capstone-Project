@@ -30,6 +30,7 @@ func main() {
 	r.Use(CORSMiddleware())
 
 	r.Static("/food_image", "./food_image")
+	r.Static("/uploads_pic_food", "./uploads_pic_food")
 
 	// Auth Route
 	r.POST("/signup", users.SignUp)
