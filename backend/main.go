@@ -9,6 +9,7 @@ import (
 
 	"github.com/Khaichiaro/Capstone-Project/backend/controller/eatingHistory"
 	"github.com/Khaichiaro/Capstone-Project/backend/controller/exercise"
+	"github.com/Khaichiaro/Capstone-Project/backend/controller/exerciseType"
 	"github.com/Khaichiaro/Capstone-Project/backend/controller/exerciseActivity"
 	"github.com/Khaichiaro/Capstone-Project/backend/controller/genders"
 	recommendsystems "github.com/Khaichiaro/Capstone-Project/backend/controller/recommendSystems"
@@ -85,9 +86,14 @@ func main() {
 	// Meal Types Route
 	r.GET("/meals/mealTypes", eatingHistory.GetMealTypes)
 
-	   // Exercise Records Route
+	// Exercise Records Route
    	r.GET("/exercises", exercises.ListExercises)
+	r.GET("/exercise/type/:id", exercises.GetExercisesByExerciseTypeID)
+
+	// Exercise Type Routes
+    r.GET("/exercise_types", exerciseType.ListExerciseTypes) // GetAllExerciseTypes
 	// Exercise Activity Route
+	r.GET("/exercise_activities", exercise_activities.ListExerciseactivities) // GetExerciseActivities
    	r.GET("/exercise_activity/:id", exercise_activities.GetExerciseActivitiesbyID)                 // GetExerciseActivitiesbyID
    	r.GET("/exercise_activities/user/:user_id", exercise_activities.GetExerciseActivitiesbyUserID) // GetExerciseActivitiesbyUserID
    	r.POST("/exercise_activity", exercise_activities.CreateExerciseActivity)                       // CreateExerciseActivity

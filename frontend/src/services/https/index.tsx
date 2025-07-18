@@ -362,6 +362,108 @@ async function UpdateFoodRecommend(id: number, foodRecommend: IFoodRecommendUpda
   return res;
 }
 
+
+  async function ListExercises() {
+
+  return await axios
+
+    .get(`${apiUrl}/exercises`, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+
+}
+
+async function GetExerciseActivitiesByID (id: string) {
+
+return await axios
+
+    .get(`${apiUrl}/exercise_activity/${id}`, requestOptions)
+    
+    .then((res) => res)
+
+    .catch((e) => e.response);
+}
+
+async function GetExerciseActivityByUserID (id: string) {
+    
+return await axios    
+
+    .get(`${apiUrl}/exercise_activities/user/${id}`, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+}
+
+async function CreateExerciseActivity (data: any) {
+
+return await axios                
+
+    .post(`${apiUrl}/exercise_activity`, data, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+}      
+
+async function UpdateExerciseActivityByID (id: string, data: any) {
+
+return await axios     
+
+    .put(`${apiUrl}/exercise_activity/${id}`, data, requestOptions)
+
+    .then((res) => res) 
+
+    .catch((e) => e.response);
+}   
+
+
+async function PatchExerciseActivityByID (id: string, data: any) {
+
+return await axios     
+
+    .patch(`${apiUrl}/exercise_activity/${id}`, data, requestOptions)
+
+    .then((res) => res) 
+
+    .catch((e) => e.response);
+}   
+
+async function DeleteExerciseActivityByID (id: string) {
+
+return await axios     
+
+    .delete(`${apiUrl}/exercise_activity/${id}`, requestOptions)
+
+    .then((res) => res) 
+
+    .catch((e) => e.response);
+}   
+
+async function ListExerciseTypes() {
+
+return await axios
+
+    .get(`${apiUrl}/exercise_types`, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+}   
+
+async function GetExercisesByExerciseTypeID(id: number) {
+    return await axios
+
+        .get(`${apiUrl}/exercise/type/${id}`, requestOptions)
+
+        .then((res) => res)
+
+        .catch((e) => e.response);
+}
+
+
 export {
   //User
   ListUsers,
@@ -418,4 +520,15 @@ export {
   DeleteFoodRecommend,
   GetFoodRecommendByID,
   UpdateFoodRecommend,
+
+  // Exercise
+  ListExercises, 
+  GetExerciseActivitiesByID,
+  GetExerciseActivityByUserID,
+  CreateExerciseActivity,
+  UpdateExerciseActivityByID,
+  PatchExerciseActivityByID,
+  DeleteExerciseActivityByID,
+  ListExerciseTypes,
+  GetExercisesByExerciseTypeID,
 };

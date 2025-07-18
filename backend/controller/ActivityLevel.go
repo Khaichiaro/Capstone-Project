@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"backend/config"
-	"backend/entity"
+	"github.com/Khaichiaro/Capstone-Project/backend/config"
+	"github.com/Khaichiaro/Capstone-Project/backend/entity"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -10,7 +10,7 @@ import (
 
 //GET /activity-levels
 func ListActivityLevels(c *gin.Context){
-	var activityLevels []entity.ActivityLevel
+	var activityLevels []entity.ActivityFactors
 
 	db := config.DB()
 	results := db.Find(&activityLevels)

@@ -14,6 +14,11 @@ import UserFoodRecommendation from './page/MenuRecommend/user/index.tsx'
 import EditFoodRecommend from './page/MenuRecommend/edit/index.tsx'
 
 
+import ExerciseForm from './page/ExerciseRecord/ExerciseForm/index.tsx';
+import ExerciseRecord from './page/ExerciseRecord/exerciserecord.tsx'
+import ExerciseActivityRecord from './page/ExerciseRecord/ExerciseActivityRecord/index.tsx'
+import SelectExerciseType from './page/ExerciseRecord/SelectExerciseType/index.tsx'
+
 function App() {
   localStorage.setItem("user_id", "1")
   console.log("user_id: ", localStorage.getItem("user_id"));
@@ -31,6 +36,12 @@ function App() {
           <Route path="/create/recommand" element={<CreateRecommend />} />
           <Route path="/recipe/:recipeName" element={<FoodDetailPage />} />
           <Route path='/editfoodform' element={<EditEatingform />} />
+
+          <Route path="/exerciserecord" element={<ExerciseRecord />} />
+          <Route path="/exerciseactivityrecord" element={<ExerciseActivityRecord />} />
+          <Route path="/selectexercisetype" element={<SelectExerciseType />} />
+          <Route path="/exercise-form" element={<ExerciseForm />} />
+          
         </Routes>
     </Router>
   )

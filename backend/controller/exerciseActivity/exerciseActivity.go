@@ -11,6 +11,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+
+// GET: แสดงรายการ Exercise Activity ทั้งหมด พร้อมประเภท
+func ListExerciseactivities(c *gin.Context) {
+	db := config.DB()
+
+	var activity []entity.ExerciseActivity
+
+	// โหลด Exercise พร้อม ExerciseType
+	if err := db.Preload("User").Preload("Exercise").Preload("Exercise.ExerciseType").Find(&activity).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve exercises", "details": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, activity)
+}
+
 // GET: รายการกิจกรรมตาม ID
 func GetExerciseActivitiesbyID(c *gin.Context) {
 	ID := c.Param("id")
@@ -42,6 +58,7 @@ func GetExerciseActivitiesbyUserID(c *gin.Context) {
 		Preload("Exercise.ExerciseType"). // preload ExerciseType ด้วย
 		Preload("User").
 		Where("user_id = ?", userID).
+		Order("date DESC").           // เรียงลำดับวันที่ล่าสุดก่อน
 		Find(&activities)
 
 	if result.Error != nil {
@@ -63,11 +80,11 @@ func CreateExerciseActivity(c *gin.Context) {
 	db := config.DB()
 
 	var input struct {
-		UserID         uint      `json:"user_id"`
-		ExerciseID     uint      `json:"exercise_id"`
-		Date           time.Time `json:"date"`
-		Duration       int       `json:"duration"`
-		CaloriesBurned float32   `json:"calories_burned"`
+		UserID         uint      
+		ExerciseID     uint      
+		Date           time.Time 
+		Duration       int       
+		CaloriesBurned float32   
 	}
 
 	if err := c.ShouldBindJSON(&input); err != nil {
